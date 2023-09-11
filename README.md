@@ -1,0 +1,2 @@
+# QApps
+QSolutions Applications server
