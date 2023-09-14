@@ -1,0 +1,27 @@
+# References
+
+- <https://kubernetes.io/docs/tasks/tools/>
+- <https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/>
+- <https://kubernetes.io/docs/setup/best-practices/multiple-zones/>
+- <https://kubernetes.io/docs/setup/best-practices/node-conformance/>
+- <https://kubernetes.io/docs/setup/best-practices/>
+- <https://kubernetes.io/docs/setup/best-practices/certificates/>
+- <https://kubernetes.io/docs/concepts/overview/components/>
+- <https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/>
+- <https://kubernetes.io/docs/setup/best-practices/certificates/>
+- <https://kubernetes.io/docs/setup/best-practices/node-conformance/>
+- <https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/>
+- <https://kubernetes.io/docs/concepts/cluster-administration/logging/>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>
+- <https://github.com/container-storage-interface/spec/blob/master/spec.md>
+- <https://kubernetes.io/blog/2023/08/31/legacy-package-repository-deprecation/>
+- <https://kubernetes.io/docs/concepts/services-networking/>
+- <https://kubernetes.io/docs/reference/setup-tools/kubeadm/>
+- <https://forum.snapcraft.io/t/data-locations/24905>
+- <https://forum.snapcraft.io/t/quickstart-guide/3876>
+- <https://forum.snapcraft.io/t/the-snap-format/698>
+- <https://hackernoon.com/managing-ubuntu-snaps-the-stuff-no-one-tells-you-625dfbe4b26c>
+- <https://katacontainers.io/>
+- <https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/>
+- <https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>

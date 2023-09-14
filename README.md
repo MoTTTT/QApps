@@ -56,8 +56,17 @@ Operationalisation:
 - Send DB backups to iCloud
 - Remote admin: SSL secure and enable router external access
 - Expose a ssh jump server to the internet
+- Access cluster from kubectl on laptop client from internet
 
 ## Architecture
+
+### Architecture decisions
+
+- MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of docker tools on servers (need a dev client with tools)
+- MVP: Single node stacked k8s control plane on bukit. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init)
+- MVP: Single worker node on james
+- MVP: Kubectl on dolmen. Including from Internet.
+- EG: Jenkins container kubectl
 
 ### k8s node: bukit
 
@@ -82,24 +91,41 @@ Operationalisation:
 - dolmen: MacBook Pro, macOS
 - Martins-Mac: Mac Mini, macOS (EG -> Node3; Linux with MacOS in VirtualBox)
 
-## Tasklist
+## Tasklists
 
-- [X] Confirm docker on bukit and james: run httpd
-- [X] Create external etcd cluster: Removed from MVP
-- [ ] /etc/hosts file configs
-- [ ] Fix containerd on james
-- [X] kubectl on bukit
-- [X] kubectl on james
-- [ ] Install K8s on bukit
-- [ ] Install K8s on james
-- [ ] Build Kubernetes cluster on bukit and james
+### Cleanup and prep
+
+- [ ] james: snap cleanup
+- [ ] bukit: ```snap remove kube-apiserver kubectl```
+
+
+- [X] /etc/hosts file configs for bukit and james
+- [X] Remove docker, kubectl, and k8s components from james
+- [X] Remove docker, kubectl, and k8s components from james
+- [X] Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
+
+- [X] james: Install containerd
+- [X] bukit: Install containerd
+- [X] james: Configure containerd (/etc/containerd/config.toml)
+- [X] bukit: Configure containerd (/etc/containerd/config.toml)
+
+- [X] bukit: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
+- [ ] dolmen: Install kubectl
+- [ ] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
+- [ ] bukit: Configure kubeadm for  
+- [ ] Install kubeadm, and init on servers
+
+
 - [ ] Add third cluster node (virtual box on )
 - [ ] Extract Zope zexp files and check in
 - [ ] Containerise Zope, including application code and config
 
-### Containerd configuration
+### Deprecated tasks
 
-- Enable cri plugin (remove from disabled plugins)
+- [X] kubectl on bukit
+- [X] kubectl on james
+- [X] Confirm docker on bukit and james: run httpd
+- [X] Create external etcd cluster: Removed from MVP
   
 ## Networking
 
@@ -113,48 +139,40 @@ Operationalisation:
 192.168.0.27 james
 ```
 
-- Set ```--control-plane-endpoint bukit``` on kubeadm init
+## Cleanup scripts
 
-### Issues
+- Clean docker installation bukit: ```sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras```
+- Clean docker installation bukit: ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
+- Clean docker installation james: ```apt remove containerd```
 
-- [X] lates kubectl installed with apt-get on james, has different version to snap installation on bukit: Remove apt package and install from snap.
-- [X] kubectl on james requires sudo, but not on bukit: Fixed with new session
-- [ ] james: ```Unit containerd.service could not be found.```
-- [ ] bukit: ```transport: Error while dialing: dial unix /var/run/containerd/containerd.sock: connect: no such file or directory```: Snap docker socket location (```systemctl status snap.docker.dockerd.service```): ```/run/snap.docker/containerd/containerd.sock```. Use kubeadm option ```--cri-socket``` to override default.
-- [ ] kubeadm init on james: ```[WARNING Service-Kubelet]: kubelet service is not enabled, please run 'systemctl enable kubelet.service'```
-- [ ] kubeadm init: Warning with swap being enabled. May need to ignore this on bukit with 4BG RAM. Monitor.
-- [X] kubeadm init (bukit): Issues with ports in use: 2379, 2380: Stop, remove etcd
-- [X] kubeadm init (bukit): /var/lib/etcd not empty: Clean up after removing etcd
-- [X] kubeadm init (bukit): ```[ERROR CRI]: container runtime is not running: output: time="2023-09-14T11:34:07+02:00" level=fatal msg="validate service connection: validate CRI v1 runtime API for endpoint \"unix:/run/snap.docker/containerd/containerd.sock\": rpc error: code = Unimplemented desc = unknown service runtime.v1.RuntimeService"```: Exclude cri from disabled plugins in /etc/containerd/config.toml
-- [ ] kubeadm init (bukit): ```W0914 13:40:56.356831   53246 checks.go:835] detected that the sandbox image "registry.k8s.io/pause:3.6" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.k8s.io/pause:3.9" as the CRI sandbox image.```
+## Containerd installation and configuration
 
-### Notes
+Full docker stack, packaged by docker: ```sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
 
-- kubeclt installed with snap
-- K8s installation type: kubeadm
-- containerd - confirm/configure for systemd: issues on james
+Just runc and containerd, packaged by ubuntu: ```apt-get -y install containerd```
 
-## References
+- Enable cri plugin (remove from disabled plugins) in /etc/containerd/config.toml
 
-- <https://kubernetes.io/docs/tasks/tools/>
-- <https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/>
-- <https://kubernetes.io/docs/setup/best-practices/multiple-zones/>
-- <https://kubernetes.io/docs/setup/best-practices/node-conformance/>
-- <https://kubernetes.io/docs/setup/best-practices/>
-- <https://kubernetes.io/docs/setup/best-practices/certificates/>
-- <https://kubernetes.io/docs/concepts/overview/components/>
-- <https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/>
-- <https://kubernetes.io/docs/setup/best-practices/certificates/>
-- <https://kubernetes.io/docs/setup/best-practices/node-conformance/>
-- <https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/>
-- <https://kubernetes.io/docs/concepts/cluster-administration/logging/>
-- <https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>
-- <https://github.com/container-storage-interface/spec/blob/master/spec.md>
-- <https://kubernetes.io/blog/2023/08/31/legacy-package-repository-deprecation/>
-- <https://kubernetes.io/docs/concepts/services-networking/>
-- <https://kubernetes.io/docs/reference/setup-tools/kubeadm/>
-- <https://forum.snapcraft.io/t/data-locations/24905>
-- <https://forum.snapcraft.io/t/quickstart-guide/3876>
-- <https://forum.snapcraft.io/t/the-snap-format/698>
-- <https://hackernoon.com/managing-ubuntu-snaps-the-stuff-no-one-tells-you-625dfbe4b26c>
-- <https://katacontainers.io/>
+- To set the correct cgroup driver, and disable default cri plugin disabling, overwrite default file:
+
+```text
+cat > /etc/containerd/config.toml <<EOF
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+EOF
+```
+
+Restart containerd: ```systemctl restart containerd```
+
+
+## kubeadm installation and configuration
+
+- To set systemd as the cgroup driver, edit the KubeletConfiguration option of cgroupDriver and set it to systemd. For example:
+
+
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+...
+cgroupDriver: systemd
+
