@@ -62,7 +62,7 @@ Operationalisation:
 
 ### Architecture decisions
 
-- MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of docker tools on servers (need a dev client with tools)
+- MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of build tools on servers (need a dev client with build tools)
 - MVP: Single node stacked k8s control plane on bukit. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init)
 - MVP: Single worker node on james
 - MVP: Kubectl on dolmen. Including from Internet.
@@ -93,29 +93,30 @@ Operationalisation:
 
 ## Tasklists
 
-### Cleanup and prep
+### Tasks: Cleanup
 
-- [ ] james: snap cleanup
-- [ ] bukit: ```snap remove kube-apiserver kubectl```
+- [X] james: snap cleanup
+- [X] bukit: ```snap remove kube-apiserver kubectl```
+- [X] james: Remove docker, kubectl, and k8s components
+- [X] bukit: Remove docker, kubectl, and k8s components
+- [X] bukit and james: Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
+- [X] bukit and james: Clean up docker installation files ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
 
+### Tasks: Prep for k8s installation
 
-- [X] /etc/hosts file configs for bukit and james
-- [X] Remove docker, kubectl, and k8s components from james
-- [X] Remove docker, kubectl, and k8s components from james
-- [X] Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
-
+- [X] bukit, dolmen and james: /etc/hosts file configs for james and bukit
 - [X] james: Install containerd
 - [X] bukit: Install containerd
 - [X] james: Configure containerd (/etc/containerd/config.toml)
 - [X] bukit: Configure containerd (/etc/containerd/config.toml)
 
-- [X] bukit: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
+### k8s installation
+
+- [X] bukit and james: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
+- [X] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
+- [ ] bukit: Configure kubeadm for containerd  
+- [ ] bukit: kubeadm init  
 - [ ] dolmen: Install kubectl
-- [ ] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
-- [ ] bukit: Configure kubeadm for  
-- [ ] Install kubeadm, and init on servers
-
-
 - [ ] Add third cluster node (virtual box on )
 - [ ] Extract Zope zexp files and check in
 - [ ] Containerise Zope, including application code and config
@@ -131,19 +132,13 @@ Operationalisation:
 
 - For MVP, set bukit up as control plane entry point, as well as ingress entry point.
 - Add james entry for convenience
-- Add `/etc/hosts` file entries on server
-- Add `/private/etc/hosts` for clients
+- Add `/etc/hosts` file entries on servers
+- Add `/private/etc/hosts` for Mac clients
 
 ```text
 192.168.0.52 bukit
 192.168.0.27 james
 ```
-
-## Cleanup scripts
-
-- Clean docker installation bukit: ```sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras```
-- Clean docker installation bukit: ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
-- Clean docker installation james: ```apt remove containerd```
 
 ## Containerd installation and configuration
 
@@ -165,14 +160,13 @@ EOF
 
 Restart containerd: ```systemctl restart containerd```
 
-
 ## kubeadm installation and configuration
 
-- To set systemd as the cgroup driver, edit the KubeletConfiguration option of cgroupDriver and set it to systemd. For example:
+- To set systemd as the cgroup driver, edit the KubeletConfiguration option of cgroupDriver and set it to systemd.
 
-
+```text
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 ...
 cgroupDriver: systemd
-
+```
