@@ -63,10 +63,21 @@ Operationalisation:
 ### Architecture decisions
 
 - MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of build tools on servers (need a dev client with build tools)
-- MVP: Single node stacked k8s control plane on bukit. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init)
+- MVP: Single node stacked k8s control plane on bukit.
 - MVP: Single worker node on james
 - MVP: Kubectl on dolmen. Including from Internet.
+- MVP: CNI Plugin: Calico (Network Policy support)
 - EG: Jenkins container kubectl
+- EG: High availability. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init unsuccessful with --config option)
+
+### k8s node: levant
+
+- Raspberry Pi 4 B
+- 1.8GHz Broadcom BCM2711, Quad Core Cortex-A72
+- 4GB RAM
+- Ubuntu Server 22.04
+- IP: 192.168.0.28
+- MAC: E4-5F-01-82-43-90
 
 ### k8s node: bukit
 
@@ -93,7 +104,7 @@ Operationalisation:
 
 ## Tasklists
 
-### Tasks: Cleanup
+### Tasks: Cleanup initial
 
 - [X] james: snap cleanup
 - [X] bukit: ```snap remove kube-apiserver kubectl```
@@ -101,10 +112,13 @@ Operationalisation:
 - [X] bukit: Remove docker, kubectl, and k8s components
 - [X] bukit and james: Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
 - [X] bukit and james: Clean up docker installation files ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
+- [X] bukit and james: Clean up etcd files ```rm -rf /var/lib/etcd```
+
+### Tasks: Cleanup to retry kubeadm init
 
 ### Tasks: Prep for k8s installation
 
-- [X] bukit, dolmen and james: /etc/hosts file configs for james and bukit
+- [X] bukit, dolmen and james: /etc/hosts file configs for james and bukit /private/etc/hosts for dolmen
 - [X] james: Install containerd
 - [X] bukit: Install containerd
 - [X] james: Configure containerd (/etc/containerd/config.toml)
@@ -114,8 +128,8 @@ Operationalisation:
 
 - [X] bukit and james: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
 - [X] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
-- [ ] bukit: Configure kubeadm for containerd  
-- [ ] bukit: kubeadm init  
+- [X] bukit: Configure kubeadm for containerd  (create kubeadm-config.yaml)
+- [ ] bukit: kubeadm init  --config kubeadm-config.yaml
 - [ ] dolmen: Install kubectl
 - [ ] Add third cluster node (virtual box on )
 - [ ] Extract Zope zexp files and check in
@@ -138,7 +152,12 @@ Operationalisation:
 ```text
 192.168.0.52 bukit
 192.168.0.27 james
+192.168.0.28 levant
+192.168.0.18 dolmen
 ```
+
+- CNI Pulgin: Calico, using 192.168.1.0/16: ```kubeadm init --pod-network-cidr=192.168.1.0/16```
+
 
 ## Containerd installation and configuration
 
@@ -146,15 +165,21 @@ Full docker stack, packaged by docker: ```sudo apt-get install docker-ce docker-
 
 Just runc and containerd, packaged by ubuntu: ```apt-get -y install containerd```
 
-- Enable cri plugin (remove from disabled plugins) in /etc/containerd/config.toml
+Containerd configuration requirements:
 
-- To set the correct cgroup driver, and disable default cri plugin disabling, overwrite default file:
+- Enable cri plugin in /etc/containerd/config.toml (achieved by overwriting the default file config.toml)
+- Set cgroup driver to Systemd
+- Configure k8s sandbox image
+
+The following achieves this:
 
 ```text
 cat > /etc/containerd/config.toml <<EOF
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
   [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
     SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri"]
+  sandbox_image = "registry.k8s.io/pause:3.9"
 EOF
 ```
 
@@ -162,11 +187,35 @@ Restart containerd: ```systemctl restart containerd```
 
 ## kubeadm installation and configuration
 
-- To set systemd as the cgroup driver, edit the KubeletConfiguration option of cgroupDriver and set it to systemd.
+- Set Pod subnet (--pod-network-cidr): 192.168.1.0/24
+- Set Service subnet 192.168.0.0/24
+- Set --control-plane-endpoint bukit
+- Set systemd as the cgroup driver
+- Since the config file option to init is required for cgroup driver, create a config file for all options:
 
 ```text
-apiVersion: kubelet.config.k8s.io/v1beta1
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta3
+kubernetesVersion: v1.28.2
+networking:
+  serviceSubnet: "192.168.0.0/24"
+  podSubnet: "192.168.1.0/24"
+  dnsDomain: "cluster.local"
+controlPlaneEndpoint: "bukit"
+clusterName: "qapps-cluster"
+---
 kind: KubeletConfiguration
-...
+apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: systemd
 ```
+
+- Init command: kubeadm init --config kubeadm-config.yaml
+
+### Tasks: Cleanup to retdo kubeadm init
+
+- kubectl drain <node name> --delete-emptydir-data --force --ignore-daemonsets
+- kubeadm reset 
+- kubectl delete node <node name>
+
+- clean /etc/cni/net.d
+

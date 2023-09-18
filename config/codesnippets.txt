@@ -1,5 +1,10 @@
 ### Command line snippets
 
+
+sudo crictl --runtime-endpoint unix:///var/run/containerd/containerd.sock ps -a
+
+sudo crictl --runtime-endpoint unix:///var/run/containerd/containerd.sock ps -a | grep kube | grep -v pause
+
 sudo kubeadm init --control-plane-endpoint bukit --config kubeadm-config.yaml
 
 
