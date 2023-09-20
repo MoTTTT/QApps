@@ -60,8 +60,45 @@ Operationalisation:
 
 ## Architecture
 
+```mermaid
+---
+title: Q Solutions Network Diagram
+---
+graph LR
+    clientExt([Internet Client]) -->|"`qsolutions.endoftheinternet.org:443
+        levant.southern.podzone.net:6443
+        EG: control.southern.podzone.net:6443
+    `"| fibreRouter[[Router]]
+
+    fibreRouter -->|:6443| levant
+    fibreRouter -->|:443| dolmen
+
+    subgraph Q Solutions Network
+        subgraph dolmen
+          microk8sW1{{microk8s Worker Node 1}}
+        end
+        subgraph james
+          microk8sW2{{microk8s Worker Node 2}}
+        end
+        subgraph k8s Control Plane
+        subgraph levant
+          microk8sC1{{microk8s Control Plane Node 1}}
+        end
+        subgraph RPi2
+          microk8sC2{{microk8s Control Plane Node 2}}:::eg
+        end
+        subgraph RPi3
+          microk8sC3{{microk8s Control Plane Node 3}}:::eg
+        end
+        end
+    end
+    classDef eg stroke-dasharray: 5 5
+    classDef host stroke-dasharray: 5 5
+```
+
 ### Architecture decisions
 
+- Set up new domains ```{central,southern,western}.podzone.net```  
 - MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of build tools on servers (need a dev client with build tools)
 - MVP: Single node stacked k8s control plane on bukit.
 - MVP: Single worker node on james
@@ -69,6 +106,12 @@ Operationalisation:
 - MVP: CNI Plugin: Calico (Network Policy support)
 - EG: Jenkins container kubectl
 - EG: High availability. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init unsuccessful with --config option)
+
+### Fibre router configuration
+
+- Static IPs for control plane and worker nodes
+- Dynamic DNS for qsolutions.endoftheinternet.org
+- Port forwarding: 443 to k8s service endpoint
 
 ### k8s node: levant
 
