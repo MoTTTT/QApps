@@ -70,3 +70,11 @@
 - <https://microk8s.io/docs/addon-host-access>
 - <https://www.ibm.com/docs/en/fcifi/3.0.1?topic=administering-changing-kubernetes-master-node-ip-address>
 - <https://microk8s.io/docs/services-and-ports>
+- <https://docs.swimm.io/>
+- <https://microk8s.io/docs/configure-host-interfaces>
+- <https://docs.tigera.io/calico/latest/getting-started/kubernetes/microk8s>
+- <https://multipass.run/docs/troubleshoot-networking>
+- <https://unix.stackexchange.com/questions/106304/route-add-no-longer-works-when-i-connected-to-vpn-via-cisco-anyconnect-client/501094#501094>
+- <https://help.dyn.com/tsig/>
+- <https://www.oracle.com/corporate/acquisitions/dyn/technologies/ecommerce-customer-faq.html>
+- <https://www.theregister.com/2019/06/25/oracle_dyn_cloud_axed_2020/>
