@@ -1,6 +1,17 @@
 # QSolutions Applications server
 
-## Back story
+## Tasklists
+
+
+
+### Tasklists: Application
+
+- [ ] Extract Zope zexp files and check in
+- [ ] Containerise Zope, including application code and config
+
+## Business Brief
+
+## Business Brief: As-is
 
 - Services include QApps Accounting, and line of business functions for property syndication, and property rental closed corporates.
 - These are currently running in an Ubuntu VirtualBox client instance hosted on an Ubuntu host called "bukit".
@@ -8,27 +19,29 @@
 - An Apache server is running at OS level on the Ubuntu host, serving static web pages.
 - The Ubuntu host runs on-premise, connected to the internet via a fibre router.
 - The fibre router provides bukit with a static IP and port forwarding of https traffic on the dynamic WAN address to port 443 for the Apache server, and port 8080 for the Zope listener.
-- The static email archive is intentionally not accessable from the Internet.
+- The static email archive is not accessable from the Internet.
 - The hostname "qsolutions.endoftheinternet.org" is resolved to the WAN address using ```DynDns```.
 - ```Let's Encrypt``` is used as CA for the SSL certificate.
 - Backups are stored on premise, distributed across hosts, with ad-hoc manual copy onto off-premmise media
 - Assets (various ownership and type, including images, videos, and documents) are stored on premise, distributed across hosts, with ad-hoc manual copy onto off-premmise media
 
+## Business Brief: To-be
+
+- Prepare for shut-down of primary premmise
+- Technical: High Availability, multi-site, consumer network, consumer hardware, opensource everything
+- Technical: Secure site management from off-site
+- Technical: Kubernetes case study
+- Technical: Containerise workload
+
 ## Minimum Viable Product  (MVP) and End Game (EG) Roadmap
 
-- MVP: Containerise all services (docker)
-- MVP: Manage services using Kubernetes
-- MVP: Cluster (2 node) on premise
-- MVP: Meta-data configuration management (gitops)
-- MVP: Automation
-- MVP: Send DB backups to iCloud
+- MVP: Containerise all services
+- MVP: Manage services using k8s
+- MVP: k8s cluster on premise
+- MVP: Configuration management: git; ansible; helm
 - EG: Log aggregation
-- EG: TLS
-- EG: Multi-zone Cluster 3 premises, one node per premise
-- EG: iCloud Drive backup
-- EG: iCloud Drive sync
-- EG: iCloud Drive asset upload
-- EG: Asset cleanup
+- EG: On prem TLS
+- EG: Multi-zone cluster: sothern, central, western
 
 ## Workload success criteria
 
@@ -54,21 +67,19 @@ Operationalisation:
 - Offload qsolutions.endoftheinternet SSL at Apache
 - Reverse-proxy Zope
 - Send DB backups to iCloud
-- Remote admin: SSL secure and enable router external access
-- Expose a ssh jump server to the internet
-- Access cluster from kubectl on laptop client from internet
+- Remote admin: Secure external access
+- Access cluster from tools on laptop client from internet
 
-## Architecture
+## Architecture: Southern Zone
 
 ```mermaid
 ---
 title: Q Solutions Network Diagram
 ---
 graph LR
-    clientExt([Internet Client]) -->|"`qsolutions.endoftheinternet.org:443
-        levant.southern.podzone.net:6443
-        EG: control.southern.podzone.net:6443
-    `"| fibreRouter[[Router]]
+    clientExt([Internet Client]) -->|*.qsolutions.endoftheinternet.org:443| fibreRouter[[Router]]
+
+    adminExt([Internet Admin]) -->|*.southern.podzone.net:6443| fibreRouter[[Router]]
 
     fibreRouter -->|:6443| levant
     fibreRouter -->|:443| dolmen
@@ -98,31 +109,51 @@ graph LR
 
 ### Architecture decisions
 
-- Set up new domains ```{central,southern,western}.podzone.net```  
-- MVP: Use Ubuntu, not download.docker.com for containerd apt repo, no installation of build tools on servers (need a dev client with build tools)
-- MVP: Single node stacked k8s control plane on bukit.
-- MVP: Single worker node on james
-- MVP: Kubectl on dolmen. Including from Internet.
-- MVP: CNI Plugin: Calico (Network Policy support)
-- EG: Jenkins container kubectl
-- EG: High availability. (Note: Set ```--control-plane-endpoint bukit``` on kubeadm init unsuccessful with --config option)
+- Set up new domains ```{central,southern,western}.podzone.net```  for kubernetes
+- Microk8s for control plane and worker nodes
+- Build tools (docker, kubectl, ansible etc) on dev clients dolmen (MacOs) + 1?
+- Single node stacked k8s control plane on levant.
+- Additional k8s control plane nodes on RPi 4Bs
+- Worker nodes on james and bukit
+- Create admin account qappadmin on all machines
 
-### Fibre router configuration
+### Network configuration
 
-- Static IPs for control plane and worker nodes
-- Dynamic DNS for qsolutions.endoftheinternet.org
-- Port forwarding: 443 to k8s service endpoint
+- Fibre router: Static IPs for control plane and worker nodes
+- Fibre router: (As-is) Dynamic DNS for ```qsolutions.endoftheinternet.org```
+- Fibre router: Port forwarding: 443 to k8s service endpoint (As-is goes to dolmen)
+- Fibre router: Restrict DHCP IP allocation range for clients to `192.168.0.2 - 192.168.0.120`
+- DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
+- DynDns: Dynamic DNS for ```*.southern.podzone.net```
+- DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
 
-### k8s node: levant
+### Node installations
 
-- Raspberry Pi 4 B
-- 1.8GHz Broadcom BCM2711, Quad Core Cortex-A72
-- 4GB RAM
+- Cleanup prep on each host: sudo snap remove microk8s
+- sudo snap install microk8s --classic
+- microk8s enable ingress
+- k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+
+
+### DynDns hostnames, with automatic wildcard aliases
+
+- central.podzone.net
+- western.podzone.net
+- southern.podzone.net
+- control.podzone.net
+- northern.podzone.net
+- eastern.podzone.net
+
+### k8s control plane node: sigiriya
+
+- Late 2014 Mac Mini
+- 2.80GHz i5-4308U (2 core, 4 thread)
+- 8GB RAM
 - Ubuntu Server 22.04
-- IP: 192.168.0.28
-- MAC: E4-5F-01-82-43-90
+- IP: 192.168.0.6
+- dolmen key exchange: ssh colleymj@sigiriya
 
-### k8s node: bukit
+### k8s control plane node: bukit
 
 - Late 2014 Mac Mini
 - 1.4 GHz Dual Core i5
@@ -130,8 +161,9 @@ graph LR
 - Ubuntu 22.04
 - 500GB SSD
 - IP: 192.168.0.52
+- dolmen key exchange: ssh martin@bukit
 
-### k8s node: james
+### k8s control plane node: james
 
 - Motherboard: ASRock H61M-VS3
 - 3 GHz Quad Core i5
@@ -139,52 +171,23 @@ graph LR
 - Ubuntu 22.04
 - 500 GB SSD
 - IP: 192.168.0.27
+- dolmen key exchange: ssh colleymj@james
 
-### clients
+
+
+### Test Client: levant
+
+- Raspberry Pi 4 B
+- 1.8GHz Broadcom BCM2711, Quad Core Cortex-A72
+- 4GB RAM
+- Ubuntu Core 22
+- IP: 192.168.0.28
+
+### Admin Client: dolmen
 
 - dolmen: MacBook Pro, macOS
-- Martins-Mac: Mac Mini, macOS (EG -> Node3; Linux with MacOS in VirtualBox)
+- levant: 
 
-## Tasklists
-
-### Tasks: Cleanup initial
-
-- [X] james: snap cleanup
-- [X] bukit: ```snap remove kube-apiserver kubectl```
-- [X] james: Remove docker, kubectl, and k8s components
-- [X] bukit: Remove docker, kubectl, and k8s components
-- [X] bukit and james: Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
-- [X] bukit and james: Clean up docker installation files ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
-- [X] bukit and james: Clean up etcd files ```rm -rf /var/lib/etcd```
-
-### Tasks: Cleanup to retry kubeadm init
-
-### Tasks: Prep for k8s installation
-
-- [X] bukit, dolmen and james: /etc/hosts file configs for james and bukit /private/etc/hosts for dolmen
-- [X] james: Install containerd
-- [X] bukit: Install containerd
-- [X] james: Configure containerd (/etc/containerd/config.toml)
-- [X] bukit: Configure containerd (/etc/containerd/config.toml)
-
-### k8s installation
-
-- [X] bukit and james: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
-- [X] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
-- [X] bukit: Configure kubeadm for containerd  (create kubeadm-config.yaml)
-- [ ] bukit: kubeadm init  --config kubeadm-config.yaml
-- [ ] dolmen: Install kubectl
-- [ ] Add third cluster node (virtual box on )
-- [ ] Extract Zope zexp files and check in
-- [ ] Containerise Zope, including application code and config
-
-### Deprecated tasks
-
-- [X] kubectl on bukit
-- [X] kubectl on james
-- [X] Confirm docker on bukit and james: run httpd
-- [X] Create external etcd cluster: Removed from MVP
-  
 ## Networking
 
 - For MVP, set bukit up as control plane entry point, as well as ingress entry point.
@@ -197,9 +200,8 @@ graph LR
 192.168.0.27 james
 192.168.0.28 levant
 192.168.0.18 dolmen
+192.168.0.6  sigiriya
 ```
-
-- CNI Pulgin: Calico, using 192.168.1.0/16: ```kubeadm init --pod-network-cidr=192.168.1.0/16```
 
 
 ## Containerd installation and configuration

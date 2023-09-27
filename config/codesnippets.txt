@@ -1,3 +1,75 @@
+kubectl create deployment demo --image=httpd --port=80
+kubectl expose deployment demo
+
+kubectl scale deployment demo --replicas=0;
+kubectl scale deployment demo --replicas=2;
+
+/Users/martincolley/workspace/Certs/qsolutions/{cert1.pem, chain1.pem, fullchain1.pem, privkey1.pem}
+
+kubectl create secret tls nginxsecret --key /Users/martincolley/workspace/Certs/qsolutions/privkey1.pem --cert /Users/martincolley/workspace/Certs/qsolutions/fullchain1.pem
+
+kubectl create configmap nginxconfigmap --from-file=nginx-default.conf
+
+ brew install calicoctl
+
+grep -B 15 -A 15 IP_AUTODETECTION_METHOD /var/snap/microk8s/current/args/cni-network/cni.yaml
+
+
+kubectl create ingress demo-localhost --class=nginx --rule="levant/*=demo:80"
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
+nmcli connection add type bridge con-name localbr ifname localbr ipv4.method manual ipv4.addresses 10.13.31.1/24
+
+
+multipass launch --network en0 --network name=bridge0,mode=manual
+
+
+ssh martin@bukit
+ssh colleymj@sigiriya
+ssh colleymj@james
+
+kubectl cluster-info dump
+
+kubectl get pods -n kube-system -o wide
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
+
+sudo snap remove microk8s
+
+sudo snap install microk8s
+
+microk8s config
+
+
+
+ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "ethtool {}"
+arp -n
+ip link show
+route
+
+ip route show
+
+
+
+ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "sudo tcpdump -i {}"
+
+microk8s status
+
+microk8s kubectl get all --all-namespaces -o wide
+microk8s kubectl get pods -A
+
+microk8s kubectl describe pvc my-pvc
+
+sudo microk8s kubectl cluster-info
+
+sudo microk8s kubectl get no -o yaml
+
+microk8s kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 
+
+
+
 ### Command line snippets
 
 
@@ -38,4 +110,76 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 sudo sysctl --system
+
+
+
+
+
+### Deprecated tasks
+
+- Kubernetes host network IP range `--service-cluster-ip-range=192.168.0.128/25` in  `/var/snap/microk8s/current/args/kube-apiserver`
+
+
+- `/var/snap/microk8s/current/args/cni-network/cni.yaml`
+
+- edit `/var/snap/microk8s/current/args/kube-apiserver` and setting the following arguments:
+
+```text
+# /var/snap/microk8s/current/args/kube-apiserver
+--advertise-address=10.10.10.10
+--bind-address=0.0.0.0
+--secure-port=16443
+```
+- CNI Pulgin: Calico, using 192.168.1.0/16: ```kubeadm init --pod-network-cidr=192.168.1.0/16```
+
+
+
+
+### Tasklists: Levant
+
+- [ ] Router: Static IP for levant MAC 
+- [ ] Dolmen: Run RPi imager, set up wifi, ssh, hostname
+- [ ] Levant: Prepend `cgroup_enable=memory cgroup_memory=1` to `/boot/firmware/cmdline.txt`
+
+
+- [X] kubectl on bukit
+- [X] kubectl on james
+- [X] Confirm docker on bukit and james: run httpd
+- [X] Create external etcd cluster: Removed from MVP
+
+### k8s installation
+
+- [X] bukit and james: Install kubeadm and kubelet: ```sudo apt-get install -y kubelet kubeadm```
+- [X] bukit: Swap settings for kubeadm (sudo swapoff -a; comment out /swapfile in /etc/fstab)
+- [X] bukit: Configure kubeadm for containerd  (create kubeadm-config.yaml)
+- [ ] bukit: kubeadm init  --config kubeadm-config.yaml
+- [ ] dolmen: Install kubectl
+- [ ] Add third cluster node (virtual box on )
+
+
+
+### Tasks: Cleanup to retry kubeadm init
+
+
+### Tasks: Cleanup initial
+
+- [X] james: snap cleanup
+- [X] bukit: ```snap remove kube-apiserver kubectl```
+- [X] james: Remove docker, kubectl, and k8s components
+- [X] bukit: Remove docker, kubectl, and k8s components
+- [X] bukit and james: Clean up k8s files (/var/lib/kubelet/; /etc/kubernetes/)
+- [X] bukit and james: Clean up docker installation files ```rm -rf /var/lib/containerd``` and  ```rm -rf /var/lib/docker```
+- [X] bukit and james: Clean up etcd files ```rm -rf /var/lib/etcd```
+- [ ] bukit: ~/.kube and ~/.microk8s
+
+
+
+
+### Tasks: Prep for k8s installation
+
+- [X] bukit, dolmen and james: /etc/hosts file configs for james and bukit /private/etc/hosts for dolmen
+- [X] james: Install containerd
+- [X] bukit: Install containerd
+- [X] james: Configure containerd (/etc/containerd/config.toml)
+- [X] bukit: Configure containerd (/etc/containerd/config.toml)
 

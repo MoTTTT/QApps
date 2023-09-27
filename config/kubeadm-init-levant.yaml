@@ -1,0 +1,49 @@
+---
+version: 0.1.0
+
+# 'persistentClusterToken' is a persistent token that may be used to authenticate join requests made to the local node.
+# Persistent token length should be 32 characters. Other nodes will be able to join using the following command:
+#   $ microk8s join $THIS_NODE_IP:25000/a74cddf30d2408d49fcd748a26021c6a
+persistentClusterToken: "a74cddf30d2408d49fcd748a26021c6a"
+
+# 'extraSANs' is a list of extra Subject Alternate Names to add to the local API server.
+extraSANs:
+  - 192.168.0.28
+  - levant.control.podzone.net
+  - qsolutions.endoftheinternet.org
+
+# 'extraKubeProxyArgs' is extra arguments to add to the local node kube-proxy.
+# Set a value to null to remove it from the arguments.
+extraKubeProxyArgs:
+  --cluster-cidr: 192.168.0.128/25
+
+# 'extraConfigFiles' is extra service configuration files to create (e.g. for configuring kube-apiserver encryption at rest).
+# These files will be written at $SNAP_DATA/args/<filename>.
+extraConfigFiles:
+  flannel-network-mgr-config: |
+    {"Network": "10.1.0.0/16", "Backend": {"Type": "vxlan"}}
+
+# 'addonRepositories' is a list of addon repositories to configure on the local node.
+addonRepositories:
+  - name: github-repo
+    url: https://github.com/org/repo
+    reference: master                       # 'reference' is branch or tag to check out instead of the default
+  - name: local-repo
+    url: /path/to/local/repo                # 'url' can be a local directory
+
+# 'addons' is a list of addons to enable or disable.
+addons:
+  - name: dns                               # 'name' is the name of the addon to enable.
+  - name: gpu
+    args: [--version=v22.9.1]               # 'args' is extra arguments that will be passed to the enable script.
+                                            # refer to the documentation of each addon for more information.
+  - name: registry
+    disable: true                           # 'disable' should be set when the addon must be disabled instead.
+
+# 'containerdRegistryConfigs' is used to configure registry mirrors. the key is the repository name (e.g. "docker.io")
+# and the value will be written to the respective hosts.toml file
+containerdRegistryConfigs:
+  # Use `http://my.proxy:5000` as a DockerHub registry mirror.
+  docker.io: |
+    [host."http://my.proxy:5000"]
+    capabilities = ["pull", "resolve"]
