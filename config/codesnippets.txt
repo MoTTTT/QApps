@@ -1,3 +1,18 @@
+ip link show
+ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "ethtool {}"
+ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "sudo tcpdump -i {}"
+
+ip address show
+ip route show
+ss -tunap
+sudo lsof -i @james
+
+sudo microk8s kubectl config view --raw > $HOME/.kube/config
+
+sudo snap install microk8s --channel=latest/edge/strict
+
+ calicoctl --allow-version-mismatch  get node -o yaml
+
 kubectl create deployment demo --image=httpd --port=80
 kubectl expose deployment demo
 
@@ -21,6 +36,8 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 nmcli connection add type bridge con-name localbr ifname localbr ipv4.method manual ipv4.addresses 10.13.31.1/24
 
+sudo microk8s kubectl config view --raw > $HOME/.kube/config
+sudo usermod -a -G microk8s <username>
 
 multipass launch --network en0 --network name=bridge0,mode=manual
 
@@ -112,10 +129,31 @@ EOF
 sudo sysctl --system
 
 
+### Deprecated
+
+## Minimum Viable Product
+
+- Containerise all services
+- Manage services using k8s
+- k8s cluster on premise
+- Configuration management & governance
+
+- Containerise all services
+- Managed services, assets and processes
+- Configuration management & governance
 
 
 
 ### Deprecated tasks
+
+
+
+
+- Technical: High Availability, multi-site, consumer network, consumer hardware, opensource everything
+- Technical: Secure site management from off-site
+- EG: Log aggregation
+- EG: On prem TLS
+- EG: Multi-zone cluster: sothern, central, western
 
 - Kubernetes host network IP range `--service-cluster-ip-range=192.168.0.128/25` in  `/var/snap/microk8s/current/args/kube-apiserver`
 

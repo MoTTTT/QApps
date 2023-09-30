@@ -1,20 +1,42 @@
-# QSolutions Applications server
+# Consumer Cloud Zone 1: southern.podzone.net
 
 ## Tasklists
 
+- [X] Business brief
+- [X] Consumer Cloud definition
+- [X] Workload Success criteria
+- [X] MVP deliverables
+- [ ] Platform Build
+- [ ] Applications and Services
 
+## Tasklist: Platform build
 
-### Tasklists: Application
+- [X] Build k8s cluster
+- [ ] Networking: Deploy and expose https service, accessable from the Internet
 
+## Tasklists: Storage Applications and Services
+
+- [ ] Consolidate assets into iCloud
+- [ ] Extract source into GitHub
 - [ ] Extract Zope zexp files and check in
 - [ ] Containerise Zope, including application code and config
+- [ ] Consolidate Web sites
+
+### Extract source into GitHub
+
+- [ ] Book: Telling; BA Colley
+- [ ] Book: Cannon Becket; AH Colley
+- [ ] Book: All the Saints; AH Colley
+- [ ] Code: MicroNode assets
+- [ ] Code: BHC assets
+- [ ] Code: Archve/Backup search
 
 ## Business Brief
 
 ## Business Brief: As-is
 
 - Services include QApps Accounting, and line of business functions for property syndication, and property rental closed corporates.
-- These are currently running in an Ubuntu VirtualBox client instance hosted on an Ubuntu host called "bukit".
+- These are currently running in an Ubuntu VirtualBox client instance hosted on an Ubuntu host.
 - Also running in the VirtualBox client is a mail server, serving a static email archive.
 - An Apache server is running at OS level on the Ubuntu host, serving static web pages.
 - The Ubuntu host runs on-premise, connected to the internet via a fibre router.
@@ -27,21 +49,26 @@
 
 ## Business Brief: To-be
 
-- Prepare for shut-down of primary premmise
-- Technical: High Availability, multi-site, consumer network, consumer hardware, opensource everything
-- Technical: Secure site management from off-site
-- Technical: Kubernetes case study
-- Technical: Containerise workload
+- Consolidation of web apps and content
+- Zope and Postgresql forklift (only config)
+- Consumer Cloud case study
+- Migration of primary premmise (SA to UK)
+- Multipremise (SA, UK, EU)
+- Distributed Storage for assets
+- Backup storage to iCloud
+- GitHub for config, docs and code
+- Backup GitHub to Storage
+- IoT Edge presence on each premmise
 
-## Minimum Viable Product  (MVP) and End Game (EG) Roadmap
+### Consumer cloud
 
-- MVP: Containerise all services
-- MVP: Manage services using k8s
-- MVP: k8s cluster on premise
-- MVP: Configuration management: git; ansible; helm
-- EG: Log aggregation
-- EG: On prem TLS
-- EG: Multi-zone cluster: sothern, central, western
+- No public cloud runtime (d1, d2) dependencies
+- Consumer computing resources
+- Consumer networking
+- Consumer internet access
+- Off grid viability for on prem services
+- On-premmise services set {full storage, all services}
+- Off-premmise (internet facing) services set {storage set, web}
 
 ## Workload success criteria
 
@@ -49,7 +76,8 @@
 - [ ] https access from off site browser
 - [ ] QApps application server: Generate and View accounting report, Add and view transaction.
 - [ ] Mail: Access Medico-Legal mail archive from 3rd party mac client
-- [ ] Web: Browse static pages, download ebook.
+- [ ] Web: Browse static sites
+- [ ] Web: Download ebooks
 
 ## MVP deliverables
 
@@ -59,7 +87,6 @@ Containerised Services:
 - Postgres
 - Mail
 - Apache
-- jenkins
 
 Operationalisation:
 
@@ -70,38 +97,44 @@ Operationalisation:
 - Remote admin: Secure external access
 - Access cluster from tools on laptop client from internet
 
-## Architecture: Southern Zone
+## Architecture: southern.podzone.net
 
 ```mermaid
 ---
-title: Q Solutions Network Diagram
+title: southern.podzone.net Network Diagram
 ---
 graph LR
-    clientExt([Internet Client]) -->|*.qsolutions.endoftheinternet.org:443| fibreRouter[[Router]]
+    clientExt1([Internet Client]) -->|*.qsolutions.endoftheinternet.org| fibreRouter1[[https]]
 
-    adminExt([Internet Admin]) -->|*.southern.podzone.net:6443| fibreRouter[[Router]]
+    clientExt2([Admin]) -->|*.southern.podzone.net:443| fibreRouter2[[k8s control plane]]
 
-    fibreRouter -->|:6443| levant
-    fibreRouter -->|:443| dolmen
+    fibreRouter1 --> sigiriya
+    fibreRouter2 --> james
 
-    subgraph Q Solutions Network
-        subgraph dolmen
-          microk8sW1{{microk8s Worker Node 1}}
+    subgraph Router
+      fibreRouter1
+      fibreRouter2
+    end
+
+    subgraph southern.podzone.net
+      subgraph dolmen workstation
+        kubectl
+        calicoctl
+      end
+      subgraph k8s cluster
+        subgraph sigiriya
+          microk8sW1{{k8s Node 1}}
         end
         subgraph james
-          microk8sW2{{microk8s Worker Node 2}}
+          microk8sW2{{k8s Node 2}}
         end
-        subgraph k8s Control Plane
+        subgraph bukit
+          microk8sC2{{k8s Node 3}}
+        end
         subgraph levant
-          microk8sC1{{microk8s Control Plane Node 1}}
+          microk8sC1{{k8s EdgeNode 4}}
         end
-        subgraph RPi2
-          microk8sC2{{microk8s Control Plane Node 2}}:::eg
-        end
-        subgraph RPi3
-          microk8sC3{{microk8s Control Plane Node 3}}:::eg
-        end
-        end
+      end
     end
     classDef eg stroke-dasharray: 5 5
     classDef host stroke-dasharray: 5 5
@@ -109,13 +142,9 @@ graph LR
 
 ### Architecture decisions
 
-- Set up new domains ```{central,southern,western}.podzone.net```  for kubernetes
-- Microk8s for control plane and worker nodes
-- Build tools (docker, kubectl, ansible etc) on dev clients dolmen (MacOs) + 1?
-- Single node stacked k8s control plane on levant.
-- Additional k8s control plane nodes on RPi 4Bs
-- Worker nodes on james and bukit
-- Create admin account qappadmin on all machines
+- Microk8s Kubernetes distribution
+- Build tools (kubectl, calicoctl, ansible etc) on dolmen workstation
+- k8s IOT Edge on levant RPi
 
 ### Network configuration
 
@@ -144,7 +173,7 @@ graph LR
 - northern.podzone.net
 - eastern.podzone.net
 
-### k8s control plane node: sigiriya
+### k8s node: sigiriya
 
 - Late 2014 Mac Mini
 - 2.80GHz i5-4308U (2 core, 4 thread)
@@ -153,7 +182,7 @@ graph LR
 - IP: 192.168.0.6
 - dolmen key exchange: ssh colleymj@sigiriya
 
-### k8s control plane node: bukit
+### k8s node: bukit
 
 - Late 2014 Mac Mini
 - 1.4 GHz Dual Core i5
@@ -163,7 +192,7 @@ graph LR
 - IP: 192.168.0.52
 - dolmen key exchange: ssh martin@bukit
 
-### k8s control plane node: james
+### k8s node: james
 
 - Motherboard: ASRock H61M-VS3
 - 3 GHz Quad Core i5
@@ -173,9 +202,7 @@ graph LR
 - IP: 192.168.0.27
 - dolmen key exchange: ssh colleymj@james
 
-
-
-### Test Client: levant
+### k8s node: levant
 
 - Raspberry Pi 4 B
 - 1.8GHz Broadcom BCM2711, Quad Core Cortex-A72
@@ -185,8 +212,10 @@ graph LR
 
 ### Admin Client: dolmen
 
-- dolmen: MacBook Pro, macOS
-- levant: 
+- MacBook Pro
+- Apple M1
+- 16GB RAM
+- macOs Ventura 13.5.2
 
 ## Networking
 

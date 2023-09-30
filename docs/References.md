@@ -181,4 +181,131 @@
 - <https://ubuntu.com/blog/data-ops-at-petabyte-scale>
 - <https://www.lifewire.com/definition-of-tftp-817576>
 - <https://www.techtarget.com/searchnetworking/definition/Preboot-Execution-Environment>
+- <https://en.wikipedia.org/wiki/Preboot_Execution_Environment>
+- <https://en.wikipedia.org/wiki/UEFI>
+- <https://ipxe.org/>
+- <https://superuser.com/questions/878807/how-to-boot-apple-mac-via-pxe-custom-mini-linux>
+- <https://www.linkedin.com/pulse/pxe-boot-apple-mac-out-touching-keyboard-eric-bruno/>
+- <https://www.infoq.com/news/2014/03/docker_0_9/>
+- <https://earthly.dev/blog/lxc-vs-docker/>
+- <https://voidlinux.org/>
+- <https://microk8s.io/docs/install-lxd>
+- <https://docs.docker.com/network/drivers/macvlan/>
+- <https://docs.docker.com/network/network-tutorial-macvlan/>
+- <https://ubuntu.com/blog/lxd-networking-lxdbr0-explained>
+- <https://rocket.readthedocs.io/en/latest/README/>
+- <https://rocket.readthedocs.io/en/latest/Documentation/devel/architecture/>
+- <https://pwittrock.github.io/docs/getting-started-guides/rkt/>
+- <https://ubuntu.com/blog/lxd-vs-docker>
+- <https://virtualizationreview.com/articles/2019/01/30/microk8s-part-2-how-to-monitor-and-manage-kubernetes.aspx>
+- <https://ubuntu.com/blog/what-are-linux-containers>
+- <https://en.wikipedia.org/wiki/FreeBSD_jail>
+- <http://linux-vserver.org/Paper>
+- <http://www.linuxvirtualserver.org/>
+- <https://documentation.ubuntu.com/lxd/en/latest/howto/>
+- <https://documentation.ubuntu.com/lxd/en/latest/howto/cluster_config_networks/>
+- <https://ubuntu.com/blog/lxd-5-17-is-now-available>
+- <https://ubuntu.com/blog/diataxis-a-new-foundation-for-canonical-documentation>
+- <https://ubuntu.com/blog/lxd_ui>
+- <https://ubuntu.com/blog/one_command_micro_cloud>
+- <https://microcloud.is/>
+- <https://fedoraproject.org/coreos/>
+- <https://codilime.com/blog/day-0-day-1-day-2-the-software-lifecycle-in-the-cloud-age/>
+- <https://en.wikipedia.org/wiki/Twelve-Factor_App_methodology>
+- <https://www.terraform.io/>
+- <https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-sign-up>
+- <https://katalon.com/resources-center/blog/continuous-delivery-vs-continuous-deployment>
+- <https://www.logicmonitor.com/blog/jenkins-vs-jenkins-x>
+- <https://jenkins-x.io/>
+- <https://tekton.dev/>
+- <https://github.com/tektoncd/pipeline/>
+- <https://github.com/GoogleContainerTools/kaniko>
+- <https://github.com/moby/buildkit>
+- <https://blog.mobyproject.org/introducing-buildkit-17e056cc5317>
+- <https://mobyproject.org/>
+- <https://en.wikipedia.org/wiki/Mirantis>
+- <https://en.wikipedia.org/wiki/OpenStack>
+- <https://en.wikipedia.org/wiki/Government_Digital_Service>
+- <https://pressbooks-dev.oer.hawaii.edu/principlesofeconomics/chapter/10-2-oligopoly/>
+- <https://minikube.sigs.k8s.io/docs/start/>
+- <https://ubuntu.com/kubernetes/charmed-k8s>
+- <https://ubuntu.com/kubernetes/install>
+- <https://juju.is/model-driven-operations-manifesto>
+- <https://ubuntu.com/openstack/pricing-calculator>
+- <https://ubuntu.com/openstack>
+- <https://ubuntu.com/openstack/install>
+- <https://www.openstack.org/user-survey/2022-user-survey-report>
+- <https://www.openstack.org/community>
+- <https://www.asrock.com/mb/Intel/H61M-VS3/index.asp>
+- <https://ubuntu.com/tutorials/install-openstack-on-your-workstation-and-launch-your-first-instance#1-overview>
+- <https://ubuntu.com/kubernetes/install>
+- <https://ubuntu.com/blog/canonical-kubernetes-for-financial-services>
+- <https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/>
+- <https://openbuildservice.org/>
+- <https://askubuntu.com/questions/1192923/is-it-possible-to-install-microk8s-on-ubuntu-core-18>
+- <https://github.com/canonical/microk8s/tree/feature/jdb%2Fstrict>
+- <https://mobyproject.org/>
+- <https://www.jetbrains.com/space/>
+- <https://www.redhat.com/sysadmin/analyze-processes-lsof>
+- <https://freshtomato.org/>
+- <https://openwrt.org/>
+- <https://openwrt.org/docs/guide-user/start>
+- <https://openwrt.org/toh/tp-link/tl-wa901nd>
+- <https://dd-wrt.com/>
+- <https://maas.io/tutorials/build-a-maas-and-lxd-environment-in-30-minutes-with-multipass-on-ubuntu#1-overview>
+- <https://maas.io/docs/about-dhcp>
+- <https://maas.io/docs/about-cloud-networking>
+- <https://mir-server.io/ubuntu-frame>
+- <https://ubuntu.com/engage/Embedding_IoT_GUI_with_Ubuntu_Frame>
+- <https://maas.io/docs/about-maas-networks>
+- <https://opensource.com/article/22/6/kubernetes-networking-fundamentals>
+- <https://opensource.com/article/22/3/visual-map-kubernetes-deployment>
+- <https://www.kube-ovn.io/>
+- <https://microk8s.io/docs/addon-mayastor>
+- <https://microk8s.io/docs/addon-minio>
+- <https://microk8s.io/docs/addon-metallb>
+- <https://microk8s.io/docs/addon-rook-ceph>
+- <https://rook.io/>
+- <https://microk8s.io/docs/addon-easyhaproxy>
+- <https://opensource.byjg.com/devops/docker-easy-haproxy/microk8s.md>
+- <https://opensource.byjg.com/devops/docker-easy-haproxy/>
+- <https://shifu.dev/>
+- <https://microk8s.io/docs/addon-nfs>
+- <https://microk8s.io/docs/addons>
+- <https://ubuntu.com/tutorials/getting-started-with-microk8s-on-ubuntu-core#1-introduction>
+- <https://kubernetes.io/docs/reference/networking/virtual-ips/>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/>
+- <https://kubernetes.github.io/ingress-nginx/deploy/>
+- <https://microk8s.io/docs/addon-ingress>
+- <https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml>
+- <https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/>
+- <https://github.com/canonical/microk8s/issues/2108>
+- <https://kubernetes.github.io/ingress-nginx/examples/static-ip/>
+- <https://ibm.github.io/kubernetes-networking/services/nodeport/>
+- <https://docs.tigera.io/calico/latest/network-policy/services/kubernetes-node-ports>
+- <https://docs.tigera.io/calico/latest/reference/resources/hostendpoint>
+- <https://docs.tigera.io/calico/latest/reference/resources/globalnetworkpolicy>
+- <https://docs.tigera.io/calico/latest/network-policy/services/kubernetes-node-ports#before-you-begin>
+- <https://kubernetes.io/docs/concepts/services-networking/service/#endpoints>
+- <https://github.com/kubernetes/examples/blob/master/staging/https-nginx/default.conf>
+- <https://kubernetes.io/docs/tutorials/services/connect-applications-service/>
+- <https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/>
+- <https://kubernetes.io/docs/concepts/services-networking/service/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

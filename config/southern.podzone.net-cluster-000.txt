@@ -1,0 +1,51 @@
+NAMESPACE     NAME                                             READY   STATUS    RESTARTS      AGE     IP             NODE       NOMINATED NODE   READINESS GATES
+kube-system   pod/calico-node-gmhpv                            1/1     Running   0             4d12h   192.168.0.52   bukit      <none>           <none>
+kube-system   pod/calico-node-tm8rj                            1/1     Running   0             4d12h   192.168.0.6    sigiriya   <none>           <none>
+kube-system   pod/coredns-7745f9f87f-z5k2m                     1/1     Running   0             4d12h   10.1.73.65     sigiriya   <none>           <none>
+kube-system   pod/calico-kube-controllers-6c99c8747f-gwpgn     1/1     Running   0             4d12h   10.1.73.66     sigiriya   <none>           <none>
+ingress       pod/nginx-ingress-microk8s-controller-7bhm5      1/1     Running   0             3d22h   10.1.73.67     sigiriya   <none>           <none>
+ingress       pod/nginx-ingress-microk8s-controller-hjdc7      1/1     Running   0             3d22h   10.1.88.65     bukit      <none>           <none>
+default       pod/demo-75695c9bb5-26l99                        1/1     Running   0             3d21h   10.1.88.66     bukit      <none>           <none>
+default       pod/my-nginx-69c9d847c9-5m4wj                    1/1     Running   0             44h     10.1.73.70     sigiriya   <none>           <none>
+default       pod/demo-75695c9bb5-x7pgp                        1/1     Running   0             44h     10.1.73.71     sigiriya   <none>           <none>
+kube-system   pod/calico-node-4zmpx                            1/1     Running   1 (43h ago)   4d12h   192.168.0.27   james      <none>           <none>
+ingress       pod/nginx-ingress-microk8s-controller-729hz      1/1     Running   1 (43h ago)   3d22h   10.1.159.200   james      <none>           <none>
+ingress       pod/nginx-ingress-microk8s-controller-8rh5j      1/1     Running   1 (12h ago)   37h     10.1.243.193   levant     <none>           <none>
+kube-system   pod/hostpath-provisioner-58694c9f4b-5rtzg        1/1     Running   0             11h     10.1.159.201   james      <none>           <none>
+kube-system   pod/kubernetes-dashboard-fc86bcc89-htnh8         1/1     Running   0             11h     10.1.231.195   levant     <none>           <none>
+kube-system   pod/dashboard-metrics-scraper-5cb4f4bb9c-5mnfw   1/1     Running   0             11h     10.1.159.203   james      <none>           <none>
+kube-system   pod/metrics-server-7747f8d66b-bjz9h              1/1     Running   0             11h     10.1.159.202   james      <none>           <none>
+kube-system   pod/calico-node-d7qpj                            1/1     Running   0             37h     192.168.0.28   levant     <none>           <none>
+
+NAMESPACE     NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                        AGE     SELECTOR
+default       service/kubernetes                  ClusterIP   10.152.183.1     <none>        443/TCP                        4d12h   <none>
+kube-system   service/kube-dns                    ClusterIP   10.152.183.10    <none>        53/UDP,53/TCP,9153/TCP         4d12h   k8s-app=kube-dns
+default       service/demo                        ClusterIP   10.152.183.93    <none>        80/TCP                         3d22h   app=demo
+default       service/my-nginx                    NodePort    10.152.183.20    <none>        8080:30587/TCP,443:30452/TCP   3d18h   run=my-nginx
+kube-system   service/metrics-server              ClusterIP   10.152.183.244   <none>        443/TCP                        11h     k8s-app=metrics-server
+kube-system   service/kubernetes-dashboard        ClusterIP   10.152.183.178   <none>        443/TCP                        11h     k8s-app=kubernetes-dashboard
+kube-system   service/dashboard-metrics-scraper   ClusterIP   10.152.183.78    <none>        8000/TCP                       11h     k8s-app=dashboard-metrics-scraper
+
+NAMESPACE     NAME                                               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE     CONTAINERS               IMAGES                                            SELECTOR
+ingress       daemonset.apps/nginx-ingress-microk8s-controller   4         4         4       4            4           <none>                   3d22h   nginx-ingress-microk8s   registry.k8s.io/ingress-nginx/controller:v1.5.1   name=nginx-ingress-microk8s
+kube-system   daemonset.apps/calico-node                         4         4         4       4            4           kubernetes.io/os=linux   4d12h   calico-node              docker.io/calico/node:v3.25.0                     k8s-app=calico-node
+
+NAMESPACE     NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS                  IMAGES                                                 SELECTOR
+kube-system   deployment.apps/coredns                     1/1     1            1           4d12h   coredns                     coredns/coredns:1.10.0                                 k8s-app=kube-dns
+kube-system   deployment.apps/calico-kube-controllers     1/1     1            1           4d12h   calico-kube-controllers     docker.io/calico/kube-controllers:v3.25.0              k8s-app=calico-kube-controllers
+default       deployment.apps/my-nginx                    1/1     1            1           3d18h   nginxhttps                  bprashanth/nginxhttps:1.0                              run=my-nginx
+default       deployment.apps/demo                        2/2     2            2           3d22h   httpd                       httpd                                                  app=demo
+kube-system   deployment.apps/hostpath-provisioner        1/1     1            1           11h     hostpath-provisioner        cdkbot/hostpath-provisioner:1.4.2                      k8s-app=hostpath-provisioner
+kube-system   deployment.apps/kubernetes-dashboard        1/1     1            1           11h     kubernetes-dashboard        kubernetesui/dashboard:v2.7.0                          k8s-app=kubernetes-dashboard
+kube-system   deployment.apps/dashboard-metrics-scraper   1/1     1            1           11h     dashboard-metrics-scraper   kubernetesui/metrics-scraper:v1.0.8                    k8s-app=dashboard-metrics-scraper
+kube-system   deployment.apps/metrics-server              1/1     1            1           11h     metrics-server              registry.k8s.io/metrics-server/metrics-server:v0.5.2   k8s-app=metrics-server
+
+NAMESPACE     NAME                                                   DESIRED   CURRENT   READY   AGE     CONTAINERS                  IMAGES                                                 SELECTOR
+kube-system   replicaset.apps/coredns-7745f9f87f                     1         1         1       4d12h   coredns                     coredns/coredns:1.10.0                                 k8s-app=kube-dns,pod-template-hash=7745f9f87f
+kube-system   replicaset.apps/calico-kube-controllers-6c99c8747f     1         1         1       4d12h   calico-kube-controllers     docker.io/calico/kube-controllers:v3.25.0              k8s-app=calico-kube-controllers,pod-template-hash=6c99c8747f
+default       replicaset.apps/my-nginx-69c9d847c9                    1         1         1       3d18h   nginxhttps                  bprashanth/nginxhttps:1.0                              pod-template-hash=69c9d847c9,run=my-nginx
+default       replicaset.apps/demo-75695c9bb5                        2         2         2       3d22h   httpd                       httpd                                                  app=demo,pod-template-hash=75695c9bb5
+kube-system   replicaset.apps/hostpath-provisioner-58694c9f4b        1         1         1       11h     hostpath-provisioner        cdkbot/hostpath-provisioner:1.4.2                      k8s-app=hostpath-provisioner,pod-template-hash=58694c9f4b
+kube-system   replicaset.apps/kubernetes-dashboard-fc86bcc89         1         1         1       11h     kubernetes-dashboard        kubernetesui/dashboard:v2.7.0                          k8s-app=kubernetes-dashboard,pod-template-hash=fc86bcc89
+kube-system   replicaset.apps/dashboard-metrics-scraper-5cb4f4bb9c   1         1         1       11h     dashboard-metrics-scraper   kubernetesui/metrics-scraper:v1.0.8                    k8s-app=dashboard-metrics-scraper,pod-template-hash=5cb4f4bb9c
+kube-system   replicaset.apps/metrics-server-7747f8d66b              1         1         1       11h     metrics-server              registry.k8s.io/metrics-server/metrics-server:v0.5.2   k8s-app=metrics-server,pod-template-hash=7747f8d66b

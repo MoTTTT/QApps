@@ -1,35 +1,6 @@
+#martincolley@Dolmen:~/workspace/QApps/config$ calicoctl --allow-version-mismatch  get node -o yaml
 apiVersion: projectcalico.org/v3
 items:
-- apiVersion: projectcalico.org/v3
-  kind: Node
-  metadata:
-    annotations:
-      projectcalico.org/kube-labels: '{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/os":"linux","kubernetes.io/arch":"amd64","kubernetes.io/hostname":"sigiriya","kubernetes.io/os":"linux","microk8s.io/cluster":"true","node.kubernetes.io/microk8s-controlplane":"microk8s-controlplane"}'
-    creationTimestamp: "2023-09-25T21:53:09Z"
-    labels:
-      beta.kubernetes.io/arch: amd64
-      beta.kubernetes.io/os: linux
-      kubernetes.io/arch: amd64
-      kubernetes.io/hostname: sigiriya
-      kubernetes.io/os: linux
-      microk8s.io/cluster: "true"
-      node.kubernetes.io/microk8s-controlplane: microk8s-controlplane
-    name: sigiriya
-    resourceVersion: "156338"
-    uid: f54bf63e-828b-48bd-8f6f-a9b2eae4b0b1
-  spec:
-    addresses:
-    - address: 192.168.0.6/24
-      type: CalicoNodeIP
-    - address: 192.168.0.6
-      type: InternalIP
-    bgp:
-      ipv4Address: 192.168.0.6/24
-    ipv4VXLANTunnelAddr: 10.1.73.64
-    orchRefs:
-    - nodeName: sigiriya
-      orchestrator: k8s
-  status: {}
 - apiVersion: projectcalico.org/v3
   kind: Node
   metadata:
@@ -45,7 +16,7 @@ items:
       microk8s.io/cluster: "true"
       node.kubernetes.io/microk8s-controlplane: microk8s-controlplane
     name: james
-    resourceVersion: "156420"
+    resourceVersion: "493554"
     uid: 32263168-6297-4024-98a1-57bc2526e0b0
   spec:
     addresses:
@@ -64,6 +35,36 @@ items:
   kind: Node
   metadata:
     annotations:
+      projectcalico.org/kube-labels: '{"beta.kubernetes.io/arch":"arm64","beta.kubernetes.io/os":"linux","kubernetes.io/arch":"arm64","kubernetes.io/hostname":"levant","kubernetes.io/os":"linux","microk8s.io/cluster":"true","node.kubernetes.io/microk8s-controlplane":"microk8s-controlplane"}'
+    creationTimestamp: "2023-09-28T20:27:00Z"
+    labels:
+      beta.kubernetes.io/arch: arm64
+      beta.kubernetes.io/os: linux
+      kubernetes.io/arch: arm64
+      kubernetes.io/hostname: levant
+      kubernetes.io/os: linux
+      microk8s.io/cluster: "true"
+      node.kubernetes.io/microk8s-controlplane: microk8s-controlplane
+    name: levant
+    resourceVersion: "494131"
+    uid: 87996bf5-c554-4fad-a82b-d579f9ad12a6
+  spec:
+    addresses:
+    - address: 192.168.0.28/24
+      type: CalicoNodeIP
+    - address: 192.168.0.28
+      type: InternalIP
+    bgp:
+      ipv4Address: 192.168.0.28/24
+    ipv4VXLANTunnelAddr: 10.1.231.192
+    orchRefs:
+    - nodeName: levant
+      orchestrator: k8s
+  status: {}
+- apiVersion: projectcalico.org/v3
+  kind: Node
+  metadata:
+    annotations:
       projectcalico.org/kube-labels: '{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/os":"linux","kubernetes.io/arch":"amd64","kubernetes.io/hostname":"bukit","kubernetes.io/os":"linux","microk8s.io/cluster":"true","node.kubernetes.io/microk8s-controlplane":"microk8s-controlplane"}'
     creationTimestamp: "2023-09-25T21:54:06Z"
     labels:
@@ -75,7 +76,7 @@ items:
       microk8s.io/cluster: "true"
       node.kubernetes.io/microk8s-controlplane: microk8s-controlplane
     name: bukit
-    resourceVersion: "156504"
+    resourceVersion: "494250"
     uid: 72b305bd-26cc-4c49-9146-8dda0036ded1
   spec:
     addresses:
@@ -90,6 +91,36 @@ items:
     - nodeName: bukit
       orchestrator: k8s
   status: {}
+- apiVersion: projectcalico.org/v3
+  kind: Node
+  metadata:
+    annotations:
+      projectcalico.org/kube-labels: '{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/os":"linux","kubernetes.io/arch":"amd64","kubernetes.io/hostname":"sigiriya","kubernetes.io/os":"linux","microk8s.io/cluster":"true","node.kubernetes.io/microk8s-controlplane":"microk8s-controlplane"}'
+    creationTimestamp: "2023-09-25T21:53:09Z"
+    labels:
+      beta.kubernetes.io/arch: amd64
+      beta.kubernetes.io/os: linux
+      kubernetes.io/arch: amd64
+      kubernetes.io/hostname: sigiriya
+      kubernetes.io/os: linux
+      microk8s.io/cluster: "true"
+      node.kubernetes.io/microk8s-controlplane: microk8s-controlplane
+    name: sigiriya
+    resourceVersion: "494283"
+    uid: f54bf63e-828b-48bd-8f6f-a9b2eae4b0b1
+  spec:
+    addresses:
+    - address: 192.168.0.6/24
+      type: CalicoNodeIP
+    - address: 192.168.0.6
+      type: InternalIP
+    bgp:
+      ipv4Address: 192.168.0.6/24
+    ipv4VXLANTunnelAddr: 10.1.73.64
+    orchRefs:
+    - nodeName: sigiriya
+      orchestrator: k8s
+  status: {}
 kind: NodeList
 metadata:
-  resourceVersion: "156563"
+  resourceVersion: "494299"
