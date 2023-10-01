@@ -59,6 +59,7 @@
 - GitHub for config, docs and code
 - Backup GitHub to Storage
 - IoT Edge presence on each premmise
+- Factor out failed tl-wr845n access point
 
 ### Consumer cloud
 
@@ -101,43 +102,110 @@ Operationalisation:
 
 ```mermaid
 ---
-title: southern.podzone.net Network Diagram
+title: southern.podzone.net Network Topology
+---
+graph TD
+
+ISP --- ont
+ont --- router
+router ---|100MB| switch1
+router --- switch2
+router ---switch3
+router --- ap1
+router --- other2
+
+switch1 <-->|1GB| k8s1
+switch1 <-->|1GB| k8s2
+switch1 <-->|1GB| k8s3
+switch1 <-->|1GB| k8s4
+
+switch2 --- workstation
+
+ap1 --- other2
+switch2 --- other1
+switch3 --- other1
+
+
+ont[[Daisan H665 GPON ONT]]
+router[[TP-LINK EC120-F5 Wireless Dual Band Router]]
+switch1[[D-Link DGS-1005D]]
+switch2[[TP-Link TL-SG1005D]]
+switch3[[TP-Link TL-SG1008D]]
+ap1[[TP-Link TL-WR845N]]
+other1(ethernet devices)
+other2(wifi devices)
+k8s1{{levant}}
+k8s2{{james}}
+k8s3{{bukit}}
+k8s4{{sigiriya}}
+workstation(dolmen)
+```
+
+
+```mermaid
+---
+title: southern.podzone.net Port forwarding
 ---
 graph LR
-    clientExt1([Internet Client]) -->|*.qsolutions.endoftheinternet.org| fibreRouter1[[https]]
 
-    clientExt2([Admin]) -->|*.southern.podzone.net:443| fibreRouter2[[k8s control plane]]
+clientExt1 -->|*.qsolutions.endoftheinternet.org| routerPort1
+clientExt2 -->|*.southern.podzone.net:443| routerPort2
+routerPort1 --> sigiriya
+routerPort2 --> james
 
-    fibreRouter1 --> sigiriya
-    fibreRouter2 --> james
-
-    subgraph Router
-      fibreRouter1
-      fibreRouter2
+  subgraph Internet
+    clientExt1([Internet Client])
+    clientExt2([Admin])
+  end
+  subgraph Router
+    routerPort1[[https]]
+    routerPort2[[kubectl]]
+  end
+  subgraph southern.podzone.net
+    subgraph james
+      microk8sW2{{k8s control}}
     end
+    subgraph sigiriya
+      microk8sW1{{k8s Worker}}
+    end
+  end
+```
 
-    subgraph southern.podzone.net
+```mermaid
+---
+title: southern.podzone.net On-premise workstation connectivity
+---
+graph TD
+ 
+kubectl --- microk8sW2
+calicoctl --- microk8sW2
+ssh --- james
+ssh --- levant
+ssh --- sigiriya
+ssh --- bukit
+
       subgraph dolmen workstation
         kubectl
         calicoctl
+        ssh
       end
-      subgraph k8s cluster
-        subgraph sigiriya
-          microk8sW1{{k8s Node 1}}
+
+      subgraph k8s Cluster
+        subgraph Control Plane
+          subgraph levant
+            microk8sC1{{k8s}}
+          end
+          subgraph james
+            microk8sW2{{k8s}}
+          end
         end
-        subgraph james
-          microk8sW2{{k8s Node 2}}
+        subgraph sigiriya
+          microk8sW1{{k8s Worker Node 1}}
         end
         subgraph bukit
-          microk8sC2{{k8s Node 3}}
-        end
-        subgraph levant
-          microk8sC1{{k8s EdgeNode 4}}
+          microk8sC2{{k8s Worker Node 2}}
         end
       end
-    end
-    classDef eg stroke-dasharray: 5 5
-    classDef host stroke-dasharray: 5 5
 ```
 
 ### Architecture decisions
@@ -155,6 +223,7 @@ graph LR
 - DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
 - DynDns: Dynamic DNS for ```*.southern.podzone.net```
 - DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
+- MetalLB: IP address range: 192.168.0.131-192.168.0.150
 
 ### Node installations
 
@@ -163,43 +232,37 @@ graph LR
 - microk8s enable ingress
 - k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
 
-
-### DynDns hostnames, with automatic wildcard aliases
-
-- central.podzone.net
-- western.podzone.net
-- southern.podzone.net
-- control.podzone.net
-- northern.podzone.net
-- eastern.podzone.net
-
 ### k8s node: sigiriya
 
 - Late 2014 Mac Mini
 - 2.80GHz i5-4308U (2 core, 4 thread)
-- 8GB RAM
-- Ubuntu Server 22.04
-- IP: 192.168.0.6
+- 8GB RAM (soldered)
+- Ubuntu Server 22.04 (upgrade from mcOS)
+- 2TB SSD (upgrade from 500GB)
+- eth0 IP: 192.168.0.6
+- eth1 IP:
 - dolmen key exchange: ssh colleymj@sigiriya
 
 ### k8s node: bukit
 
 - Late 2014 Mac Mini
 - 1.4 GHz Dual Core i5
-- 4 GB RAM
+- 4 GB RAM (soldered)
 - Ubuntu 22.04
 - 500GB SSD
-- IP: 192.168.0.52
+- eth0 IP: 192.168.0.52
+- eth1 IP:
 - dolmen key exchange: ssh martin@bukit
 
 ### k8s node: james
 
 - Motherboard: ASRock H61M-VS3
 - 3 GHz Quad Core i5
-- 8 GB RAM
+- 16GB (upgrade from 8 GB) RAM
 - Ubuntu 22.04
 - 500 GB SSD
-- IP: 192.168.0.27
+- eth0 IP: 192.168.0.27
+- eth1 IP:
 - dolmen key exchange: ssh colleymj@james
 
 ### k8s node: levant
@@ -217,10 +280,10 @@ graph LR
 - 16GB RAM
 - macOs Ventura 13.5.2
 
-## Networking
+## Appendices
 
-- For MVP, set bukit up as control plane entry point, as well as ingress entry point.
-- Add james entry for convenience
+### Appendix 1: /etc/hosts
+
 - Add `/etc/hosts` file entries on servers
 - Add `/private/etc/hosts` for Mac clients
 
@@ -232,64 +295,11 @@ graph LR
 192.168.0.6  sigiriya
 ```
 
+### Appendix 2: wildcard hostnames
 
-## Containerd installation and configuration
-
-Full docker stack, packaged by docker: ```sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
-
-Just runc and containerd, packaged by ubuntu: ```apt-get -y install containerd```
-
-Containerd configuration requirements:
-
-- Enable cri plugin in /etc/containerd/config.toml (achieved by overwriting the default file config.toml)
-- Set cgroup driver to Systemd
-- Configure k8s sandbox image
-
-The following achieves this:
-
-```text
-cat > /etc/containerd/config.toml <<EOF
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-    SystemdCgroup = true
-[plugins."io.containerd.grpc.v1.cri"]
-  sandbox_image = "registry.k8s.io/pause:3.9"
-EOF
-```
-
-Restart containerd: ```systemctl restart containerd```
-
-## kubeadm installation and configuration
-
-- Set Pod subnet (--pod-network-cidr): 192.168.1.0/24
-- Set Service subnet 192.168.0.0/24
-- Set --control-plane-endpoint bukit
-- Set systemd as the cgroup driver
-- Since the config file option to init is required for cgroup driver, create a config file for all options:
-
-```text
-kind: ClusterConfiguration
-apiVersion: kubeadm.k8s.io/v1beta3
-kubernetesVersion: v1.28.2
-networking:
-  serviceSubnet: "192.168.0.0/24"
-  podSubnet: "192.168.1.0/24"
-  dnsDomain: "cluster.local"
-controlPlaneEndpoint: "bukit"
-clusterName: "qapps-cluster"
----
-kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
-cgroupDriver: systemd
-```
-
-- Init command: kubeadm init --config kubeadm-config.yaml
-
-### Tasks: Cleanup to retdo kubeadm init
-
-- kubectl drain <node name> --delete-emptydir-data --force --ignore-daemonsets
-- kubeadm reset 
-- kubectl delete node <node name>
-
-- clean /etc/cni/net.d
-
+- central.podzone.net
+- western.podzone.net
+- southern.podzone.net
+- control.podzone.net
+- northern.podzone.net
+- eastern.podzone.net

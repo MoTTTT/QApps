@@ -15,7 +15,7 @@ kube-system   pod/hostpath-provisioner-58694c9f4b-5rtzg        1/1     Running  
 kube-system   pod/kubernetes-dashboard-fc86bcc89-htnh8         1/1     Running   0             11h     10.1.231.195   levant     <none>           <none>
 kube-system   pod/dashboard-metrics-scraper-5cb4f4bb9c-5mnfw   1/1     Running   0             11h     10.1.159.203   james      <none>           <none>
 kube-system   pod/metrics-server-7747f8d66b-bjz9h              1/1     Running   0             11h     10.1.159.202   james      <none>           <none>
-kube-system   pod/calico-node-d7qpj                            1/1     Running   0             37h     192.168.0.28   levant     <none>           <none>
+kube-system   pod/calico-node-d7qpj                            1/1     Running   0             38h     192.168.0.28   levant     <none>           <none>
 
 NAMESPACE     NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                        AGE     SELECTOR
 default       service/kubernetes                  ClusterIP   10.152.183.1     <none>        443/TCP                        4d12h   <none>
@@ -34,7 +34,7 @@ NAMESPACE     NAME                                        READY   UP-TO-DATE   A
 kube-system   deployment.apps/coredns                     1/1     1            1           4d12h   coredns                     coredns/coredns:1.10.0                                 k8s-app=kube-dns
 kube-system   deployment.apps/calico-kube-controllers     1/1     1            1           4d12h   calico-kube-controllers     docker.io/calico/kube-controllers:v3.25.0              k8s-app=calico-kube-controllers
 default       deployment.apps/my-nginx                    1/1     1            1           3d18h   nginxhttps                  bprashanth/nginxhttps:1.0                              run=my-nginx
-default       deployment.apps/demo                        2/2     2            2           3d22h   httpd                       httpd                                                  app=demo
+default       deployment.apps/demo                        2/2     2            2           3d23h   httpd                       httpd                                                  app=demo
 kube-system   deployment.apps/hostpath-provisioner        1/1     1            1           11h     hostpath-provisioner        cdkbot/hostpath-provisioner:1.4.2                      k8s-app=hostpath-provisioner
 kube-system   deployment.apps/kubernetes-dashboard        1/1     1            1           11h     kubernetes-dashboard        kubernetesui/dashboard:v2.7.0                          k8s-app=kubernetes-dashboard
 kube-system   deployment.apps/dashboard-metrics-scraper   1/1     1            1           11h     dashboard-metrics-scraper   kubernetesui/metrics-scraper:v1.0.8                    k8s-app=dashboard-metrics-scraper
@@ -44,7 +44,7 @@ NAMESPACE     NAME                                                   DESIRED   C
 kube-system   replicaset.apps/coredns-7745f9f87f                     1         1         1       4d12h   coredns                     coredns/coredns:1.10.0                                 k8s-app=kube-dns,pod-template-hash=7745f9f87f
 kube-system   replicaset.apps/calico-kube-controllers-6c99c8747f     1         1         1       4d12h   calico-kube-controllers     docker.io/calico/kube-controllers:v3.25.0              k8s-app=calico-kube-controllers,pod-template-hash=6c99c8747f
 default       replicaset.apps/my-nginx-69c9d847c9                    1         1         1       3d18h   nginxhttps                  bprashanth/nginxhttps:1.0                              pod-template-hash=69c9d847c9,run=my-nginx
-default       replicaset.apps/demo-75695c9bb5                        2         2         2       3d22h   httpd                       httpd                                                  app=demo,pod-template-hash=75695c9bb5
+default       replicaset.apps/demo-75695c9bb5                        2         2         2       3d23h   httpd                       httpd                                                  app=demo,pod-template-hash=75695c9bb5
 kube-system   replicaset.apps/hostpath-provisioner-58694c9f4b        1         1         1       11h     hostpath-provisioner        cdkbot/hostpath-provisioner:1.4.2                      k8s-app=hostpath-provisioner,pod-template-hash=58694c9f4b
 kube-system   replicaset.apps/kubernetes-dashboard-fc86bcc89         1         1         1       11h     kubernetes-dashboard        kubernetesui/dashboard:v2.7.0                          k8s-app=kubernetes-dashboard,pod-template-hash=fc86bcc89
 kube-system   replicaset.apps/dashboard-metrics-scraper-5cb4f4bb9c   1         1         1       11h     dashboard-metrics-scraper   kubernetesui/metrics-scraper:v1.0.8                    k8s-app=dashboard-metrics-scraper,pod-template-hash=5cb4f4bb9c

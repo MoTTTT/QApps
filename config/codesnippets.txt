@@ -1,3 +1,7 @@
+http://sigiriya:30862/
+
+http://southern.podzone.net:30862/
+
 ip link show
 ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "ethtool {}"
 ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "sudo tcpdump -i {}"
@@ -220,4 +224,65 @@ sudo sysctl --system
 - [X] bukit: Install containerd
 - [X] james: Configure containerd (/etc/containerd/config.toml)
 - [X] bukit: Configure containerd (/etc/containerd/config.toml)
+
+
+## Containerd installation and configuration
+
+Full docker stack, packaged by docker: ```sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
+
+Just runc and containerd, packaged by ubuntu: ```apt-get -y install containerd```
+
+Containerd configuration requirements:
+
+- Enable cri plugin in /etc/containerd/config.toml (achieved by overwriting the default file config.toml)
+- Set cgroup driver to Systemd
+- Configure k8s sandbox image
+
+The following achieves this:
+
+```text
+cat > /etc/containerd/config.toml <<EOF
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri"]
+  sandbox_image = "registry.k8s.io/pause:3.9"
+EOF
+```
+
+Restart containerd: ```systemctl restart containerd```
+
+## kubeadm installation and configuration
+
+- Set Pod subnet (--pod-network-cidr): 192.168.1.0/24
+- Set Service subnet 192.168.0.0/24
+- Set --control-plane-endpoint bukit
+- Set systemd as the cgroup driver
+- Since the config file option to init is required for cgroup driver, create a config file for all options:
+
+```text
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta3
+kubernetesVersion: v1.28.2
+networking:
+  serviceSubnet: "192.168.0.0/24"
+  podSubnet: "192.168.1.0/24"
+  dnsDomain: "cluster.local"
+controlPlaneEndpoint: "bukit"
+clusterName: "qapps-cluster"
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+```
+
+- Init command: kubeadm init --config kubeadm-config.yaml
+
+### Tasks: Cleanup to retdo kubeadm init
+
+- kubectl drain <node name> --delete-emptydir-data --force --ignore-daemonsets
+- kubeadm reset 
+- kubectl delete node <node name>
+
+- clean /etc/cni/net.d
 

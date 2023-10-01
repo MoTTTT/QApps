@@ -1,0 +1,19 @@
+NAMESPACE     NAME                                           READY   STATUS    RESTARTS   AGE   IP             NODE    NOMINATED NODE   READINESS GATES
+kube-system   pod/calico-node-ktj2h                          1/1     Running   0          14m   192.168.0.27   james   <none>           <none>
+kube-system   pod/coredns-7745f9f87f-dh7hq                   1/1     Running   0          14m   10.1.159.193   james   <none>           <none>
+kube-system   pod/calico-kube-controllers-6c99c8747f-v8pxx   1/1     Running   0          14m   10.1.159.194   james   <none>           <none>
+
+NAMESPACE     NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE   SELECTOR
+default       service/kubernetes   ClusterIP   10.152.183.1    <none>        443/TCP                  14m   <none>
+kube-system   service/kube-dns     ClusterIP   10.152.183.10   <none>        53/UDP,53/TCP,9153/TCP   14m   k8s-app=kube-dns
+
+NAMESPACE     NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE   CONTAINERS    IMAGES                          SELECTOR
+kube-system   daemonset.apps/calico-node   1         1         1       1            1           kubernetes.io/os=linux   14m   calico-node   docker.io/calico/node:v3.25.0   k8s-app=calico-node
+
+NAMESPACE     NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS                IMAGES                                      SELECTOR
+kube-system   deployment.apps/coredns                   1/1     1            1           14m   coredns                   coredns/coredns:1.10.0                      k8s-app=kube-dns
+kube-system   deployment.apps/calico-kube-controllers   1/1     1            1           14m   calico-kube-controllers   docker.io/calico/kube-controllers:v3.25.0   k8s-app=calico-kube-controllers
+
+NAMESPACE     NAME                                                 DESIRED   CURRENT   READY   AGE   CONTAINERS                IMAGES                                      SELECTOR
+kube-system   replicaset.apps/coredns-7745f9f87f                   1         1         1       14m   coredns                   coredns/coredns:1.10.0                      k8s-app=kube-dns,pod-template-hash=7745f9f87f
+kube-system   replicaset.apps/calico-kube-controllers-6c99c8747f   1         1         1       14m   calico-kube-controllers   docker.io/calico/kube-controllers:v3.25.0   k8s-app=calico-kube-controllers,pod-template-hash=6c99c8747f
