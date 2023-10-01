@@ -32,10 +32,8 @@
 - <https://docs.tigera.io/calico/latest/about>
 - <https://docs.tigera.io/calico/latest/getting-started/kubernetes/>
 - <https://docs.tigera.io/calico/latest/getting-started/kubernetes/microk8s>
-- <https://docs.tigera.io/calico/latest/getting-started/kubernetes/microk8s>
 - <https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart>
 - <https://docs.tigera.io/calico/latest/network-policy/services/kubernetes-node-ports#before-you-begin>
-- <https://docs.tigera.io/calico/latest/network-policy/services/kubernetes-node-ports>
 - <https://docs.tigera.io/calico/latest/network-policy/services/kubernetes-node-ports>
 - <https://docs.tigera.io/calico/latest/networking/configuring/bgp>
 - <https://docs.tigera.io/calico/latest/networking/ipam/ip-autodetection>
@@ -44,7 +42,6 @@
 - <https://docs.tigera.io/calico/latest/reference/calicoctl/overview>
 - <https://docs.tigera.io/calico/latest/reference/host-endpoints/pre-dnat>
 - <https://docs.tigera.io/calico/latest/reference/resources/globalnetworkpolicy>
-- <https://docs.tigera.io/calico/latest/reference/resources/hostendpoint>
 - <https://docs.tigera.io/calico/latest/reference/resources/hostendpoint>
 - <https://docs.tigera.io/calico/latest/reference/resources/profile>
 - <https://docs.turingpi.com/docs/turing-pi2-kubernetes-os-setup>
@@ -98,7 +95,6 @@
 - <https://help.ubuntu.com/community/DynamicDNS>
 - <https://help.ubuntu.com/community/IPMI>
 - <https://ibm.github.io/kubernetes-networking/services/nodeport/>
-- <https://ibm.github.io/kubernetes-networking/services/nodeport/>
 - <https://ipwithease.com/vlan-vs-vxlan/>
 - <https://ipwithease.com/vxlan-and-otv/>
 - <https://ipxe.org/>
@@ -108,8 +104,6 @@
 - <https://juju.is/model-driven-operations-manifesto>
 - <https://katacontainers.io/>
 - <https://katalon.com/resources-center/blog/continuous-delivery-vs-continuous-deployment>
-- <https://kubernetes.github.io/ingress-nginx/deploy/>
-- <https://kubernetes.github.io/ingress-nginx/deploy/>
 - <https://kubernetes.github.io/ingress-nginx/deploy/>
 - <https://kubernetes.github.io/ingress-nginx/deploy/baremetal/>
 - <https://kubernetes.github.io/ingress-nginx/examples/static-ip/>
@@ -125,13 +119,8 @@
 - <https://kubernetes.io/docs/concepts/services-networking/cluster-ip-allocation/>
 - <https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/>
 - <https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/>
-- <https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/>
 - <https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/>
 - <https://kubernetes.io/docs/concepts/services-networking/ingress/>
-- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
-- <https://kubernetes.io/docs/concepts/services-networking/service/#endpoints>
-- <https://kubernetes.io/docs/concepts/services-networking/service/>
-- <https://kubernetes.io/docs/concepts/services-networking/service/>
 - <https://kubernetes.io/docs/concepts/services-networking/service/>
 - <https://kubernetes.io/docs/concepts/workloads/pods/>
 - <https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/>
@@ -143,7 +132,6 @@
 - <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/>
 - <https://kubernetes.io/docs/reference/kubectl/>
 - <https://kubernetes.io/docs/reference/kubectl/cheatsheet/>
-- <https://kubernetes.io/docs/reference/networking/virtual-ips/>
 - <https://kubernetes.io/docs/reference/networking/virtual-ips/>
 - <https://kubernetes.io/docs/reference/setup-tools/kubeadm/>
 - <https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/>
@@ -163,7 +151,6 @@
 - <https://kubernetes.io/docs/tutorials/services/connect-applications-service/>
 - <https://kubernetes.io/docs/tutorials/services/source-ip/>
 - <https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/>
-- <https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/>
 - <https://kubevious.io/blog/post/comparing-kubernetes-container-network-interface-cni-providers>
 - <https://maas.io/docs/about-cloud-networking>
 - <https://maas.io/docs/about-dhcp>
@@ -178,8 +165,6 @@
 - <https://microk8s.io/docs/addon-easyhaproxy>
 - <https://microk8s.io/docs/addon-host-access>
 - <https://microk8s.io/docs/addon-ingress>
-- <https://microk8s.io/docs/addon-ingress>
-- <https://microk8s.io/docs/addon-ingress>
 - <https://microk8s.io/docs/addon-mayastor>
 - <https://microk8s.io/docs/addon-metallb>
 - <https://microk8s.io/docs/addon-minio>
@@ -187,7 +172,6 @@
 - <https://microk8s.io/docs/addon-rook-ceph>
 - <https://microk8s.io/docs/addons>
 - <https://microk8s.io/docs/change-cidr>
-- <https://microk8s.io/docs/clustering>
 - <https://microk8s.io/docs/clustering>
 - <https://microk8s.io/docs/configure-host-interfaces>
 - <https://microk8s.io/docs/explain-launch-config>
@@ -200,7 +184,6 @@
 - <https://microk8s.io/docs/troubleshooting>
 - <https://minikube.sigs.k8s.io/docs/start/>
 - <https://mir-server.io/ubuntu-frame>
-- <https://mobyproject.org/>
 - <https://mobyproject.org/>
 - <https://mqtt.org/>
 - <https://multipass.run/>
@@ -230,7 +213,6 @@
 - <https://rocket.readthedocs.io/en/latest/Documentation/devel/architecture/>
 - <https://rocket.readthedocs.io/en/latest/README/>
 - <https://rook.io/>
-- <https://rook.io/>
 - <https://shifu.dev/>
 - <https://snapcraft.io/microceph>
 - <https://superuser.com/questions/878807/how-to-boot-apple-mac-via-pxe-custom-mini-linux>
@@ -252,7 +234,6 @@
 - <https://ubuntu.com/engage/Embedding_IoT_GUI_with_Ubuntu_Frame>
 - <https://ubuntu.com/engage/secure-kubernetes-at-the-edge>
 - <https://ubuntu.com/kubernetes/charmed-k8s>
-- <https://ubuntu.com/kubernetes/install>
 - <https://ubuntu.com/kubernetes/install>
 - <https://ubuntu.com/openstack/install>
 - <https://ubuntu.com/openstack/pricing-calculator>
