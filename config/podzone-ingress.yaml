@@ -24,12 +24,6 @@ spec:
   - hosts:
     - musings.thruhere.net
     secretName: musings-cert
-  - hosts:
-    - control.southern.podzone.net
-    secretName: control-cert
-  - hosts:
-    - dashboard.southern.podzone.net
-    secretName: dashboard-cert
   rules:
   - host: musings.thruhere.net
     http:
@@ -56,9 +50,9 @@ spec:
       paths:
       - backend:
          service:
-           name: apache-service
+           name: kubernetes
            port:
-             number: 80
+             number: 443
         path: /
         pathType: Prefix
   - host: dashboard.southern.podzone.net
@@ -66,9 +60,9 @@ spec:
       paths:
       - backend:
          service:
-           name: apache-service
+           name: kubernetes-dashboard
            port:
-             number: 80
+             number: 443
         path: /
         pathType: Prefix
 

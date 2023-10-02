@@ -312,3 +312,4 @@
 - <https://www.wireguard.com/>
 - <https://www.youtube.com/watch?v=sK5i-N34im8> {Jérôme Petazzoni: Cgroups, namespaces, and beyond}
 
+- <https://vmwire.com/2022/02/07/running-kubernetes-dashboard-with-signed-certificates/>
