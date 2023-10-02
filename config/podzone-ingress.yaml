@@ -1,0 +1,74 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: podzone-ingress-class
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: k8s.io/ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podzone-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt
+spec:
+  ingressClassName: podzone-ingress-class
+  tls:
+  - hosts:
+    - qsolutions.endoftheinternet.org
+    secretName: qsolution-cert
+  - hosts:
+    - musings.thruhere.net
+    secretName: musings-cert
+  - hosts:
+    - control.southern.podzone.net
+    secretName: control-cert
+  - hosts:
+    - dashboard.southern.podzone.net
+    secretName: dashboard-cert
+  rules:
+  - host: musings.thruhere.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: apache-service
+           port:
+             number: 80
+        path: /
+        pathType: Prefix
+  - host: qsolutions.endoftheinternet.org
+    http:
+      paths:
+      - backend:
+         service:
+           name: apache-service
+           port:
+             number: 80
+        path: /
+        pathType: Prefix
+  - host: control.southern.podzone.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: apache-service
+           port:
+             number: 80
+        path: /
+        pathType: Prefix
+  - host: dashboard.southern.podzone.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: apache-service
+           port:
+             number: 80
+        path: /
+        pathType: Prefix
+

@@ -1,6 +1,5 @@
 # References
 
-
 - <http://linux-vserver.org/Paper>
 - <http://supervisord.org/>
 - <http://www.linuxvirtualserver.org/>
@@ -281,11 +280,51 @@
 - <https://askubuntu.com/questions/778392/install-second-network-interface-on-virtualized-ubuntu-server>
 - <https://www.devopstricks.in/deploy-apache-kubernetes/>
 - <https://metallb.org/>
-
-
-
-
-
-
-
-
+- <https://brewpackets.blog/2023/02/20/calico-and-metallb-working-together-with-bgp/>
+- <https://www.frakkingsweet.com/metallb-calico-bgp-loadbalancer-and-loadbalancer-ips/>
+- <https://www.adaltas.com/en/2022/09/08/kubernetes-metallb-nginx/>
+- <https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml>
+- <https://kubernetes.io/docs/reference/kubectl/cheatsheet/>
+- <https://spacelift.io/blog/kubectl-logs>
+- <https://phoenixnap.com/kb/microk8s-ingress>
+- <https://kubernetes.github.io/ingress-nginx/>
+- <https://stackoverflow.com/questions/62049953/microk8s-ingress-or-loadbalancer-not-working-in-local-single-node-cluster>
+- <https://kndrck.co/posts/microk8s_ingress_example/>
+- <https://raw.githubusercontent.com/kubernetes/ingress-nginx/130af33510882ae62c89277f2ad0baca50e0fafe/deploy/static/mandatory.yaml>
+- <https://github.com/kubernetes/ingress-nginx/blob/main/docs/deploy/index.md>
+- <https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md>
+- <https://kubernetes.github.io/ingress-nginx/deploy/baremetal/>
+- <https://kubernetes.github.io/ingress-nginx/deploy/rbac/>
+- <https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md>
+- <https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md>
+- <https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/custom-template.md>
+- <https://platform9.com/learn/v1.0/tutorials/nginix-controller-via-yaml>
+- <https://microk8s.io/docs/addon-cert-manager>
+- <https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md>
+- <https://kubernetes.github.io/ingress-nginx/user-guide/tls/>
+- <https://www.devopstricks.in/deploy-apache-kubernetes/>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
+- <https://docs.tigera.io/calico/latest/networking/configuring/workloads-outside-cluster>
+- <https://docs.tigera.io/calico/latest/networking/openstack/>
+- <https://metallb.org/usage/>
+- <https://www.adaltas.com/en/2022/09/08/kubernetes-metallb-nginx/>
+- <https://kubernetes.github.io/ingress-nginx/deploy/>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
+- <https://kndrck.co/posts/microk8s_ingress_example/>
+- <https://platform9.com/learn/v1.0/tutorials/nginix-controller-via-yaml>
+- <https://mvysny.github.io/microk8s-lets-encrypt/>
+- <https://microk8s.io/docs/addon-cert-manager>
+- <https://cert-manager.io/docs/configuration/acme/>
+- <https://cert-manager.io/docs/configuration/acme/dns01/>
+- <https://cert-manager.io/docs/configuration/acme/http01/>
+- <https://saturncloud.io/blog/how-to-log-in-to-the-microk8s-kubernetes-dashboard-a-guide-for-data-scientists/>
+- <https://www.linkedin.com/pulse/9-steps-enable-kubernetes-dashboard-microk8s-hendri-t/>
+- <https://www.getambassador.io/docs/edge-stack/latest/howtos/cert-manager>
+- <https://cloud.google.com/kubernetes-engine/docs/how-to/load-balance-ingress>
+- <https://cert-manager.io/docs/concepts/issuer/>
+- <https://www.getambassador.io/docs/edge-stack/latest/howtos/cert-manager#challenge>
+- <https://www.getambassador.io/docs/edge-stack/latest/howtos/cert-manager>
+- <https://microk8s.io/docs/addon-cert-manager>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
+- <https://mvysny.github.io/microk8s-lets-encrypt/>
+- <https://kubernetes.github.io/ingress-nginx/user-guide/tls/>

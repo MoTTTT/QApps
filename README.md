@@ -6,15 +6,43 @@
 - [X] Consumer Cloud definition
 - [X] Workload Success criteria
 - [X] MVP deliverables
-- [ ] Platform Build
+- [X] k8s cluster build
+- [X] Networking build
+- [X] Ingress Build
+- [X] Expose k8s dashboard
+- [X] Expose k8s API
 - [ ] Applications and Services
 
-## Tasklist: Platform build
+### Tasklist: k8s cluster build
 
-- [X] Build k8s cluster
-- [ ] Networking: Deploy and expose https service, accessable from the Internet
+- [X] james (upgrade RAM)
+- [X] sigiriya (upgrade disk)
+- [X] bukit
+- [ ] levant (snap issues)
 
-## Tasklists: Storage Applications and Services
+### Tasklist: Networking build
+
+- [X] Network design
+- [X] Refactor wired network
+- [X] Router config (port forward, dynamic dns)
+- [X] https certificate for (qsolutions.endoftheinternet.org)
+- [X] Load balancer (MetalLB)
+- [X] Router config (port forward, dynamic dns)
+
+### Tasklist: Ingress Build
+
+- [X] Certificate manager
+- [X] Certificates  for 4 X LetsEncrypt host certs
+- [X] Route to Apache
+- [ ] Route to k8s dashboard
+- [ ] Route to k8s API
+- [ ] Route to zope
+
+### Tasklist: k8s dashboard
+
+- [ ] `microk8s enable dashboard`
+
+### Tasklist: Storage Applications and Services
 
 - [ ] Consolidate assets into iCloud
 - [ ] Extract source into GitHub
@@ -22,7 +50,7 @@
 - [ ] Containerise Zope, including application code and config
 - [ ] Consolidate Web sites
 
-### Extract source into GitHub
+### Tasklist: Extract source into GitHub
 
 - [ ] Book: Telling; BA Colley
 - [ ] Book: Cannon Becket; AH Colley
@@ -60,6 +88,7 @@
 - Backup GitHub to Storage
 - IoT Edge presence on each premmise
 - Factor out failed tl-wr845n access point
+- Refactor wired network
 
 ### Consumer cloud
 
@@ -102,29 +131,26 @@ Operationalisation:
 
 ```mermaid
 ---
-title: southern.podzone.net Network Topology
+title: southern.podzone.net Network Topology, Original
 ---
-graph TD
+graph LR
 
 ISP --- ont
 ont --- router
-router ---|100MB| switch1
 router --- switch2
 router ---switch3
 router --- ap1
 router --- other2
-
+router --- workstation
+ap1 --- other1
+ap1 --- other2
+switch2 --- other1
+switch3 --- switch1
+switch3 --- other1
 switch1 <-->|1GB| k8s1
 switch1 <-->|1GB| k8s2
 switch1 <-->|1GB| k8s3
 switch1 <-->|1GB| k8s4
-
-switch2 --- workstation
-
-ap1 --- other2
-switch2 --- other1
-switch3 --- other1
-
 
 ont[[Daisan H665 GPON ONT]]
 router[[TP-LINK EC120-F5 Wireless Dual Band Router]]
@@ -141,33 +167,78 @@ k8s4{{sigiriya}}
 workstation(dolmen)
 ```
 
-
 ```mermaid
 ---
-title: southern.podzone.net Port forwarding
+title: southern.podzone.net Network Topology, Downsized
 ---
 graph LR
 
-clientExt1 -->|*.qsolutions.endoftheinternet.org| routerPort1
-clientExt2 -->|*.southern.podzone.net:443| routerPort2
-routerPort1 --> sigiriya
-routerPort2 --> james
+ISP --- ont
+ont --- router
+router ---|100MB| switch1
+
+router --- workstation
+router --- ap1
+router --- other2
+
+switch1 <-->|1GB| k8s1
+switch1 <-->|1GB| k8s2
+switch1 <-->|1GB| k8s3
+switch1 <-->|1GB| k8s4
+
+ap1 --- other1
+ap1 --- other2
+
+ont[[Daisan H665 GPON ONT]]
+router[[TP-LINK EC120-F5 Wireless Dual Band Router]]
+switch1[[TP-Link TL-SG1008D]]
+ap1[[TP-Link TL-WR845N]]
+other1(ethernet devices)
+other2(wifi devices)
+k8s1{{levant}}
+k8s2{{james}}
+k8s3{{bukit}}
+k8s4{{sigiriya}}
+workstation(dolmen)
+```
+
+```mermaid
+---
+title: southern.podzone.net Request Routing
+---
+graph LR
+
+clientExt1 --> routerPort1
+routerPort1 --> ovoo
+lbr --> ingress
+
+ingress -->|musings.thruhere.net| app1
+ingress -->|qsolutions.endoftheinternet.org| app4
+ingress -->|control.southern.podzone.net| app2
+ingress -->|dashboard.southern.podzone.net| app3
 
   subgraph Internet
     clientExt1([Internet Client])
-    clientExt2([Admin])
   end
   subgraph Router
-    routerPort1[[https]]
-    routerPort2[[kubectl]]
+    routerPort1[[port forward :443-> oovo:443]]
   end
   subgraph southern.podzone.net
-    subgraph james
-      microk8sW2{{k8s control}}
+    subgraph certificateManager
+      qsolutions
+      control
+      musings
+      dashboard
     end
-    subgraph sigiriya
-      microk8sW1{{k8s Worker}}
+    subgraph ovoo
+      lbr{{lbr}}
     end
+    ingress
+    app1(apache)
+    app4(zope)
+    app2(k8s control plane)
+    app3(k8s dashboard)
+
   end
 ```
 
@@ -223,14 +294,29 @@ ssh --- bukit
 - DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
 - DynDns: Dynamic DNS for ```*.southern.podzone.net```
 - DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
-- MetalLB: IP address range: 192.168.0.131-192.168.0.150
+- MetalLB: IP address range: 192.168.0.131-192.168.0.131
+
+### Ingress configuration
+
+- kubectl apply -f podzone-certificateIssuer.yaml
+- kubectl apply -f podzone-qsolutions-certificate.yaml
+- kubectl apply -f podzone-musings-certificate.yaml
+- kubectl apply -f podzone-dashboard-certificate.yaml
+- kubectl apply -f podzone-control-certificate.yaml
+- kubectl apply -f podzone-ingress.yaml 
 
 ### Node installations
 
 - Cleanup prep on each host: sudo snap remove microk8s
-- sudo snap install microk8s --classic
-- microk8s enable ingress
+- Ubuntu Server and Desktop: `sudo snap install microk8s --classic`
+- Ubuntu Core: `sudo snap install microk8s --channel=latest/edge/strict`
+- microk8s disable ingress: This does not set up the ingress controller, and namespace clashes when adding it - so disable
+- install ingress-nginx:
+- ```sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace```
+- microk8s enable metallb ; Set 192.168.0.131-192.168.0.131
 - k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+- microk8s enable cert-manager
+- microk8s enable rbac
 
 ### k8s node: sigiriya
 
@@ -265,6 +351,11 @@ ssh --- bukit
 - eth1 IP:
 - dolmen key exchange: ssh colleymj@james
 
+### k8s lbr: oovo
+
+- MetalLBR L2 (ARP) Load balancer
+- IP: 192.168.0.131
+
 ### k8s node: levant
 
 - Raspberry Pi 4 B
@@ -293,6 +384,8 @@ ssh --- bukit
 192.168.0.28 levant
 192.168.0.18 dolmen
 192.168.0.6  sigiriya
+192.168.0.131 ovoo
+192.168.0.132 inuksuk
 ```
 
 ### Appendix 2: wildcard hostnames
