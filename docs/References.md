@@ -313,3 +313,12 @@
 - <https://www.youtube.com/watch?v=sK5i-N34im8> {Jérôme Petazzoni: Cgroups, namespaces, and beyond}
 
 - <https://vmwire.com/2022/02/07/running-kubernetes-dashboard-with-signed-certificates/>
+- <https://blog.kubovy.eu/2020/05/16/retrieve-tls-certificates-from-kubernetes/>
+- <https://akyriako.medium.com/ssl-tls-for-kubernetes-with-cert-manager-and-lets-encrypt-87846ca74cb4>
+- <https://github.com/jetstack/kube-lego#kube-lego>
+- <https://itnext.io/how-to-expose-your-kubernetes-dashboard-with-cert-manager-422ab1e3bf30>
+- <https://docs.starlingx.io/security/kubernetes/install-the-kubernetes-dashboard.html>
+- <https://vmwire.com/2020/09/29/using-lets-encrypt-certificates-with-cloud-director/>
+
+- <https://betterprogramming.pub/strato-dyndns-controller-for-kubernetes-9a59ae426c5b>
+- <https://book.kubebuilder.io/>

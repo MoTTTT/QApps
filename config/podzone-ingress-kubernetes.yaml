@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podzone-ingressssl
+  namespace: kube-system
+  labels:
+    k8s-app: kubernetes-dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - control.southern.podzone.net
+    secretName: control-cert
+  - hosts:
+    - dashboard.southern.podzone.net
+    secretName: dashboard-cert
+  rules:
+  - host: control.southern.podzone.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: kubernetes
+           port:
+             number: 443
+        path: /
+        pathType: Prefix
+  - host: dashboard.southern.podzone.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: kubernetes-dashboard
+           port:
+             number: 443
+        path: /
+        pathType: Prefix
+

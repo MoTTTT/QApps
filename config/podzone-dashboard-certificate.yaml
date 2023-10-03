@@ -5,7 +5,7 @@ metadata:
   # cert-manager will put the resulting Secret in the same Kubernetes
   # namespace as the Certificate. You should create the certificate in
   # whichever namespace you want to configure a Host.
-  namespace: default
+  namespace: kube-system
 spec:
   secretName: dashboard-cert
   issuerRef:

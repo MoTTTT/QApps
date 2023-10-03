@@ -1,15 +1,4 @@
 apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  labels:
-    app.kubernetes.io/component: controller
-  name: podzone-ingress-class
-  annotations:
-    ingressclass.kubernetes.io/is-default-class: "true"
-spec:
-  controller: k8s.io/ingress-nginx
----
-apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: podzone-ingress
@@ -45,24 +34,3 @@ spec:
              number: 80
         path: /
         pathType: Prefix
-  - host: control.southern.podzone.net
-    http:
-      paths:
-      - backend:
-         service:
-           name: kubernetes
-           port:
-             number: 443
-        path: /
-        pathType: Prefix
-  - host: dashboard.southern.podzone.net
-    http:
-      paths:
-      - backend:
-         service:
-           name: kubernetes-dashboard
-           port:
-             number: 443
-        path: /
-        pathType: Prefix
-

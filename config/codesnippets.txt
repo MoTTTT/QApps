@@ -1,3 +1,20 @@
+kubectl -n kube-system describe certificate kubernetes-dashboard-stg
+
+dashboardview:$apr1$ml7f4qra$3l4yQY.c9Fn3vF400kL5c0
+
+kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:kubernetes-dashboard
+
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+
+
+kubectl -n kube-system logs -f $(kubectl -n kube-system get pods -l app=cert-manager -o jsonpath="{.items[0].metadata.name}") cert-manager
+kube-system describe certificate kubernetes-dashboard-stg
+
+
+kubectl -n legacy get secret wild.adyxax.org-cert -o json -o=jsonpath="{.data.tls\.crt}" | base64 -d > fullchain.cer
+kubectl -n legacy get secret wild.adyxax.org-cert -o json -o=jsonpath="{.data.tls\.key}" | base64 -d > adyxax.org.key
+
 kubectl logs  deployment/cert-manager  -n cert-manager
 
 sudo microk8s kubectl describe secret -n kube-system microk8s-dashboard-token
