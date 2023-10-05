@@ -1,3 +1,5 @@
+Observability has been enabled (user/pass: admin/prom-operator)
+
 kubectl -n kube-system describe certificate kubernetes-dashboard-stg
 
 dashboardview:$apr1$ml7f4qra$3l4yQY.c9Fn3vF400kL5c0
@@ -63,6 +65,7 @@ helm show values ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
 kubectl get L2Advertisement --all-namespaces -o yaml
 kubectl get ipaddresspool --all-namespaces -o yaml
 kubectl -n ingress-nginx get svc
+ kubectl describe pod cert-manager-5d6bc46969-xxxnt -n cert-manager
 
 http://sigiriya:30862/
 

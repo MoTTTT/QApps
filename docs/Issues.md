@@ -2,10 +2,10 @@
 
 ## Networking
 
+- [ ] Letsencrypt acme-challenge failing `"msg"="Certificate must be re-issued" "key"="default/qsolution-cert" "message"="Issuing certificate as Secret does not exist" `: Port 80 not port forwarded?
 - [X] Node IP Address not populating in ExternalIP for NodePort: Need to use MetalLB
 - [X] ingress-nginx-controller calls out to `google.com`, `fingerprints.bablosoft.com`, `ip.bablosoft.com` and `api.ipify.org`
 - [X] ingress-controller giving 404 error - not routing requests to back-end
-- [X] 
 - [X] Ingress controllers:
 - [X] Helm install: `helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx - [X] create-namespace`
 - [X] microk8s enable ingress: does not provision an ingress controller

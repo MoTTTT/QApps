@@ -322,3 +322,47 @@
 
 - <https://betterprogramming.pub/strato-dyndns-controller-for-kubernetes-9a59ae426c5b>
 - <https://book.kubebuilder.io/>
+- <https://go.dev/blog/using-go-modules>
+- <https://github.com/kubernetes-sigs/kubebuilder>
+- <https://book.kubebuilder.io/quick-start>
+
+- <https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#admin-privileges>
+- <https://octant.dev/>
+- <https://octant.dev/octant-reveals-objects-running-in-kubernetes-clusters/>
+
+- <https://jenkins-x.io/v3/admin/setup/secrets/vault/>
+- <https://jenkins-x.io/v3/admin/platforms/on-premises/vault/>
+
+- <https://microk8s.io/docs/addon-dashboard>
+
+- <https://kubernetes.io/docs/concepts/extend-kubernetes/operator/>
+- <https://kubernetes.io/docs/concepts/architecture/controller/>
+
+- <https://www.ansible.com/community>
+- <https://github.com/operator-framework/operator-sdk>
+- <https://github.com/ansible/awx-operator>
+- <https://github.com/ansible/awx/blob/devel/INSTALL.md>
+- <https://github.com/ansible/awx>
+
+- <https://medium.com/@olivier.gaumond/why-am-i-able-to-bind-a-privileged-port-in-my-container-without-the-net-bind-service-capability-60972a4d5496>
+- <https://blog.container-solutions.com/linux-capabilities-in-practice>
+- <https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work>
+- <https://stackoverflow.com/questions/63346728/issuing-certificate-as-secret-does-not-exist>
+
+- <https://cert-manager.io/docs/troubleshooting/>
+- <https://cert-manager.io/docs/troubleshooting/acme/>
+- <https://cert-manager.io/docs/usage/ingress/>
+- <https://www.cncf.io/blog/2023/07/03/kubernetes-logging-best-practices/>
+- <https://microk8s.io/docs/external-lma>
+- <https://github.com/kubernetes-sigs/metrics-server>
+- <https://github.com/prometheus/prometheus>
+- <https://prometheus.io/>
+- <https://vegastack.com/tutorials/how-to-install-prometheus-on-ubuntu-22-04/>
+- <https://www.cloudforecast.io/blog/node-exporter-and-kubernetes/>
+- <https://betterprogramming.pub/observability-with-microk8s-14c1f0ff5183>
+- <https://k9scli.io/>
+
+
+- <https://signoz.io/docs/install/kubernetes/others/>
+- <https://stackoverflow.com/questions/57683206/what-is-the-reverse-of-kubectl-apply>
+

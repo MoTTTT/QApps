@@ -9,8 +9,9 @@
 - [X] k8s cluster build
 - [X] Networking build
 - [X] Ingress Build
-- [X] Expose k8s dashboard
-- [X] Expose k8s API
+- [ ] Security
+- [ ] Expose k8s dashboard
+- [ ] Expose k8s API
 - [ ] Applications and Services
 
 ### Tasklist: k8s cluster build
@@ -38,9 +39,14 @@
 - [ ] Route to k8s API
 - [ ] Route to zope
 
+### Security
+
+- [ ] enable rbac
+- [ ] configure dashboard access
+- [ ] user management
+
 ### Tasklist: k8s dashboard
 
-- [ ] `microk8s enable dashboard`
 
 ### Tasklist: Storage Applications and Services
 
@@ -250,6 +256,7 @@ graph TD
  
 kubectl --- microk8sW2
 calicoctl --- microk8sW2
+k9s --- microk8sW2
 ssh --- james
 ssh --- levant
 ssh --- sigiriya
@@ -259,13 +266,11 @@ ssh --- bukit
         kubectl
         calicoctl
         ssh
+        k9s
       end
 
       subgraph k8s Cluster
         subgraph Control Plane
-          subgraph levant
-            microk8sC1{{k8s}}
-          end
           subgraph james
             microk8sW2{{k8s}}
           end
@@ -276,6 +281,9 @@ ssh --- bukit
         subgraph bukit
           microk8sC2{{k8s Worker Node 2}}
         end
+          subgraph levant
+            microk8sC1{{k8s}}
+          end
       end
 ```
 
@@ -294,29 +302,61 @@ ssh --- bukit
 - DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
 - DynDns: Dynamic DNS for ```*.southern.podzone.net```
 - DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
-- MetalLB: IP address range: 192.168.0.131-192.168.0.131
+- MetalLB: IP address range: 192.168.0.131-192.168.0.140
 
 ### Ingress configuration
 
-- kubectl apply -f podzone-certificateIssuer.yaml
-- kubectl apply -f podzone-qsolutions-certificate.yaml
-- kubectl apply -f podzone-musings-certificate.yaml
-- kubectl apply -f podzone-dashboard-certificate.yaml
-- kubectl apply -f podzone-control-certificate.yaml
-- kubectl apply -f podzone-ingress.yaml 
+- `kubectl apply -f podzone-certificateIssuer.yaml`
+- `kubectl apply -f podzone-qsolutions-certificate.yaml`
+- `kubectl apply -f podzone-musings-certificate.yaml`
+- `kubectl apply -f podzone-dashboard-certificate.yaml`
+- `kubectl apply -f podzone-control-certificate.yaml`
+- `kubectl apply -f podzone-ingress.yaml`
 
 ### Node installations
 
 - Cleanup prep on each host: sudo snap remove microk8s
 - Ubuntu Server and Desktop: `sudo snap install microk8s --classic`
 - Ubuntu Core: `sudo snap install microk8s --channel=latest/edge/strict`
-- microk8s disable ingress: This does not set up the ingress controller, and namespace clashes when adding it - so disable
-- install ingress-nginx:
-- ```sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace```
-- microk8s enable metallb ; Set 192.168.0.131-192.168.0.131
-- k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+
+- microk8s enable metallb ; Set 192.168.0.131-192.168.0.132
+- microk8s enable ingress
 - microk8s enable cert-manager
+
+- `kubectl create ingress my-ingress --annotation cert-manager.io/cluster-issuer=letsencrypt --rule 'my-service.example.com/*=my-service:80,tls=my-service-tls'`
+
+```sh
+kubectl apply -f podzone-ingress.yaml 
+kubectl apply -f podzone-apache.yaml 
+kubectl apply -f podzone-certificateIssuer.yaml
+kubectl apply -f podzone-qsolutions-certificate.yaml
+kubectl apply -f podzone-musings-certificate.yaml
+```
+
+- k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+
+- dashboard
+
+```bash
+enable dashboard
+kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
+token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
+kubectl -n kube-system describe secret $token
+```
+
+### deprecated / not clear
+
+- do not enable microk8s ingress: This does not set up the ingress controller, and namespace clashes when adding it - so disable if required
+
+- install ingress-nginx:
+
+- ```sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace```
+
 - microk8s enable rbac
+
+### Supporting Infrastructure
+
+- `sudo snap install prometheus`: Available on localhost:9090
 
 ### k8s node: sigiriya
 
