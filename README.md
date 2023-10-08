@@ -37,7 +37,7 @@
 - [X] Certificates  for 4 X LetsEncrypt host certs
 - [X] Route to Apache
 - [X] Route to k8s dashboard
-- [ ] Routhe to Search GUI
+- [ ] Route to Search GUI
 - [ ] Route to k8s API
 - [ ] Route to zope
 

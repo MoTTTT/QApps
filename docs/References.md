@@ -453,4 +453,32 @@
 - <https://www.wireguard.com/>
 - <https://www.wiz.io/blog/from-pod-security-policies-to-pod-security-standards-a-migration-guide>
 - <https://www.youtube.com/watch?v=sK5i-N34im8> {Jérôme Petazzoni: Cgroups, namespaces, and beyond}
-- 
+  
+- <https://shifu.dev/>
+- <https://linkerd.io/>
+- <https://traefik.io/traefik/>
+- <https://betterprogramming.pub/observability-with-microk8s-14c1f0ff5183>
+- <https://discuss.elastic.co/t/filebeat-not-able-to-find-logs-on-microk8/182023>
+- <https://www.deepnetwork.com/blog/2020/01/27/ELK-stack-filebeat-k8s-deployment.html>
+
+- <https://loft.sh/blog/kubernetes-persistent-volumes-examples-and-best-practices/>
+- <https://medium.com/@muneeburrehman2610/kubernetes-persistent-volume-for-beginners-a13cbe5bdeea>
+
+- <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/>
+- <https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/>
+- <https://kubernetes.io/docs/concepts/workloads/pods/>
+- <https://stackoverflow.com/questions/41325087/what-is-the-difference-between-a-pod-and-a-deployment>
+- <https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates>
+- <https://loft.sh/blog/kubernetes-persistent-volumes-examples-and-best-practices/>
+
+- <https://www.makeuseof.com/md-block-render-markdown-web-page/>
+
+- <https://blog.devgenius.io/setting-up-apache-airflow-on-kubernetes-with-gitsync-beaac2e397f3>
+- <https://airflow.apache.org/>
+
+- <https://stackoverflow.com/questions/51657271/passing-in-environment-variables-into-docker-running-in-kubernetes>
+
+- <https://github.com/kubernetes/git-sync>
+
+- <https://kodekloud.com/blog/kubectl-cp/>
+

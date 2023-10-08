@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-git-sync
+  labels:
+    app: apache-git-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache-git-sync
+  template:
+    metadata:
+      labels:
+        app: apache-git-sync
+    spec:
+      volumes:
+      - name: doc-root-volume
+        persistentVolumeClaim:
+          claimName: apache-volume-claim
+      containers:
+      - name: git-sync
+        image: openweb/git-sync
+        env:
+        - name: GIT_SYNC_REPO
+          value: ""
+        - name: GIT_SYNC_DEST
+          value: ""
+        - name: GIT_SYNC_BRANCH
+          value: ""
+        - name: GIT_SYNC_REV
+          value: ""
+          
+
+
+        ports:
+        - containerPort: 80
+        volumeMounts: 
+        - name: doc-root-volume
+          mountPath: /var/www/html
+
+
+    env:
+    - name: DEMO_GREETING
+      value: "Hello from the environment"
+    - name: DEMO_FAREWELL
+      value: "Such a sweet sorrow"
+
+
+docker run --name git-sync -d  \
+    -e GIT_SYNC_REPO=https://github.com/openweb-nl/website-static.git \
+    -e GIT_SYNC_DEST=/git \
+    -e GIT_SYNC_BRANCH=master \
+    -e GIT_SYNC_REV=FETCH_HEAD \
+    -e GIT_SYNC_WAIT=10 \
+    -v website_sources:/git openweb/git-sync:0.0.1
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gitsync-sidecar
+spec:
+  containers:
+    - name: git-sync
+      # This container pulls git data and publishes it into volume
+      # "content-from-git".  In that volume you will find a symlink
+      # "current" (see -dest below) which points to a checked-out copy of
+      # the master branch (see -branch) of the repo (see -repo).
+      # NOTE: git-sync already runs as non-root.
+      image: k8s.gcr.io/git-sync/git-sync:v3.3.4
+      args:
+        - --repo= <the git repo I wanna copy HTTPS link>
+        - --branch=master
+        - --depth=1
+        - --period=60
+        - --link=current
+        - --root=/git # I don't know what this means
+      volumeMounts:
+        - name: dbt-pv
+          mountPath: /git # I don't know what this means
+  volumes:
+  - name: dbt-pv
+    persistentVolumeClaim:
+      claimName: dbt-pvc
