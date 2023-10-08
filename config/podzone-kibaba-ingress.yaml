@@ -1,25 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress 
 metadata:
-  name: podzone-opensearch-ingress
-  namespace: default
+  name: podzone-kibana-ingress
+  namespace: kube-system
   annotations:
     cert-manager.io/cluster-issuer: lets-encrypt
 spec:
   ingressClassName: podzone-ingress-class
   tls:
   - hosts:
-    - opensearch.southern.podzone.net
-    secretName: opensearch-cert
+    - kibana.southern.podzone.net
+    secretName: kibana-cert
   rules:
-  - host: opensearch.southern.podzone.net
+  - host: kibana.southern.podzone.net
     http:
       paths:
       - backend:
           service:
-            name: dashboards-opensearch-dashboards
+            name: kibana-logging
             port:
               number: 5601
         path: /
         pathType: Prefix
-

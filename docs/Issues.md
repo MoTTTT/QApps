@@ -2,6 +2,10 @@
 
 ## Opensearch
 
+- Persistent data store issues: resolved by reproducing and fixing nfs issues externally
+- `OpenSearch Dashboards server is not ready yet`
+- `[opensearch-cluster-master-0] Not yet initialized (you may need to run securityadmin)  `
+
 ### Levant architecture
 
 ```text

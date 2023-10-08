@@ -505,3 +505,28 @@
 - <https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/README.md>
 - <https://kodekloud.com/blog/kubernetes-headless-service/>
 
+- <https://forum.opensearch.org/t/3-node-opensearch-cluster-not-able-initialized/13934>
+- <https://opensearch.org/docs/1.2/security-plugin/configuration/security-admin/>
+- <https://forum.opensearch.org/t/opensearch-dashboards-server-is-not-ready-yet/12970/2>
+
+- <https://kubernetes.io/docs/concepts/architecture/garbage-collection/>
+- <https://forum.opensearch.org/t/config-changes-not-applying/14547>
+- <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>
+- <https://kubernetes.io/docs/concepts/architecture/garbage-collection/>
+
+- <https://sourceforge.net/projects/ddclient/>
+- <https://help.ubuntu.com/community/DynamicDNS>
+- <https://manpages.ubuntu.com/manpages/xenial/en/man1/dyndns.1.html>
+- <https://opensearch.org/blog/setup-multinode-cluster-kubernetes/>
+- <https://opensearch.org/blog/exploring-opensearch-2-10/>
+- <https://opensearch.org/docs/latest/search-plugins/neural-search/>
+- <https://opensearch.org/docs/latest/>
+
+
+- <https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a>
+- <https://logz.io/blog/getting-started-with-kubernetes-using-microk8s/>
+- <https://docs.fluentd.org/container-deployment/kubernetes>
+- <https://docs.fluentd.org/v/0.12/articles/kubernetes-fluentd>
+
+- <https://inaccel.com/>
+

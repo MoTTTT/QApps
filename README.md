@@ -9,7 +9,7 @@
 - [X] k8s cluster build
 - [X] Networking build
 - [X] Ingress Build
-- [ ] Persistant storage
+- [X] Persistant storage
 - [ ] Security
 - [ ] Expose k8s API
 - [ ] Applications and Services
@@ -29,7 +29,7 @@
 - [X] https certificate for (qsolutions.endoftheinternet.org)
 - [X] Load balancer (MetalLB)
 - [X] Router config (port forward, dynamic dns)
-- [ ] DynDns WAN IP updates
+- [X] DynDns WAN IP updates
 
 ### Tasklist: Ingress Build
 
@@ -37,11 +37,13 @@
 - [X] Certificates  for 4 X LetsEncrypt host certs
 - [X] Route to Apache
 - [X] Route to k8s dashboard
+- [ ] Routhe to Search GUI
 - [ ] Route to k8s API
 - [ ] Route to zope
 
 ### Security
 
+- [ ] https for all external access
 - [ ] enable rbac
 - [ ] configure dashboard access
 - [ ] user management
@@ -106,8 +108,8 @@
 
 ## Workload success criteria
 
-- [ ] https access from on site browser
-- [ ] https access from off site browser
+- [X] https access from on site browser
+- [X] https access from off site browser
 - [ ] QApps application server: Generate and View accounting report, Add and view transaction.
 - [ ] Mail: Access Medico-Legal mail archive from 3rd party mac client
 - [ ] Web: Browse static sites
@@ -298,23 +300,20 @@ ansible --- ssh
 
 ```mermaid
 ---
-title: southern.podzone.net OpenSearch Installation
+title: southern.podzone.net Cluser External services
 ---
 graph TD
-
-subgraph Opensearch
-  subgraph bukit
-    master(role: master)
+subgraph  sigiriya
+  subgraph NFS for 
+    nfs-service1[(k8s Storage: /srv/nfs/k8s/)]
+    nfs-service[(/srv/nfs/)]
   end
-  subgraph james
-    client(role: remote-cluster-client)
-  end
-  subgraph sigiriya
-    data(role: data)
+  subgraph DynDns Updater
+    *.southern.podzone.net
+    *.musings.thruhere.net
+    *.qsolutions.endoftheinternet.org
   end
 end
-
-
 ```
 
 ### Architecture decisions
