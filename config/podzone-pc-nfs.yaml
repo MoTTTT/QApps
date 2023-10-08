@@ -1,4 +1,4 @@
-# sc-nfs.yaml
+# podzone-pc-nfs.yaml
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -7,7 +7,7 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.0.6
-  share: /srv/nfs
+  share: /srv/nfs/k8s
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:

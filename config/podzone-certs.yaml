@@ -45,3 +45,36 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - qsolutions.endoftheinternet.org
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: control-cert
+  # cert-manager will put the resulting Secret in the same Kubernetes
+  # namespace as the Certificate. You should create the certificate in
+  # whichever namespace you want to configure a Host.
+  namespace: default
+spec:
+  secretName: control-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - control.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dashboard-cert
+  # cert-manager will put the resulting Secret in the same Kubernetes
+  # namespace as the Certificate. You should create the certificate in
+  # whichever namespace you want to configure a Host.
+  namespace: kube-system
+spec:
+  secretName: dashboard-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - dashboard.southern.podzone.net
+  

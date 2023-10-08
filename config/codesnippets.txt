@@ -1,3 +1,32 @@
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=opensearch-dashboards,app.kubernetes.io/instance=dashboards" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+
+
+
+token=$(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)  kubectl -n kube-system describe secret $token
+
+- `kubectl create ingress my-ingress --annotation cert-manager.io/cluster-issuer=letsencrypt --rule 'my-service.example.com/*=my-service:80,tls=my-service-tls'`
+
+kubectl logs --selector app=csi-nfs-controller -n kube-system -c nfs
+kubectl logs --selector app=csi-nfs-node -n kube-system -c nfs
+
+sudo apt install linux-modules-extra-raspi
+
+
+
+To allow IP to be assigned via DHCP simply use:
+
+config.vm.network "public_network"
+This way you don't need to deal with mac address, it will be generated on its own. If you need custom mac address attached to the network device then:
+
+config.vm.network "public_network", :mac=> "080027xxxxxx"
+
+
+
 Observability has been enabled (user/pass: admin/prom-operator)
 
 kubectl -n kube-system describe certificate kubernetes-dashboard-stg

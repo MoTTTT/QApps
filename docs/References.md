@@ -362,7 +362,146 @@
 - <https://betterprogramming.pub/observability-with-microk8s-14c1f0ff5183>
 - <https://k9scli.io/>
 
+- <https://prometheus.io/docs/instrumenting/exporters/>
+- <https://prometheus.io/docs/introduction/overview/>
+- <https://www.cloudforecast.io/blog/node-exporter-and-kubernetes/>
+- <https://prometheus.io/docs/prometheus/latest/configuration/configuration/>
+- <https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/>
+- <https://www.vagrantup.com/>
+- <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-index>
+- <https://developer.hashicorp.com/vagrant/intro>
+- <https://www.linkedin.com/pulse/ansible-k8s-raspberry-pi-jens-fuchs/>
+- <https://github.com/kubernetes-sigs/kubespray>
+- <https://kubespray.io/#/>
+- <https://blogs.vmware.com/teamfusion/2021/09/fusion-for-m1-public-tech-preview-now-available.html>
+- <https://stackoverflow.com/questions/12538162/setting-a-vms-mac-address-in-vagrant>
+- <https://discuss.hashicorp.com/t/vagrant-multiple-vms-with-unique-ip-address-on-public-network-using-dhcp/36374>
+- <https://github.com/hashicorp/vagrant/issues/9200>
+- <https://blog.verbat.com/ansible-vs-vagrant-how-they-compare-and-which-one-should-you-use/>
+- <https://k3s.io/>
+- <https://docs.k3s.io/installation>
+- <https://get.k3s.io/>
+- <https://medium.com/thinkport/how-to-build-a-raspberry-pi-kubernetes-cluster-with-k3s-76224788576c>
 
 - <https://signoz.io/docs/install/kubernetes/others/>
 - <https://stackoverflow.com/questions/57683206/what-is-the-reverse-of-kubectl-apply>
+
+- <https://www.openhab.org/docs/installation/openhabian.html>
+
+- <https://askubuntu.com/questions/1455839/ubunto-core-22-04-raspberry-pi-linux-modules-extra-raspi>
+- <https://dev.to/shandesai/provision-your-raspberry-pi-4-cluster-with-ansible-2j8m>
+- <https://www.theurbanpenguin.com/an-ansible-microk8s-install-of-kubernetes/>
+
+- <https://www.weave.works/docs/net/latest/kubernetes/kube-addon/>
+
+- <https://github.com/kubernetes/dashboard/issues/3322>
+
+- <https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/>
+- <https://prometheus.io/docs/prometheus/latest/configuration/configuration/>
+- <https://prometheus.io/docs/introduction/overview/>
+- <https://linuxhint.com/install_prometheus_ubuntu/>
+- <https://computingforgeeks.com/install-prometheus-server-on-debian-ubuntu-linux/?expand_article=1>
+- <https://prometheus.io/docs/prometheus/latest/getting_started/>
+- <https://microk8s.io/docs/external-lma>
+- <https://github.com/prometheus/node_exporter>
+- <https://github.com/kubernetes-sigs/prometheus-adapter>
+
+- <https://logz.io/blog/getting-started-with-kubernetes-using-microk8s/>
+
+- <https://docs.fluentd.org/v/0.12/articles/kubernetes-fluentd>
+- <https://docs.fluentd.org/v/0.12/articles/monitoring-prometheus>
+
+- <https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a>
+- <https://opensearch.org/blog/setup-multinode-cluster-kubernetes/>
+- <https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/values.yaml>
+- <https://www.cncf.io/blog/2023/07/03/kubernetes-logging-best-practices/>
+- <https://kubernetes.io/docs/concepts/cluster-administration/system-logs/>
+- <https://www.datadoghq.com/dg/logs/kubernetes/>
+- <https://cert-manager.io/docs/installation/>
+- <https://cert-manager.io/docs/usage/ingress/>
+- <https://cert-manager.io/docs/troubleshooting/>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/#examples>
+- <https://kubernetes.io/docs/concepts/services-networking/service/>
+- <https://stackoverflow.com/questions/63346728/issuing-certificate-as-secret-does-not-exist>
+- <https://blog.container-solutions.com/linux-capabilities-in-practice>
+- <https://docs.ansible.com/ansible/latest/collections/community/general/snap_module.html>
+- <https://kubernetes.io/docs/concepts/architecture/controller/>
+- <https://github.com/ansible/awx>
+- <https://github.com/ansible/awx/blob/devel/INSTALL.md>
+- <https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html#plugins-in-ansible-builtin>
+- <https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#control-node-requirements>
+- <https://www.ansible.com/overview/how-ansible-works>
+- <https://www.ansible.com/community>
+- <https://jenkins-x.io/v3/about/what/>
+- <https://jenkins-x.io/v3/admin/setup/secrets/vault/>
+- <https://jenkins-x.io/v3/about/how-it-works/#git-operator>
+- <https://jenkins-x.io/v3/about/overview/>
+- <https://jenkins-x.io/>
+
+- <https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#admin-privileges>
+- <https://microk8s.io/docs/addon-dashboard>
+- <https://kubernetes.io/docs/concepts/services-networking/ingress/>
+
+- <https://microk8s.io/docs/addon-fluentd>
+- <https://logz.io/blog/getting-started-with-kubernetes-using-microk8s/>
+
+- <https://www.server-world.info/en/note?os=Ubuntu_20.04&p=microk8s&f=5>
+
+- <https://microk8s.io/docs/addon-hostpath-storage>
+
+- <https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/>
+- <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/>
+- <https://helm.sh/docs/helm/helm_uninstall/>
+- <https://stackoverflow.com/questions/55780083/error-no-persistent-volumes-available-for-this-claim-and-no-storage-class-is-se>
+- <https://forum.opensearch.org/t/kubernetes-opensearch-deployment-persistentvolume-controller-no-persistent-volumes-available-for-this-claim-and-no-storage-class-is-set/8876>
+- <https://byte.builders/blog/post/deploy-opensearch-with-opensearch-dashboards-in-gke/>
+
+- <https://stackoverflow.com/questions/51358856/kubernetes-cant-delete-persistentvolumeclaim-pvc        >
+- <https://komodor.com/learn/how-to-fix-crashloopbackoff-kubernetes-error/>
+- <https://stackoverflow.com/questions/46351051/permission-denied-when-chown-on-elasticsearch-data-directory-in-kubernetes-state>
+- <https://github.com/pires/kubernetes-elasticsearch-cluster/issues/205>
+- <https://medium.com/nerd-for-tech/getting-started-with-kubernetes-pod-security-context-and-policy-26619529a64b>
+- <https://www.wiz.io/blog/from-pod-security-policies-to-pod-security-standards-a-migration-guide>
+
+- <https://stackoverflow.com/questions/42793382/exec-commands-on-kubernetes-pods-with-root-access>
+- <https://github.com/jordanwilson230/kubectl-plugins>
+- <https://saturncloud.io/blog/solving-kubernetes-nfs-persistent-volumes-permission-denied-a-guide/>
+- <https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/>
+- <https://www.datree.io/resources/kubernetes-troubleshooting-fixing-persistentvolumeclaims-error>
+- <https://discuss.hashicorp.com/t/0-3-nodes-are-available-pod-has-unbound-immediate-persistentvolumeclaims/51642>
+- <https://saturncloud.io/blog/solving-the-pod-has-unbound-immediate-persistentvolumeclaims-issue-in-kubernetes-nfs-volume/>
+- <https://github.com/elastic/helm-charts/issues/137>
+- <https://serverfault.com/questions/906083/how-to-mount-volume-with-specific-uid-in-kubernetes-pod>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/>
+- <https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/Enabling-network-NFS-shares-in-Mac-OS-X.html>
+- <https://stackoverflow.com/questions/20819786/nfsnobody-user-privileges>
+- <https://stackoverflow.com/questions/51445846/elasticsearch-max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-inc>
+- <https://serverfault.com/questions/870483/nfs-and-all-squash-confusions>
+- <https://linux.die.net/man/5/exports>
+- <https://www.howtoforge.com/setting-up-an-nfs-server-and-client-on-centos-5.5>
+- <https://stackoverflow.com/questions/20819786/nfsnobody-user-privileges>
+- <https://saturncloud.io/blog/solving-kubernetes-nfs-persistent-volumes-permission-denied-a-guide>
+- <https://www.cyberciti.biz/faq/apple-mac-osx-nfs-mount-command-tutorial/>
+- <https://www.purestorage.com/br/knowledge/what-is-nfs-data-store.html>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/>
+- <https://stackoverflow.com/questions/43544370/kubernetes-how-to-set-volumemount-user-group-and-file-permissions>
+- <https://stackoverflow.com/questions/46351051/permission-denied-when-chown-on-elasticsearch-data-directory-in-kubernetes-state>
+- <https://medium.com/avmconsulting-blog/persistent-volumes-pv-and-claims-pvc-in-kubernetes-bd76923a61f6>
+- <https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/>
+- <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>
+- <https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/>
+
+
+- <https://opensearch.org/blog/exploring-opensearch-2-10/>
+- <https://opensearch.org/downloads.html>
+- <https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/remote-store/index/>
+- <https://www.civo.com/academy/kubernetes-volumes/introduction-kubernetes-remote-storage>
+- <https://cloudian.com/guides/kubernetes-storage/kubernetes-storage-101-concepts-and-best-practices/>
+- <https://kubernetes.io/docs/concepts/overview/components/>
+- <https://kubernetes.io/docs/concepts/storage/>
+- <https://tharangarajapaksha.medium.com/backup-options-in-kubernetes-deployment-f301a9464c96>
+- <https://opensearch.org/docs/latest/>
+- <https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/README.md>
+- <https://kodekloud.com/blog/kubernetes-headless-service/>
 

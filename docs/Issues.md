@@ -1,8 +1,41 @@
 # Issues
 
+## Opensearch
+
+### Levant architecture
+
+```text
+Fatal glibc error: This version of Amazon Linux requires a newer ARM64 processor compliant with at least ARM architecture 8.2-a with cryptographic extensions. 
+On EC2 this is Graviton 2 or later.
+```
+
+- Prevent pod scheduling onto Levant `kubectl taint nodes levant key1=value1:NoSchedule`
+
+### Persistent Storage permissions
+
+```text
+[2023-10-07T08:47:23,800][INFO ][o.o.s.OpenSearchSecurityPlugin] [opensearch-cluster-master-0] Disabled https compression by default to mitigate BREACH attacks. You can enable it by setting 'http.compression: true' in opensearch.yml
+[2023-10-07T08:47:23,803][INFO ][o.o.e.ExtensionsManager  ] [opensearch-cluster-master-0] ExtensionsManager initialized 
+[2023-10-07T08:47:23,825][ERROR][o.o.b.OpenSearchUncaughtExceptionHandler] [opensearch-cluster-master-0] uncaught exception in thread [main]
+       org.opensearch.bootstrap.StartupException: OpenSearchException[failed to bind service]; nested: AccessDeniedException[/usr/share/opensearch/data/nodes];       
+```
+
+- PersistentVolumeCLaim error: `no persistent volumes available for this claim and no storage class is set  `
+- chown failure: `  enableInitChown: false`
+
+- set up nfs server to use no_
+
+### vm.max_map_count
+
+- `[1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]`
+
+- Temporary: `sysctl -w vm.max_map_count=262144`
+- Permanent: Add `vm.max_map_count = 262144` to /etc/sysctl.conf
+
+
 ## Networking
 
-- [ ] Letsencrypt acme-challenge failing `"msg"="Certificate must be re-issued" "key"="default/qsolution-cert" "message"="Issuing certificate as Secret does not exist" `: Port 80 not port forwarded?
+- [X] Letsencrypt acme-challenge failing `"msg"="Certificate must be re-issued" "key"="default/qsolution-cert" "message"="Issuing certificate as Secret does not exist" `: Use helm ingress controller installation, nit `microk8s enable ingress`
 - [X] Node IP Address not populating in ExternalIP for NodePort: Need to use MetalLB
 - [X] ingress-nginx-controller calls out to `google.com`, `fingerprints.bablosoft.com`, `ip.bablosoft.com` and `api.ipify.org`
 - [X] ingress-controller giving 404 error - not routing requests to back-end
@@ -13,7 +46,7 @@
 
 ## Raspberry Pi
 
-- [ ] Levant: microk8s on RPi (Ubuntu Server) not/intermittently supported:
+- [X] Levant: microk8s on RPi (Ubuntu Server) not/intermittently supported:
 
 ```text
 error: snap "microk8s" is not available on stable for
@@ -21,7 +54,7 @@ error: snap "microk8s" is not available on stable for
        architectures (amd64, arm64, ppc64el).
 ```
 
-- [ ] Levant: microk8s on RiPi (Ubuntu Core) intermittently supported:
+- [X] Levant: microk8s on RiPi (Ubuntu Core) intermittently supported:
 
 ```text
 martinjcolley@levant:~$ snap install microk8s --channel=latest/edge/strict

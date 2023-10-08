@@ -9,8 +9,8 @@
 - [X] k8s cluster build
 - [X] Networking build
 - [X] Ingress Build
+- [ ] Persistant storage
 - [ ] Security
-- [ ] Expose k8s dashboard
 - [ ] Expose k8s API
 - [ ] Applications and Services
 
@@ -19,7 +19,7 @@
 - [X] james (upgrade RAM)
 - [X] sigiriya (upgrade disk)
 - [X] bukit
-- [ ] levant (snap issues)
+- [X] levant
 
 ### Tasklist: Networking build
 
@@ -29,13 +29,14 @@
 - [X] https certificate for (qsolutions.endoftheinternet.org)
 - [X] Load balancer (MetalLB)
 - [X] Router config (port forward, dynamic dns)
+- [ ] DynDns WAN IP updates
 
 ### Tasklist: Ingress Build
 
 - [X] Certificate manager
 - [X] Certificates  for 4 X LetsEncrypt host certs
 - [X] Route to Apache
-- [ ] Route to k8s dashboard
+- [X] Route to k8s dashboard
 - [ ] Route to k8s API
 - [ ] Route to zope
 
@@ -44,9 +45,6 @@
 - [ ] enable rbac
 - [ ] configure dashboard access
 - [ ] user management
-
-### Tasklist: k8s dashboard
-
 
 ### Tasklist: Storage Applications and Services
 
@@ -255,36 +253,68 @@ title: southern.podzone.net On-premise workstation connectivity
 graph TD
  
 kubectl --- microk8sW2
-calicoctl --- microk8sW2
-k9s --- microk8sW2
+calicoctl --- kubectl
+
+k9s --- kubectl
 ssh --- james
-ssh --- levant
 ssh --- sigiriya
 ssh --- bukit
+ssh --- anasazi
+ssh --- levant
+
+ansible --- ssh
 
       subgraph dolmen workstation
         kubectl
         calicoctl
         ssh
         k9s
+        ansible
       end
 
-      subgraph k8s Cluster
+      subgraph microk8s Cluster
         subgraph Control Plane
           subgraph james
-            microk8sW2{{k8s}}
+            microk8sW2{{microk8s}}
           end
         end
         subgraph sigiriya
-          microk8sW1{{k8s Worker Node 1}}
+          microk8sW1{{microk8s}}
         end
         subgraph bukit
-          microk8sC2{{k8s Worker Node 2}}
+          microk8sC2{{microk8s}}
         end
-          subgraph levant
-            microk8sC1{{k8s}}
-          end
       end
+      
+      subgraph k3s Cluster
+        subgraph levant
+          k3s1{{k3s}}
+        end
+        subgraph anasazi
+          k3s2{{k3s}}
+        end
+      end
+```
+
+```mermaid
+---
+title: southern.podzone.net OpenSearch Installation
+---
+graph TD
+
+subgraph Opensearch
+  subgraph bukit
+    master(role: master)
+  end
+  subgraph james
+    client(role: remote-cluster-client)
+  end
+  subgraph sigiriya
+    data(role: data)
+  end
+end
+
+
 ```
 
 ### Architecture decisions
@@ -292,6 +322,7 @@ ssh --- bukit
 - Microk8s Kubernetes distribution
 - Build tools (kubectl, calicoctl, ansible etc) on dolmen workstation
 - k8s IOT Edge on levant RPi
+- Use nfs on sigiriya for persistent storage
 
 ### Network configuration
 
@@ -315,25 +346,24 @@ ssh --- bukit
 
 ### Node installations
 
-- Cleanup prep on each host: sudo snap remove microk8s
+- For levant, to fix calico vxlan missing dependency: `sudo apt install linux-modules-extra-raspi`
+- Add to /boot/firmware/cmdline.txt: `cgroup_enable=memory cgroup_memory=1 net.ifnames=1 `
 - Ubuntu Server and Desktop: `sudo snap install microk8s --classic`
 - Ubuntu Core: `sudo snap install microk8s --channel=latest/edge/strict`
-
-- microk8s enable metallb ; Set 192.168.0.131-192.168.0.132
-- microk8s enable ingress
-- microk8s enable cert-manager
-
-- `kubectl create ingress my-ingress --annotation cert-manager.io/cluster-issuer=letsencrypt --rule 'my-service.example.com/*=my-service:80,tls=my-service-tls'`
+- `sudo microk8s enable metallb ; Set 192.168.0.131-192.168.0.132`
+- Not: `sudo microk8s enable ingress`
+- But: `sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace`
+- `sudo microk8s enable cert-manager`
 
 ```sh
-kubectl apply -f podzone-ingress.yaml 
 kubectl apply -f podzone-apache.yaml 
-kubectl apply -f podzone-certificateIssuer.yaml
-kubectl apply -f podzone-qsolutions-certificate.yaml
-kubectl apply -f podzone-musings-certificate.yaml
+kubectl apply -f podzone-certs.yaml 
+kubectl apply -f podzone-secure-ingress.yaml
 ```
 
 - k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+
+- `kubectl taint nodes levant key1=value1:NoSchedule`
 
 - dashboard
 
@@ -357,6 +387,22 @@ kubectl -n kube-system describe secret $token
 ### Supporting Infrastructure
 
 - `sudo snap install prometheus`: Available on localhost:9090
+- Persistent storage: `microk8s helm3 repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+microk8s helm3 repo update`
+- Persistent storage: `microk8s helm3 install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --set kubeletDir=/var/snap/microk8s/common/var/lib/kubelet`
+- /etc/exports: `/srv/nfs/k8s  192.168.0.0/24(rw,all_squash,sync,no_subtree_check)`
+- `chmod -R 777 /srv/nfs`
+- `chown -R nobody:nogroup /srv/nfs`
+
+## Opensearch
+
+- Edit `https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/values.yaml` for opensearch-bukit.yaml, opensearch-james.yaml, opensearch-sigiriya.yaml
+- `sudo microk8s helm repo add opensearch https://opensearch-project.github.io/helm-charts/`
+- `sudo microk8s helm install opensearch-master opensearch/opensearch -f opensearch-bukit.yaml`
+- `sudo microk8s helm install opensearch-client opensearch/opensearch -f opensearch-james.yaml `
+- `sudo microk8s helm install opensearch-data opensearch/opensearch -f opensearch-sigiriya.yaml`
+- `sudo microk8s  helm install dashboards opensearch/opensearch-dashboards`
+
 
 ### k8s node: sigiriya
 
@@ -404,6 +450,14 @@ kubectl -n kube-system describe secret $token
 - Ubuntu Core 22
 - IP: 192.168.0.28
 
+### IOT device anasazi
+
+- Raspberry Pi 3
+- Quad Core 1.2GHz Broadcom BCM2837 64bit CPU
+- 1GB RAM
+- IP: 192.168.0.11
+- MAC: B8-27-EB-BE-0D-EB
+
 ### Admin Client: dolmen
 
 - MacBook Pro
@@ -419,11 +473,12 @@ kubectl -n kube-system describe secret $token
 - Add `/private/etc/hosts` for Mac clients
 
 ```text
-192.168.0.52 bukit
-192.168.0.27 james
-192.168.0.28 levant
-192.168.0.18 dolmen
-192.168.0.6  sigiriya
+192.168.0.6   sigiriya
+192.168.0.11  anasazi
+192.168.0.18  dolmen
+192.168.0.27  james
+192.168.0.28  levant
+192.168.0.52  bukit
 192.168.0.131 ovoo
 192.168.0.132 inuksuk
 ```
@@ -436,3 +491,13 @@ kubectl -n kube-system describe secret $token
 - control.podzone.net
 - northern.podzone.net
 - eastern.podzone.net
+
+### Appendix 3: /etc/exports on nfs server
+
+Support for kubernetes persistent storage: provide `k8s` export subdirectory, with all_squash
+
+```text
+srv/nfs      192.168.0.0/24(rw,all_squash,sync,no_subtree_check)
+/srv/nfs/k8s  192.168.0.0/24(rw,all_squash,sync,no_subtree_check)
+/srv/nfs/mac  192.168.0.0/24(rw,all_squash,sync,no_subtree_check)
+```
