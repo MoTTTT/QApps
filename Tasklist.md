@@ -39,7 +39,7 @@ Each of these are further decomposed below:
 - [X] Route to k8s dashboard
 - [X] Route to Search GUI : Cancelled
 - [ ] Route to k8s API
-- [ ] Route to zope
+- [X] Route to zope
 
 ## Security
 
@@ -54,7 +54,7 @@ Each of these are further decomposed below:
 - [ ] Extract source into GitHub
 - [ ] Extract Zope zexp files and check in
 - [ ] Containerise Zope, including application code and config
-- [ ] Consolidate Web sites
+- [X] Consolidate Web sites
 
 ## Tasklist: Extract source into GitHub
 
