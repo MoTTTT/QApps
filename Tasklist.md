@@ -59,8 +59,8 @@ Each of these are further decomposed below:
 ## Tasklist: Extract source into GitHub
 
 - [X] Book: Telling; BA Colley
-- [ ] Book: Cannon Becket; AH Colley
-- [ ] Book: All the Saints; AH Colley
+- [X] Book: Cannon Becket; AH Colley
+- [X] Book: All the Saints; AH Colley
 - [ ] Code: MicroNode assets
 - [ ] Code: BHC assets
 - [ ] Code: Archve/Backup search

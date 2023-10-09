@@ -268,6 +268,7 @@ end
 - DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
 - DynDns: Dynamic DNS for ```*.southern.podzone.net```
 - DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
+- To solve http redirect issues: qapps.does-it.net
 
 ### Ingress configuration
 

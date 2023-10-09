@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: podzone-plone-ingress
+  annotations:
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: https://qsolutions.endoftheinternet.org/$1
+    nginx.ingress.kubernetes.io/rewrite-target: /VirtualHostBase/https/qsolutions.endoftheinternet.org:443/VirtualHostRoot/$1
+spec:
+  ingressClassName: podzone-ingress-class
+  tls:
+  - hosts:
+    - qsolutions.endoftheinternet.org
+    secretName: qsolution-cert
+  rules:
+  - host: qsolutions.endoftheinternet.org
+    http:
+      paths:
+      - backend:
+         service:
+           name: plone-service
+           port:
+             number: 8080
+        path: /(.*)
+#        path: /
+        pathType: Prefix

@@ -482,3 +482,9 @@
 
 - <https://kodekloud.com/blog/kubectl-cp/>
 
+- <https://blog.frankel.ch/hard-things-computer-science/>
+- <https://www.rancher.com/>
+- <https://www.rancher.com/products/k3s>
+- <https://hub.docker.com/_/plone>
+- <https://6.docs.plone.org/install/containers/images/index.html>
+- <https://bluedynamics.com/blog/jens/the-zope-2-virtualhostmonster-how-it-works-internally.html>

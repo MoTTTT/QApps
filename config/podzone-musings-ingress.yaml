@@ -8,23 +8,10 @@ spec:
   ingressClassName: podzone-ingress-class
   tls:
   - hosts:
-    - qsolutions.endoftheinternet.org
-    secretName: qsolution-cert
-  - hosts:
     - musings.thruhere.net
     secretName: musings-cert
   rules:
   - host: musings.thruhere.net
-    http:
-      paths:
-      - backend:
-         service:
-           name: apache-service
-           port:
-             number: 80
-        path: /
-        pathType: Prefix
-  - host: qsolutions.endoftheinternet.org
     http:
       paths:
       - backend:
