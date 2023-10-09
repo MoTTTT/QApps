@@ -1,3 +1,11 @@
+
+kubectl exec apache-bf4996969-qnmqf -- rm -R /var/www/html/telling
+kubectl cp ~/workspace/telling/site/ apache-bf4996969-qnmqf:/tmp/telling/
+kubectl exec apache-bf4996969-qnmqf -- chown -R nobody:nogroup  /tmp/telling/
+kubectl exec apache-bf4996969-qnmqf -- mv /tmp/telling  /var/www/html
+
+
+
 <!DOCTYPE html>
 <html>
 <head>

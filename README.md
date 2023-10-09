@@ -1,76 +1,11 @@
 # Consumer Cloud Zone 1: southern.podzone.net
 
-## Tasklists
-
-- [X] Business brief
-- [X] Consumer Cloud definition
-- [X] Workload Success criteria
-- [X] MVP deliverables
-- [X] k8s cluster build
-- [X] Networking build
-- [X] Ingress Build
-- [X] Persistant storage
-- [ ] Security
-- [ ] Expose k8s API
-- [ ] Applications and Services
-
-### Tasklist: k8s cluster build
-
-- [X] james (upgrade RAM)
-- [X] sigiriya (upgrade disk)
-- [X] bukit
-- [X] levant
-
-### Tasklist: Networking build
-
-- [X] Network design
-- [X] Refactor wired network
-- [X] Router config (port forward, dynamic dns)
-- [X] https certificate for (qsolutions.endoftheinternet.org)
-- [X] Load balancer (MetalLB)
-- [X] Router config (port forward, dynamic dns)
-- [X] DynDns WAN IP updates
-
-### Tasklist: Ingress Build
-
-- [X] Certificate manager
-- [X] Certificates  for 4 X LetsEncrypt host certs
-- [X] Route to Apache
-- [X] Route to k8s dashboard
-- [ ] Route to Search GUI
-- [ ] Route to k8s API
-- [ ] Route to zope
-
-### Security
-
-- [ ] https for all external access
-- [ ] enable rbac
-- [ ] configure dashboard access
-- [ ] user management
-
-### Tasklist: Storage Applications and Services
-
-- [ ] Consolidate assets into iCloud
-- [ ] Extract source into GitHub
-- [ ] Extract Zope zexp files and check in
-- [ ] Containerise Zope, including application code and config
-- [ ] Consolidate Web sites
-
-### Tasklist: Extract source into GitHub
-
-- [ ] Book: Telling; BA Colley
-- [ ] Book: Cannon Becket; AH Colley
-- [ ] Book: All the Saints; AH Colley
-- [ ] Code: MicroNode assets
-- [ ] Code: BHC assets
-- [ ] Code: Archve/Backup search
-
 ## Business Brief
 
-## Business Brief: As-is
+### Business Brief: As-is
 
 - Services include QApps Accounting, and line of business functions for property syndication, and property rental closed corporates.
-- These are currently running in an Ubuntu VirtualBox client instance hosted on an Ubuntu host.
+- These are currently running in an Ubuntu VirtualBox client instance hosted on an Ubuntu host (bukit).
 - Also running in the VirtualBox client is a mail server, serving a static email archive.
 - An Apache server is running at OS level on the Ubuntu host, serving static web pages.
 - The Ubuntu host runs on-premise, connected to the internet via a fibre router.
@@ -81,7 +16,7 @@
 - Backups are stored on premise, distributed across hosts, with ad-hoc manual copy onto off-premmise media
 - Assets (various ownership and type, including images, videos, and documents) are stored on premise, distributed across hosts, with ad-hoc manual copy onto off-premmise media
 
-## Business Brief: To-be
+### Business Brief: To-be
 
 - Consolidation of web apps and content
 - Zope and Postgresql forklift (only config)
@@ -320,19 +255,19 @@ end
 
 - Microk8s Kubernetes distribution
 - Build tools (kubectl, calicoctl, ansible etc) on dolmen workstation
-- k8s IOT Edge on levant RPi
+- k8s IOT Edge on anasazi RPi
 - Use nfs on sigiriya for persistent storage
 
 ### Network configuration
 
 - Fibre router: Static IPs for control plane and worker nodes
 - Fibre router: (As-is) Dynamic DNS for ```qsolutions.endoftheinternet.org```
-- Fibre router: Port forwarding: 443 to k8s service endpoint (As-is goes to dolmen)
+- Fibre router: Port forwarding: 443 to k8s L2 loadbalancer (As-is goes to dolmen)
 - Fibre router: Restrict DHCP IP allocation range for clients to `192.168.0.2 - 192.168.0.120`
+- MetalLB: IP address range: `192.168.0.131-192.168.0.140`
 - DynDns: Add wildcard for ```*.qsolutions.endoftheinternet.org```
 - DynDns: Dynamic DNS for ```*.southern.podzone.net```
 - DynDns: Update `*.southern.podzone.net` IP address using ddclient on levant
-- MetalLB: IP address range: 192.168.0.131-192.168.0.140
 
 ### Ingress configuration
 
@@ -358,6 +293,8 @@ end
 kubectl apply -f podzone-apache.yaml 
 kubectl apply -f podzone-certs.yaml 
 kubectl apply -f podzone-secure-ingress.yaml
+podzone-control-ingress
+
 ```
 
 - k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
