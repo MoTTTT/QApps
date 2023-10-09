@@ -5,6 +5,9 @@
 - Persistent data store issues: resolved by reproducing and fixing nfs issues externally
 - `OpenSearch Dashboards server is not ready yet`
 - `[opensearch-cluster-master-0] Not yet initialized (you may need to run securityadmin)  `
+- Cluster not starting up, all pods up
+- High RAM utilisation, removing until workload is deployed.
+- Tested with fluentd (mikrok8s enable community first)
 
 ### Levant architecture
 
@@ -27,7 +30,7 @@ On EC2 this is Graviton 2 or later.
 - PersistentVolumeCLaim error: `no persistent volumes available for this claim and no storage class is set  `
 - chown failure: `  enableInitChown: false`
 
-- set up nfs server to use no_
+- Reproduce on direct nfs mount on domlen, fine tuned /etc/exports with `all_squash`
 
 ### vm.max_map_count
 
@@ -64,6 +67,8 @@ error: snap "microk8s" is not available on stable for
 martinjcolley@levant:~$ snap install microk8s --channel=latest/edge/strict
 error: snap "microk8s" requires classic confinement which is only available on classic systems
 ```
+
+- [ ] Opensearch deploy fails to RPi arch: `kubectl taint nodes levant key1=value1:NoSchedule`
 
 ## Dolmen
 

@@ -288,37 +288,30 @@ end
 - Not: `sudo microk8s enable ingress`
 - But: `sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace`
 - `sudo microk8s enable cert-manager`
+- k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
+- If required to prevent deployment to RPi arch (e.g. Opensearch): `kubectl taint nodes levant key1=value1:NoSchedule`
+- `sudo microk8s enable dashboard`
+- `sudo microk8s enable rbac`
+
+### Application installation (to be automated)
+
+- To set up persistent data store: podzone-pc-nfs.yaml
+- To set up web server: podzone-apache.yaml
+- To set up site certificates: podzone-certs.yaml
+- To set up ingress class, and test: podzone-non-secure-ingress.yaml
+- To set up external (internet) kubectl access: podzone-control-ingress.yaml
+- To set up k8s dashboard external access: podzone-dashboard-ingress.yaml
+- To swith web to https: podzone-secure-ingress.yaml
 
 ```sh
-kubectl apply -f podzone-apache.yaml 
-kubectl apply -f podzone-certs.yaml 
+kubectl apply -f podzone-pc-nfs.yaml
+kubectl apply -f podzone-apache.yaml
+kubectl apply -f podzone-certs.yaml
+kubectl apply -f podzone-non-secure-ingress.yaml
+kubectl apply -f podzone-control-ingress.yaml
+kubectl apply -f podzone-dashboard-ingress.yaml
 kubectl apply -f podzone-secure-ingress.yaml
-podzone-control-ingress
-
 ```
-
-- k8s Persistant volumes: NFS, set up on sigiriya with access from `192.168.0.0/24`
-
-- `kubectl taint nodes levant key1=value1:NoSchedule`
-
-- dashboard
-
-```bash
-enable dashboard
-kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
-token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
-kubectl -n kube-system describe secret $token
-```
-
-### deprecated / not clear
-
-- do not enable microk8s ingress: This does not set up the ingress controller, and namespace clashes when adding it - so disable if required
-
-- install ingress-nginx:
-
-- ```sudo microk8s helm upgrade --install ingress-nginx ingress-nginx   --repo https://kubernetes.github.io/ingress-nginx   --namespace ingress-nginx --create-namespace```
-
-- microk8s enable rbac
 
 ### Supporting Infrastructure
 
@@ -330,7 +323,7 @@ microk8s helm3 repo update`
 - `chmod -R 777 /srv/nfs`
 - `chown -R nobody:nogroup /srv/nfs`
 
-## Opensearch
+### Opensearch
 
 - Edit `https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/values.yaml` for opensearch-bukit.yaml, opensearch-james.yaml, opensearch-sigiriya.yaml
 - `sudo microk8s helm repo add opensearch https://opensearch-project.github.io/helm-charts/`
@@ -339,6 +332,7 @@ microk8s helm3 repo update`
 - `sudo microk8s helm install opensearch-data opensearch/opensearch -f opensearch-sigiriya.yaml`
 - `sudo microk8s  helm install dashboards opensearch/opensearch-dashboards`
 
+## Hardware
 
 ### k8s node: sigiriya
 
