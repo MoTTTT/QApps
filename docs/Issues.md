@@ -1,5 +1,13 @@
 # Issues
 
+## Zope
+
+- Currently (and since before the 2016 install) zope comes bundled with plone
+- Plone current installs Zope 4
+- `Zope 4 is a successor to Zope 2.13, making many changes that are not backwards compatible with Zope 2.`
+- Zope 2 still available, last updated 2010: <https://old.zope.dev/Products/Zope/folder_contents>
+- Docker images for Zope 2 are available, e.g. <https://hub.docker.com/r/eeacms/zope-2-10-5>
+
 ## Opensearch
 
 - Persistent data store issues: resolved by reproducing and fixing nfs issues externally

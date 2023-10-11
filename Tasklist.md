@@ -28,8 +28,7 @@ Each of these are further decomposed below:
 - [X] Router config (port forward, dynamic dns)
 - [X] https certificate for (qsolutions.endoftheinternet.org)
 - [X] Load balancer (MetalLB)
-- [X] Router config (port forward, dynamic dns)
-- [X] DynDns WAN IP updates
+- [X] DynDns WAN IP updates (ddclient)
 
 ## Tasklist: Ingress Build
 
@@ -55,6 +54,15 @@ Each of these are further decomposed below:
 - [ ] Extract Zope zexp files and check in
 - [ ] Containerise Zope, including application code and config
 - [X] Consolidate Web sites
+
+### Breakdown: Containerise Zope, including application code and config
+
+- [X] Plone Service and Deployment
+- [X] Plone ingress for qsolutions.endoftheinternet.org
+- [X] Ingress rewrite rules for Zope Virtual Host Monster
+- [ ] Plone ZPsycopgDA installation (containerInit?)
+- [ ] Postgress Service and Deployment
+- [ ] Postgress ingress?
 
 ## Tasklist: Extract source into GitHub
 

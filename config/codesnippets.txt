@@ -1,3 +1,22 @@
+Github token for jenkinsx: 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
+
+kubectl create secret docker-registry regcred --docker-server=<docker-server> --docker-username=<username> --docker-password=<password> --docker-email=<email>
+
+
+
+Zope volume mounts:
+./var/filestorage
+./var/blobstorage
+./products
+
+dd if=/dev/zero of=/media/fasthdd/swapfile.img bs=1024 count=1M
+dd if=/dev/zero of=/swapfile8G bs=1024 count=8M
+dd if=/dev/zero of=/swapfile16G bs=1024 count=16M
+dd if=/dev/zero of=/swapfile32G bs=1024 count=32M
+
+chmod 0600 swapfile16G
+
+mkswap swapfile16G
 
 kubectl exec apache-bf4996969-qnmqf -- rm -R /var/www/html/telling
 kubectl cp ~/workspace/telling/site/ apache-bf4996969-qnmqf:/tmp/telling/
