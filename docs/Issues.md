@@ -7,12 +7,13 @@
 - `Zope 4 is a successor to Zope 2.13, making many changes that are not backwards compatible with Zope 2.`
 - Zope 2 still available, last updated 2010: <https://old.zope.dev/Products/Zope/folder_contents>
 - Docker images for Zope 2 are available, e.g. <https://hub.docker.com/r/eeacms/zope-2-10-5>
+- Check also <https://github.com/plone/cookiecutter-zope-instance>
 
 ## Opensearch
 
 - Persistent data store issues: resolved by reproducing and fixing nfs issues externally
 - `OpenSearch Dashboards server is not ready yet`
-- `[opensearch-cluster-master-0] Not yet initialized (you may need to run securityadmin)  `
+- `[opensearch-cluster-master-0] Not yet initialized (you may need to run securityadmin)`
 - Cluster not starting up, all pods up
 - High RAM utilisation, removing until workload is deployed.
 - Tested with fluentd (mikrok8s enable community first)
@@ -35,8 +36,8 @@ On EC2 this is Graviton 2 or later.
        org.opensearch.bootstrap.StartupException: OpenSearchException[failed to bind service]; nested: AccessDeniedException[/usr/share/opensearch/data/nodes];       
 ```
 
-- PersistentVolumeCLaim error: `no persistent volumes available for this claim and no storage class is set  `
-- chown failure: `  enableInitChown: false`
+- PersistentVolumeCLaim error: `no persistent volumes available for this claim and no storage class is set`
+- chown failure: `enableInitChown: false`
 
 - Reproduce on direct nfs mount on domlen, fine tuned /etc/exports with `all_squash`
 
@@ -47,10 +48,9 @@ On EC2 this is Graviton 2 or later.
 - Temporary: `sysctl -w vm.max_map_count=262144`
 - Permanent: Add `vm.max_map_count = 262144` to /etc/sysctl.conf
 
-
 ## Networking
 
-- [X] Letsencrypt acme-challenge failing `"msg"="Certificate must be re-issued" "key"="default/qsolution-cert" "message"="Issuing certificate as Secret does not exist" `: Use helm ingress controller installation, nit `microk8s enable ingress`
+- [X] Letsencrypt acme-challenge failing `"msg"="Certificate must be re-issued" "key"="default/qsolution-cert" "message"="Issuing certificate as Secret does not exist"`: Use helm ingress controller installation, nit `microk8s enable ingress`
 - [X] Node IP Address not populating in ExternalIP for NodePort: Need to use MetalLB
 - [X] ingress-nginx-controller calls out to `google.com`, `fingerprints.bablosoft.com`, `ip.bablosoft.com` and `api.ipify.org`
 - [X] ingress-controller giving 404 error - not routing requests to back-end

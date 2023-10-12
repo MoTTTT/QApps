@@ -189,6 +189,8 @@
 - <https://www.server-world.info/en/note?os=Ubuntu_20.04&p=microk8s&f=5>
 - <https://virtualizationreview.com/articles/2019/01/30/microk8s-part-2-how-to-monitor-and-manage-kubernetes.aspx>
 - <https://cloud.redhat.com/blog/introducing-the-operator-framework>
+- <https://kubernetes.io/docs/concepts/extend-kubernetes/operator/>
+- <https://www.middlewareinventory.com/blog/kubernetes-sidecar-logging-with-fluentd-to-efk/>
 
 ## Other
 
@@ -485,3 +487,20 @@
 - <https://www.mkdocs.org/user-guide/configuration/>
 - <https://github.com/fralau/mkdocs-mermaid2-plugin>
 - <https://helm.sh/docs/intro/quickstart/>
+- <https://mia-platform.eu/>
+- <https://www.getport.io/>
+- <https://www.portainer.io/>
+- <https://www.upbound.io/>
+- <https://wkrzywiec.medium.com/how-to-deploy-application-on-kubernetes-with-helm-39f545ad33b8>
+- <https://github.com/GoogleContainerTools/kaniko>
+- <https://hub.docker.com/_/plone/>
+- <https://www.psycopg.org/psycopg3/docs/basic/install.html>
+- <https://zpsycopgda.readthedocs.io/en/latest/installation.html>
+- <https://www.postgresql.org/download/linux/ubuntu/>
+- <https://github.com/plone/cookiecutter-zope-instance>
+- <https://hub.docker.com/r/eeacms/zope-2-7-2>
+- <https://jenkins-x.io/v3/admin/platforms/on-premises/>
+- <https://squidfunk.github.io/mkdocs-material/publishing-your-site/>
+- <https://joshua-robinson.medium.com/elasticsearch-kubernetes-and-persistent-volumes-f763d9054e54>
+- <https://medium.com/01001101/enhance-your-docker-image-build-pipeline-with-kaniko-567afb6cf97c>
+- <https://www.adminer.org/>

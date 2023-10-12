@@ -1,3 +1,7 @@
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+
 Github token for jenkinsx: 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
 
 kubectl create secret docker-registry regcred --docker-server=<docker-server> --docker-username=<username> --docker-password=<password> --docker-email=<email>
