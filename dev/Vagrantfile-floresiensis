@@ -9,13 +9,14 @@ Vagrant.configure("2") do |config|
      vb.gui = false
      vb.name = "floresiensis"
      vb.memory = "20484"
+  config.vm.synced_folder "../data", "/vagrant_data"
   end
   config.vm.provision "shell", inline: <<-SHELL
     useradd -m colleymj
     mkdir /home/colleymj/.ssh
     chown colleymj:colleymj /home/colleymj/.ssh
     chmod 700 /home/colleymj/.ssh
-    cat ../id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
+    cat /vagrant_data/id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
     echo "192.168.0.5  denisova" >> /etc/hosts
     echo "192.168.0.16 rudolfensis" >> /etc/hosts
     echo "192.168.0.17 ergaster" >> /etc/hosts
