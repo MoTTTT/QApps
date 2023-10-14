@@ -2,6 +2,8 @@
 
 ansible-inventory -i inventory.yaml --list
 
+ansible virtualmachines -m ping -i inventory.yaml
+
 microk8s join 192.168.0.16:25000/dd56b31b5c7a89a3879285c3c9343007/8a2a138b5b91
  microk8s join 192.168.0.16:25000/b7286e27bbb48285ab477b749af9bdcd/8a2a138b5b91
 
