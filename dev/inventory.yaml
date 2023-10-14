@@ -6,3 +6,5 @@ virtualmachines:
       ansible_host: 92.168.0.16
     ergaster:
       ansible_host: 192.168.0.17
+    floresiensis:
+      ansible_host: 192.168.0.19

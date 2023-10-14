@@ -1,3 +1,5 @@
+
+
 ansible-inventory -i inventory.yaml --list
 
 microk8s join 192.168.0.16:25000/dd56b31b5c7a89a3879285c3c9343007/8a2a138b5b91
