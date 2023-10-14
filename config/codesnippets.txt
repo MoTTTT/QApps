@@ -8,6 +8,7 @@ microk8s join 192.168.0.16:25000/2736e9043b3eb6d4cd170ae91010ff43/8a2a138b5b91
  vagrant init techchad2022/ubuntu2204
 vagrant up
 useradd -p <password> <username>
+vagrant destroy
 
 #!/bin/bash
 mkdocs build
