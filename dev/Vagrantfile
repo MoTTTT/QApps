@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
        vb.memory = "20484"
     end
     floresiensis.vm.provision "shell", inline: $script
-    SHELL
   end
   config.vm.define "denisova" do |denisova|
     denisova.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.5", :mac => "08002719876B"
