@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "techchad2022/ubuntu2204"
+  config.vm.network "public_network", ip: "192.168.0.19", :mac => "0800278AAAC5"
+  config.vm.hostname = "floresiensis"
+  config.vm.provider "vb" do |vb|
+     vb.gui = false
+     vb.name = "floresiensis"
+     vb.memory = "20484"
+  config.vm.synced_folder ".", "/vagrant_data"
+  end
+  config.vm.provision "shell", inline: <<-SHELL
+    useradd -m colleymj
+    mkdir /home/colleymj/.ssh
+    chown colleymj:colleymj /home/colleymj/.ssh
+    chmod 700 /home/colleymj/.ssh
+    cat /vagrant_data/id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
+    echo "192.168.0.5  denisova" >> /etc/hosts
+    echo "192.168.0.16 rudolfensis" >> /etc/hosts
+    echo "192.168.0.17 ergaster" >> /etc/hosts
+    echo "192.168.0.19 floresiensis" >> /etc/hosts
+  SHELL
+end
