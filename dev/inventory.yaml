@@ -1,10 +1,12 @@
 virtualmachines:
   hosts:
     denisova:
-      ansible_host: 192.168.0.5
+      ansible_host: denisova
     rudolfensis:
-      ansible_host: 92.168.0.16
+      ansible_host: rudolfensis
     ergaster:
-      ansible_host: 192.168.0.17
+      ansible_host: ergaster
     floresiensis:
-      ansible_host: 192.168.0.19
+      ansible_host: floresiensis
+  vars:
+    ansible_user: colleymj
