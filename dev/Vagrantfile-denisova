@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "techchad2022/ubuntu2204"
+  #config.vm.network "public_network", type: "dhcp"
+  #config.vm.base_mac: 08-00-27-19-87-6B
+  #config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "public_network", ip: "192.168.0.5", :mac => "0800271CB87E"
+
+  config.vm.hostname = "denisova"
+
+  config.vm.provider "vb" do |vb|
+     vb.gui = false
+     vb.name = "denisova"
+     vb.memory = "20484"
+  end
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    SHELL
+end

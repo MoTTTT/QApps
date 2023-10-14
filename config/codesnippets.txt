@@ -1,3 +1,24 @@
+ansible-inventory -i inventory.yaml --list
+
+microk8s join 192.168.0.16:25000/dd56b31b5c7a89a3879285c3c9343007/8a2a138b5b91
+ microk8s join 192.168.0.16:25000/b7286e27bbb48285ab477b749af9bdcd/8a2a138b5b91
+
+microk8s join 192.168.0.16:25000/2736e9043b3eb6d4cd170ae91010ff43/8a2a138b5b91
+ 
+ vagrant init techchad2022/ubuntu2204
+vagrant up
+useradd -p <password> <username>
+
+#!/bin/bash
+mkdocs build
+apachepod=`kubectl get pods -n default -o json |jq -r .items[].metadata.name | grep apache`
+kubectl exec -n default $apachepod -- rm -R /var/www/html/podzone
+kubectl -n default cp ~/workspace/podzone/site/ $apachepod:/tmp/podzone/
+kubectl exec -n default $apachepod -- chown -R nobody:nogroup  /tmp/podzone/
+kubectl exec -n default $apachepod -- mv /tmp/podzone  /var/www/html
+
+
+
 source <(kubectl completion bash)
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 

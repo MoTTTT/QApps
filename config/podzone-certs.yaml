@@ -18,9 +18,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: musings-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: default
 spec:
   secretName: musings-cert
@@ -34,9 +31,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: qsolution-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: default
 spec:
   secretName: qsolution-cert
@@ -50,9 +44,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: control-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: default
 spec:
   secretName: control-cert
@@ -66,9 +57,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: dashboard-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: kube-system
 spec:
   secretName: dashboard-cert
@@ -82,9 +70,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: opensearch-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: kube-system
 spec:
   secretName: opensearch-cert
@@ -98,9 +83,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: kibana-cert
-  # cert-manager will put the resulting Secret in the same Kubernetes
-  # namespace as the Certificate. You should create the certificate in
-  # whichever namespace you want to configure a Host.
   namespace: kube-system
 spec:
   secretName: kibana-cert
@@ -109,4 +91,30 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - kibana.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: db-cert
+  namespace: kube-system
+spec:
+  secretName: db-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - db.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: docs-cert
+  namespace: kube-system
+spec:
+  secretName: docs-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - docs.southern.podzone.net
 
