@@ -17,10 +17,10 @@
     - name: "Add K8S join command to a dummy host"
       add_host:
         name: "K8S_JOIN_HOLDER"
-        command: "{{ join_command + ' --worker' }}"
+        command: "{{ join_command + ' ' }}"
 
 - name: "Execute the join command in a worker node"
-  hosts: rudolfensis
+  hosts: ergaster
   become: true
   tasks:
     - name: "Debug: Printing the join command"
