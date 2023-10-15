@@ -1,3 +1,5 @@
+ANSIBLE_HOST_KEY_CHECKING=false ansible all -m ping -i inventory.yaml
+
 sudo snap install microk8s --channel=1.28/stable --classic
 
 usermod -a -G sudo colleymj
