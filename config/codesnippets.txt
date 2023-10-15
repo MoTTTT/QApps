@@ -1,8 +1,67 @@
+sudo snap install microk8s --channel=1.28/stable --classic
 
+usermod -a -G sudo colleymj
+
+echo vagrant ALL=NOPASSWD:ALL > /etc/sudoers.d/vagrant
+
+echo colleymj ALL=NOPASSWD:ALL > /etc/sudoers.d/colleymj
+
+dmsetup ls
+sudo lvdisplay
+lsblk --output NAME,KNAME,TYPE,SIZE,MOUNTPOINT
+
+sudo dmsetup info ubuntu--vg-ubuntu--lv
+
+lvdisplay
+
+pvdisplay
+
+sudo microceph disk add --wipe "/dev/sdb1"
+
+sudo mount -t auto /dev/sdb2 /mt/sdb1
+
+./apfs-fuse /dev/sdb2 /mt/sdb1
+
+sudo ceph status
+sudo microceph disk list
+
+https://docs.ceph.com/en/quincy/rados/operations/pools/#create-a-pool
+
+ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]] [replicated] [crush-rule-name] [expected-num-objects]
+
+ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]]   erasure [erasure-code-profile] [crush-rule-name] [expected_num_objects] [--autoscale-mode=<on,off,warn>]
+
+rbd
+
+ceph osd pool create rbd 128 128
+
+sudo microceph.ceph config set global osd_pool_default_size 2                               
+sudo microceph.ceph config set mgr mgr_standby_modules false                                                                                                                                                      
+sudo microceph.ceph config set osd osd_crush_chooseleaf_type 0
+
+  loop_file="$(sudo mktemp -p /mnt XXXX.img)"
+  sudo truncate -s 10G "${loop_file}"
+  loop_dev="$(sudo losetup --show -f "${loop_file}")"
+  minor="${loop_dev##/dev/loop}"
+  sudo mknod -m 0660 "/dev/sdib" b 7 "${minor}"
+  sudo microceph disk add --wipe "/dev/sdib"
+
+
+sudo microk8s connect-external-ceph --ceph-conf ceph.conf --keyring ceph.keyring --rbd-pool rbd
+sudo microk8s kubectl --namespace rook-ceph-external get cephcluster
+
+
+kubectl rollout status deployment/postgres
+/mnt/vagrant-kubernetes 192.168.50.0/24(rw,sync,no_subtree_check,insecure,no_root_squash)
+
+export QAPPS_PASSWORD="<password>"
+envsubst < podzone-db.yaml | kubectl apply -f -
+
+ansible-playbook -i inventory.yaml playbook.yaml
 
 ansible-inventory -i inventory.yaml --list
 
-ansible virtualmachines -m ping -i inventory.yaml
+ansible devcluster -m ping -i inventory.yaml
 
 microk8s join 192.168.0.16:25000/dd56b31b5c7a89a3879285c3c9343007/8a2a138b5b91
  microk8s join 192.168.0.16:25000/b7286e27bbb48285ab477b749af9bdcd/8a2a138b5b91

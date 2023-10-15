@@ -1,0 +1,15 @@
+- name: sudo without password
+  hosts: devcluster
+  become: true
+  copy:
+    dest: /etc/sudoers.d/dont-prompt-ubuntu_user-for-sudo-password
+    content: 'ubuntu ALL=(ALL) NOPASSWD:ALL'
+---
+- name: Install Microk8s
+  hosts: devcluster
+  tasks:
+    - name: Install microk8s
+      snap:
+        name: microk8s
+        state: present
+        classic: yes

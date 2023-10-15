@@ -1,4 +1,4 @@
-virtualmachines:
+devcluster:
   hosts:
     denisova:
       ansible_host: denisova

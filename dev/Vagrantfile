@@ -6,6 +6,7 @@ mkdir /home/colleymj/.ssh
 chown colleymj:colleymj /home/colleymj/.ssh
 chmod 700 /home/colleymj/.ssh
 cat /vagrant_data/id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
+usermod -a -G sudo colleymj
 echo "192.168.0.5  denisova" >> /etc/hosts
 echo "192.168.0.16 rudolfensis" >> /etc/hosts
 echo "192.168.0.17 ergaster" >> /etc/hosts
@@ -23,6 +24,7 @@ Vagrant.configure("2") do |config|
        vb.memory = "20484"
     end
     floresiensis.vm.provision "shell", inline: $script
+    floresiensis.vm.provision "file", source: "~/pathfolder", destination: "/remote/newlocation/"
   end
   config.vm.define "denisova" do |denisova|
     denisova.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.5", :mac => "08002719876B"
