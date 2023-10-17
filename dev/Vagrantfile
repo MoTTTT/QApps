@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     floresiensis.vm.provider "vb" do |vb|
        vb.gui = false
        vb.name = "floresiensis"
-       vb.memory = "2048"
+       vb.memory = 2048
     end
     floresiensis.vm.provision "shell", inline: $script
   end
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     denisova.vm.provider "vb" do |vb|
        vb.gui = false
        vb.name = "denisova"
-       vb.memory = "2048"
+       vb.memory = 2048
     end
     denisova.vm.provision "shell", inline: $script
   end
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
     rudolfensis.vm.provider "vb" do |vb|
        vb.gui = false
        vb.name = "rudolfensis"
-       vb.memory = "2048"
+       vb.memory = 2048
     end
     rudolfensis.vm.provision "shell", inline: $script
   end
@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
     ergaster.vm.provider "vb" do |vb|
        vb.gui = false
        vb.name = "ergaster"
-       vb.memory = "2048"
+       vb.memory = 2048
     end
     ergaster.vm.provision "shell", inline: $script
   end

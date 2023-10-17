@@ -1,3 +1,7 @@
+sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
+
+k9s --insecure-skip-tls-verify=true
+
 ANSIBLE_HOST_KEY_CHECKING=false ansible all -m ping -i inventory.yaml
 
 sudo snap install microk8s --channel=1.28/stable --classic
