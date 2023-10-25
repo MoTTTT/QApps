@@ -1,3 +1,72 @@
+sudo nmcli connection add type bridge con-name 'Bridge' ifname bridge0
+sudo nmcli connection add type ethernet slave-type bridge con-name 'Ethernet' ifname eth0 master bridge0
+sudo nmcli connection add con-name 'Hotspot' ifname wlan0 type wifi slave-type bridge master bridge0 wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk wifi-sec.proto rsn wifi-sec.pairwise ccmp wifi-sec.psk 61519400
+
+
+
+
+sudo nmcli connection add type ethernet slave-type bridge   con-name 'Ethernet' ifname eth0 master bridge0
+
+sudo nmcli connection add con-name 'Hotspot'  \
+   ifname wlan0 type wifi slave-type bridge master bridge0  \
+   wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk  \
+   wifi-sec.proto rsn wifi-sec.pairwise ccmp     wifi-sec.psk 61519400
+
+
+
+sudo nmcli device wifi hotspot ssid podzone password xxx11111
+
+sudo nmcli connection add con-name 'Hotspot' \
+    ifname wlan0 type wifi slave-type bridge master bridge0 \
+    wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk \
+    wifi-sec.proto rsn wifi-sec.pairwise ccmp \
+    wifi-sec.psk <hotspot-password>
+
+
+raspberry pi set swapfile
+sudo nano /etc/dphys-swapfile: set CONF_SWAPSIZE=2048
+sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+
+kubectl get secret ceph-cert -o json | jq -r '.data.["tls.key"]' | base64 -d >seph.key
+kubectl get secret ceph-cert -o json | jq -r '.data.["tls.crt"]' | base64 -d >seph.crt
+
+sudo ceph mgr module enable dashboard
+
+sudo ceph dashboard set-ssl-certificate -i - < /home/colleymj/ceph/seph.crt
+sudo ceph dashboard set-ssl-certificate-key -i - < /home/colleymj/ceph/seph.key
+
+ceph config set mgr mgr/dashboard/server_addr 192.168.0.6
+
+sudo ceph config set mgr mgr/dashboard/server_port 8080
+ceph config set mgr mgr/dashboard/ssl_server_port 8081
+
+ceph dashboard ac-user-create colleymj -i <file-containing-password> administrator
+
+echo <> |sudo ceph dashboard ac-user-create colleymj -i - administrator
+
+Get endpoint (because setting the IP and port above did not work...):
+sudo ceph mgr services
+
+
+mount.ceph name@07fe3187-00d9-42a3-814b-72a4d5e7d5be.fs_name=/ /mnt/mycephfs -o mon_addr=1.2.3.4
+
+
+sudo microceph status
+sudo ceph status  {note ceph status, without sudo fails unable to find keyring}  
+sudo microceph disk list
+
+sudo microceph cluster config get cluster_network
+sudo microceph cluster config list
+sudo microceph cluster list
+
+https://canonical-microceph.readthedocs-hosted.com/en/latest/explanation/snap-content-interface/
+
+
+keyring: /var/snap/microceph/707/conf/ceph.keyring
+
+
+
 sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
 
 k9s --insecure-skip-tls-verify=true
@@ -38,6 +107,7 @@ ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]] [replicated] [crush-rule
 ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]]   erasure [erasure-code-profile] [crush-rule-name] [expected_num_objects] [--autoscale-mode=<on,off,warn>]
 
 rbd
+
 
 ceph osd pool create rbd 128 128
 
