@@ -1,0 +1,54 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+$script = <<-SCRIPT
+useradd -m colleymj
+mkdir /home/colleymj/.ssh
+chown colleymj:colleymj /home/colleymj/.ssh
+chmod 700 /home/colleymj/.ssh
+cat /vagrant_data/id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
+echo colleymj ALL=NOPASSWD:ALL > /etc/sudoers.d/colleymj
+SCRIPT
+Vagrant.configure("2") do |config|
+  config.vm.box = "techchad2022/ubuntu2204"
+  config.vm.synced_folder ".", "/vagrant_data"
+  config.vm.define "floresiensis", primary: true do |floresiensis|
+    floresiensis.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.19", :mac => "0800278AAAC5"
+    floresiensis.vm.hostname = "floresiensis"
+    floresiensis.vm.provider "vb" do |vb|
+       vb.gui = false
+       vb.name = "floresiensis"
+       vb.memory = 2048
+    end
+    floresiensis.vm.provision "shell", inline: $script
+  end
+  config.vm.define "denisova" do |denisova|
+    denisova.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.5", :mac => "08002719876B"
+    denisova.vm.hostname = "denisova"
+    denisova.vm.provider "vb" do |vb|
+       vb.gui = false
+       vb.name = "denisova"
+       vb.memory = 2048
+    end
+    denisova.vm.provision "shell", inline: $script
+  end
+  config.vm.define "rudolfensis" do |rudolfensis|
+    rudolfensis.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.16", :mac => "0800271CB87E"
+    rudolfensis.vm.hostname = "rudolfensis"
+    rudolfensis.vm.provider "vb" do |vb|
+       vb.gui = false
+       vb.name = "rudolfensis"
+       vb.memory = 2048
+    end
+    rudolfensis.vm.provision "shell", inline: $script
+  end
+  config.vm.define "ergaster" do |ergaster|
+    ergaster.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.17", :mac => "0800275D14DB"
+    ergaster.vm.hostname = "ergaster"
+    ergaster.vm.provider "vb" do |vb|
+       vb.gui = false
+       vb.name = "ergaster"
+       vb.memory = 2048
+    end
+    ergaster.vm.provision "shell", inline: $script
+  end
+end
