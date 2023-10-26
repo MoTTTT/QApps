@@ -1,0 +1,10 @@
+- name: Install microk8s
+  hosts: denisova
+  tasks:
+    - name: Install microk8s on denisova
+      become: true
+      snap:
+        name: microk8s
+        state: present
+        classic: yes
+        channel: 1.28/stable

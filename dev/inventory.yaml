@@ -10,3 +10,13 @@ devcluster:
       ansible_host: floresiensis
   vars:
     ansible_user: colleymj
+edgedevices:
+  hosts:
+    balin:
+      ansible_host: balin
+    thorin:
+      ansible_host: thorin
+    dwalin:
+      ansible_host: dwalin
+  vars:
+    ansible_user: colleymj

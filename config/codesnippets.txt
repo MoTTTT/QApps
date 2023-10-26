@@ -1,9 +1,8 @@
+### Command line snippets
+
 sudo nmcli connection add type bridge con-name 'Bridge' ifname bridge0
 sudo nmcli connection add type ethernet slave-type bridge con-name 'Ethernet' ifname eth0 master bridge0
 sudo nmcli connection add con-name 'Hotspot' ifname wlan0 type wifi slave-type bridge master bridge0 wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk wifi-sec.proto rsn wifi-sec.pairwise ccmp wifi-sec.psk 61519400
-
-
-
 
 sudo nmcli connection add type ethernet slave-type bridge   con-name 'Ethernet' ifname eth0 master bridge0
 
@@ -11,8 +10,6 @@ sudo nmcli connection add con-name 'Hotspot'  \
    ifname wlan0 type wifi slave-type bridge master bridge0  \
    wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk  \
    wifi-sec.proto rsn wifi-sec.pairwise ccmp     wifi-sec.psk 61519400
-
-
 
 sudo nmcli device wifi hotspot ssid podzone password xxx11111
 
@@ -22,49 +19,16 @@ sudo nmcli connection add con-name 'Hotspot' \
     wifi-sec.proto rsn wifi-sec.pairwise ccmp \
     wifi-sec.psk <hotspot-password>
 
-
 raspberry pi set swapfile
 sudo nano /etc/dphys-swapfile: set CONF_SWAPSIZE=2048
 sudo /etc/init.d/dphys-swapfile stop
 sudo /etc/init.d/dphys-swapfile start
 
-kubectl get secret ceph-cert -o json | jq -r '.data.["tls.key"]' | base64 -d >seph.key
-kubectl get secret ceph-cert -o json | jq -r '.data.["tls.crt"]' | base64 -d >seph.crt
-
-sudo ceph mgr module enable dashboard
-
-sudo ceph dashboard set-ssl-certificate -i - < /home/colleymj/ceph/seph.crt
-sudo ceph dashboard set-ssl-certificate-key -i - < /home/colleymj/ceph/seph.key
-
-ceph config set mgr mgr/dashboard/server_addr 192.168.0.6
-
-sudo ceph config set mgr mgr/dashboard/server_port 8080
-ceph config set mgr mgr/dashboard/ssl_server_port 8081
-
-ceph dashboard ac-user-create colleymj -i <file-containing-password> administrator
-
-echo <> |sudo ceph dashboard ac-user-create colleymj -i - administrator
-
-Get endpoint (because setting the IP and port above did not work...):
-sudo ceph mgr services
-
 
 mount.ceph name@07fe3187-00d9-42a3-814b-72a4d5e7d5be.fs_name=/ /mnt/mycephfs -o mon_addr=1.2.3.4
 
 
-sudo microceph status
-sudo ceph status  {note ceph status, without sudo fails unable to find keyring}  
-sudo microceph disk list
-
-sudo microceph cluster config get cluster_network
-sudo microceph cluster config list
-sudo microceph cluster list
-
 https://canonical-microceph.readthedocs-hosted.com/en/latest/explanation/snap-content-interface/
-
-
-keyring: /var/snap/microceph/707/conf/ceph.keyring
-
 
 
 sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
@@ -91,41 +55,10 @@ lvdisplay
 
 pvdisplay
 
-sudo microceph disk add --wipe "/dev/sdb1"
-
-sudo mount -t auto /dev/sdb2 /mt/sdb1
 
 ./apfs-fuse /dev/sdb2 /mt/sdb1
 
-sudo ceph status
-sudo microceph disk list
-
 https://docs.ceph.com/en/quincy/rados/operations/pools/#create-a-pool
-
-ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]] [replicated] [crush-rule-name] [expected-num-objects]
-
-ceph osd pool create {pool-name} [{pg-num} [{pgp-num}]]   erasure [erasure-code-profile] [crush-rule-name] [expected_num_objects] [--autoscale-mode=<on,off,warn>]
-
-rbd
-
-
-ceph osd pool create rbd 128 128
-
-sudo microceph.ceph config set global osd_pool_default_size 2                               
-sudo microceph.ceph config set mgr mgr_standby_modules false                                                                                                                                                      
-sudo microceph.ceph config set osd osd_crush_chooseleaf_type 0
-
-  loop_file="$(sudo mktemp -p /mnt XXXX.img)"
-  sudo truncate -s 10G "${loop_file}"
-  loop_dev="$(sudo losetup --show -f "${loop_file}")"
-  minor="${loop_dev##/dev/loop}"
-  sudo mknod -m 0660 "/dev/sdib" b 7 "${minor}"
-  sudo microceph disk add --wipe "/dev/sdib"
-
-
-sudo microk8s connect-external-ceph --ceph-conf ceph.conf --keyring ceph.keyring --rbd-pool rbd
-sudo microk8s kubectl --namespace rook-ceph-external get cephcluster
-
 
 kubectl rollout status deployment/postgres
 /mnt/vagrant-kubernetes 192.168.50.0/24(rw,sync,no_subtree_check,insecure,no_root_squash)
@@ -139,12 +72,7 @@ ansible-inventory -i inventory.yaml --list
 
 ansible devcluster -m ping -i inventory.yaml
 
-microk8s join 192.168.0.16:25000/dd56b31b5c7a89a3879285c3c9343007/8a2a138b5b91
- microk8s join 192.168.0.16:25000/b7286e27bbb48285ab477b749af9bdcd/8a2a138b5b91
-
-microk8s join 192.168.0.16:25000/2736e9043b3eb6d4cd170ae91010ff43/8a2a138b5b91
- 
- vagrant init techchad2022/ubuntu2204
+vagrant init techchad2022/ubuntu2204
 vagrant up
 useradd -p <password> <username>
 vagrant destroy
@@ -157,17 +85,12 @@ kubectl -n default cp ~/workspace/podzone/site/ $apachepod:/tmp/podzone/
 kubectl exec -n default $apachepod -- chown -R nobody:nogroup  /tmp/podzone/
 kubectl exec -n default $apachepod -- mv /tmp/podzone  /var/www/html
 
-
-
 source <(kubectl completion bash)
 echo "source <(kubectl completion bash)" >> ~/.bashrc
-
 
 Github token for jenkinsx: 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
 
 kubectl create secret docker-registry regcred --docker-server=<docker-server> --docker-username=<username> --docker-password=<password> --docker-email=<email>
-
-
 
 Zope volume mounts:
 ./var/filestorage
@@ -180,136 +103,12 @@ dd if=/dev/zero of=/swapfile16G bs=1024 count=16M
 dd if=/dev/zero of=/swapfile32G bs=1024 count=32M
 
 chmod 0600 swapfile16G
-
 mkswap swapfile16G
 
 kubectl exec apache-bf4996969-qnmqf -- rm -R /var/www/html/telling
 kubectl cp ~/workspace/telling/site/ apache-bf4996969-qnmqf:/tmp/telling/
 kubectl exec apache-bf4996969-qnmqf -- chown -R nobody:nogroup  /tmp/telling/
 kubectl exec apache-bf4996969-qnmqf -- mv /tmp/telling  /var/www/html
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial;
-}
-
-/* The grid: Four equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;
-}
-
-/* Style the images inside the grid */
-.column img {
-  opacity: 0.8; 
-  cursor: pointer; 
-}
-
-.column img:hover {
-  opacity: 1;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* The expanding image container */
-.container {
-  position: relative;
-  display: none;
-}
-
-/* Expanding image text */
-#imgtext {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  color: white;
-  font-size: 20px;
-}
-
-/* Closable button inside the expanded image */
-.closebtn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 35px;
-  cursor: pointer;
-}
-</style>
-</head>
-<body>
-
-<div style="text-align:center">
-  <h2>Tabbed Image Gallery</h2>
-  <p>Click on the images below:</p>
-</div>
-
-<!-- The four columns -->
-<div class="row">
-  <div class="column">
-    <img src="img_nature.jpg" alt="Nature" style="width:100%" onclick="myFunction(this);">
-  </div>
-  <div class="column">
-    <img src="img_snow.jpg" alt="Snow" style="width:100%" onclick="myFunction(this);">
-  </div>
-  <div class="column">
-    <img src="img_mountains.jpg" alt="Mountains" style="width:100%" onclick="myFunction(this);">
-  </div>
-  <div class="column">
-    <img src="img_lights.jpg" alt="Lights" style="width:100%" onclick="myFunction(this);">
-  </div>
-</div>
-
-<div class="container">
-  <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-  <img id="expandedImg" style="width:100%">
-  <div id="imgtext"></div>
-</div>
-
-<script>
-function myFunction(imgs) {
-  var expandImg = document.getElementById("expandedImg");
-  var imgText = document.getElementById("imgtext");
-  expandImg.src = imgs.src;
-  imgText.innerHTML = imgs.alt;
-  expandImg.parentElement.style.display = "block";
-}
-</script>
-
-</body>
-</html>
-
-
-
-<script type="module" src="https://md-block.verou.me/md-block.js"></script>
-
-<html>
-    <head>...</head>
- 
-    <body>
-        <md-block>
-# Heading
-Some *embedded* Markdown which `md-block` can convert for you!
-        </md-block>
-    </body>
-</html>
 
 kubectl cp ~/workspace/QApps/sites/index.html apache-bf4996969-qnmqf:/var/www.html/
 
@@ -345,8 +144,6 @@ kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-adm
 kubectl -n kube-system logs -f $(kubectl -n kube-system get pods -l app=cert-manager -o jsonpath="{.items[0].metadata.name}") cert-manager
 kube-system describe certificate kubernetes-dashboard-stg
 
-kubectl -n legacy get secret wild.adyxax.org-cert -o json -o=jsonpath="{.data.tls\.crt}" | base64 -d > fullchain.cer
-kubectl -n legacy get secret wild.adyxax.org-cert -o json -o=jsonpath="{.data.tls\.key}" | base64 -d > adyxax.org.key
 kubectl logs  deployment/cert-manager  -n cert-manager
 sudo microk8s kubectl describe secret -n kube-system microk8s-dashboard-token
 
@@ -360,7 +157,6 @@ kubectl get ipaddresspool --all-namespaces -o yaml
 kubectl -n ingress-nginx get svc
 kubectl describe pod cert-manager-5d6bc46969-xxxnt -n cert-manager
 
-
 ip link show
 ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "ethtool {}"
 ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "sudo tcpdump -i {}"
@@ -372,15 +168,8 @@ sudo lsof -i @james
 
 sudo microk8s kubectl config view --raw > $HOME/.kube/config
 
-sudo snap install microk8s --channel=latest/edge/strict
 
- calicoctl --allow-version-mismatch  get node -o yaml
-
-kubectl create deployment demo --image=httpd --port=80
-kubectl expose deployment demo
-
-kubectl scale deployment demo --replicas=0;
-kubectl scale deployment demo --replicas=2;
+calicoctl --allow-version-mismatch  get node -o yaml
 
 /Users/martincolley/workspace/Certs/qsolutions/{cert1.pem, chain1.pem, fullchain1.pem, privkey1.pem}
 
@@ -388,10 +177,9 @@ kubectl create secret tls nginxsecret --key /Users/martincolley/workspace/Certs/
 
 kubectl create configmap nginxconfigmap --from-file=nginx-default.conf
 
- brew install calicoctl
+brew install calicoctl
 
 grep -B 15 -A 15 IP_AUTODETECTION_METHOD /var/snap/microk8s/current/args/cni-network/cni.yaml
-
 
 kubectl create ingress demo-localhost --class=nginx --rule="levant/*=demo:80"
 
@@ -404,40 +192,21 @@ sudo usermod -a -G microk8s <username>
 
 multipass launch --network en0 --network name=bridge0,mode=manual
 
-
-ssh martin@bukit
-ssh colleymj@sigiriya
-ssh colleymj@james
-
 kubectl cluster-info dump
 
 kubectl get pods -n kube-system -o wide
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
 
-
-ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "ethtool {}"
 arp -n
 ip link show
 route
-
 ip route show
 
 
-
-ifconfig | grep -m 1 "^[a-z0-9]*:" | sed -e's/\(^[a-z0-9]*\):.*$/\1/' | xargs -I {} sh -c "sudo tcpdump -i {}"
-
-microk8s status
-
-### Command line snippets
-
-
 sudo crictl --runtime-endpoint unix:///var/run/containerd/containerd.sock ps -a
-
 sudo crictl --runtime-endpoint unix:///var/run/containerd/containerd.sock ps -a | grep kube | grep -v pause
-
 sudo kubeadm init --control-plane-endpoint bukit --config kubeadm-config.yaml
-
 
 /snap/docker/2893/bin/containerd config default
 
@@ -453,7 +222,6 @@ systemctl enable kubelet.service
 
 kubectl version --client
 
-
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -461,17 +229,12 @@ EOF
 sudo modprobe overlay
 sudo modprobe br_netfilter
 
-
-
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 sudo sysctl --system
-
-
-
 
 - Kubernetes host network IP range `--service-cluster-ip-range=192.168.0.128/25` in  `/var/snap/microk8s/current/args/kube-apiserver`
 - `/var/snap/microk8s/current/args/cni-network/cni.yaml`

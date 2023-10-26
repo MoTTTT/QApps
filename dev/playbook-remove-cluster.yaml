@@ -1,0 +1,9 @@
+- name: Delete microk8s from dev cluster
+  hosts: devcluster
+  tasks:
+    - name: Remove microk8s
+      become: true
+      snap:
+        name: microk8s
+        state: absent
+ 

@@ -1,24 +1,6 @@
 - name: Set up hosts and microk8s
-  hosts: all
-
+  hosts: devcluster
   tasks:
-    - name: Add mappings to /etc/hosts
-      become: true
-      ansible.builtin.blockinfile:
-        path: /etc/hosts
-        block: |
-          {{ item.ip }} {{ item.name }}
-        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-      loop:
-        - { name: sigiriya, ip: 192.168.0.6 }
-        - { name: james, ip: 192.168.0.27 }
-        - { name: levant, ip: 192.168.0.28 }
-        - { name: bukit, ip: 192.168.0.52 }
-        - { name: denisova, ip: 192.168.0.5 }
-        - { name: rudolfensis, ip: 192.168.0.16 }
-        - { name: ergaster, ip: 192.168.0.17 }
-        - { name: floresiensis, ip: 192.168.0.19 }
-
     - name: Install microk8s
       become: true
       snap:
