@@ -7,6 +7,7 @@ chown colleymj:colleymj /home/colleymj/.ssh
 chmod 700 /home/colleymj/.ssh
 cat /vagrant_data/id_rsa-dolmen.pub >> /home/colleymj/.ssh/authorized_keys
 echo colleymj ALL=NOPASSWD:ALL > /etc/sudoers.d/colleymj
+modprobe rbd
 SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.box = "techchad2022/ubuntu2204"
