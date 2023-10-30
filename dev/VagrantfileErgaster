@@ -12,14 +12,14 @@ SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.box = "techchad2022/ubuntu2204"
   config.vm.synced_folder ".", "/vagrant_data"
-  config.vm.define "rudolfensis" do |rudolfensis|
-    rudolfensis.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.16", :mac => "0800271CB87E"
-    rudolfensis.vm.hostname = "rudolfensis"
-    rudolfensis.vm.provider "vb" do |vb|
+  config.vm.define "ergaster" do |ergaster|
+    ergaster.vm.network "public_network", bridge: "enp2s0", ip: "192.168.0.17", :mac => "0800275D14DB"
+    ergaster.vm.hostname = "ergaster"
+    ergaster.vm.provider "vb" do |vb|
        vb.gui = false
-       vb.name = "rudolfensis"
+       vb.name = "ergaster"
        vb.memory = 2048
     end
-    rudolfensis.vm.provision "shell", inline: $script
+    ergaster.vm.provision "shell", inline: $script
   end
 end

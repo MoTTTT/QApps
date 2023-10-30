@@ -21,3 +21,13 @@ spec:
              number: 80
         path: /
         pathType: Prefix
+  - host: musings.thruhere.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: apache-service
+           port:
+             number: 80
+        path: /
+        pathType: Prefix

@@ -1,11 +1,19 @@
 ### Command line snippets
 
+
+curl -H "Host: api.mysite.net" http://<<LOAD BALANCER IP HERE>>/hello
+curl -H "Host: api.myothersite.net" http://<<LOAD BALANCER IP HERE>>/service2/hello
+curl -H "Host: api.myothersite.net" http://<<LOAD BALANCER IP HERE>>/service3/hello
+
+
+kubectl api-resources
+
+## Creating wi-fi hot-spot
+
 sudo nmcli connection add type bridge con-name 'Bridge' ifname bridge0
 sudo nmcli connection add type ethernet slave-type bridge con-name 'Ethernet' ifname eth0 master bridge0
 sudo nmcli connection add con-name 'Hotspot' ifname wlan0 type wifi slave-type bridge master bridge0 wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk wifi-sec.proto rsn wifi-sec.pairwise ccmp wifi-sec.psk 61519400
-
 sudo nmcli connection add type ethernet slave-type bridge   con-name 'Ethernet' ifname eth0 master bridge0
-
 sudo nmcli connection add con-name 'Hotspot'  \
    ifname wlan0 type wifi slave-type bridge master bridge0  \
    wifi.mode ap wifi.ssid Hotspot wifi-sec.key-mgmt wpa-psk  \
@@ -19,83 +27,7 @@ sudo nmcli connection add con-name 'Hotspot' \
     wifi-sec.proto rsn wifi-sec.pairwise ccmp \
     wifi-sec.psk <hotspot-password>
 
-raspberry pi set swapfile
-sudo nano /etc/dphys-swapfile: set CONF_SWAPSIZE=2048
-sudo /etc/init.d/dphys-swapfile stop
-sudo /etc/init.d/dphys-swapfile start
-
-
-mount.ceph name@07fe3187-00d9-42a3-814b-72a4d5e7d5be.fs_name=/ /mnt/mycephfs -o mon_addr=1.2.3.4
-
-
-https://canonical-microceph.readthedocs-hosted.com/en/latest/explanation/snap-content-interface/
-
-
-sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
-
-k9s --insecure-skip-tls-verify=true
-
-ANSIBLE_HOST_KEY_CHECKING=false ansible all -m ping -i inventory.yaml
-
-sudo snap install microk8s --channel=1.28/stable --classic
-
-usermod -a -G sudo colleymj
-
-echo vagrant ALL=NOPASSWD:ALL > /etc/sudoers.d/vagrant
-
-echo colleymj ALL=NOPASSWD:ALL > /etc/sudoers.d/colleymj
-
-dmsetup ls
-sudo lvdisplay
-lsblk --output NAME,KNAME,TYPE,SIZE,MOUNTPOINT
-
-sudo dmsetup info ubuntu--vg-ubuntu--lv
-
-lvdisplay
-
-pvdisplay
-
-
-./apfs-fuse /dev/sdb2 /mt/sdb1
-
-https://docs.ceph.com/en/quincy/rados/operations/pools/#create-a-pool
-
-kubectl rollout status deployment/postgres
-/mnt/vagrant-kubernetes 192.168.50.0/24(rw,sync,no_subtree_check,insecure,no_root_squash)
-
-export QAPPS_PASSWORD="<password>"
-envsubst < podzone-db.yaml | kubectl apply -f -
-
-ansible-playbook -i inventory.yaml playbook.yaml
-
-ansible-inventory -i inventory.yaml --list
-
-ansible devcluster -m ping -i inventory.yaml
-
-vagrant init techchad2022/ubuntu2204
-vagrant up
-useradd -p <password> <username>
-vagrant destroy
-
-#!/bin/bash
-mkdocs build
-apachepod=`kubectl get pods -n default -o json |jq -r .items[].metadata.name | grep apache`
-kubectl exec -n default $apachepod -- rm -R /var/www/html/podzone
-kubectl -n default cp ~/workspace/podzone/site/ $apachepod:/tmp/podzone/
-kubectl exec -n default $apachepod -- chown -R nobody:nogroup  /tmp/podzone/
-kubectl exec -n default $apachepod -- mv /tmp/podzone  /var/www/html
-
-source <(kubectl completion bash)
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-
-Github token for jenkinsx: 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
-
-kubectl create secret docker-registry regcred --docker-server=<docker-server> --docker-username=<username> --docker-password=<password> --docker-email=<email>
-
-Zope volume mounts:
-./var/filestorage
-./var/blobstorage
-./products
+## Swap files
 
 dd if=/dev/zero of=/media/fasthdd/swapfile.img bs=1024 count=1M
 dd if=/dev/zero of=/swapfile8G bs=1024 count=8M
@@ -105,6 +37,100 @@ dd if=/dev/zero of=/swapfile32G bs=1024 count=32M
 chmod 0600 swapfile16G
 mkswap swapfile16G
 
+
+
+## RasPi
+
+sudo apt install linux-modules-extra-raspi
+
+
+raspberry pi set swapfile
+sudo nano /etc/dphys-swapfile: set CONF_SWAPSIZE=2048
+sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+
+## Ceph
+
+https://docs.ceph.com/en/quincy/rados/operations/pools/#create-a-pool
+
+mount.ceph name@07fe3187-00d9-42a3-814b-72a4d5e7d5be.fs_name=/ /mnt/mycephfs -o mon_addr=1.2.3.4
+
+sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
+
+## Ansible
+
+To accept new ssh keys:
+
+ANSIBLE_HOST_KEY_CHECKING=false ansible all -m ping -i inventory.yaml
+
+
+ansible-playbook -i inventory.yaml playbook.yaml
+
+ansible-inventory -i inventory.yaml --list
+
+ansible devcluster -m ping -i inventory.yaml
+
+
+## Microk8s, 1.28 channel
+
+sudo snap install microk8s --channel=1.28/stable --classic
+
+## Add user to group
+
+usermod -a -G sudo colleymj
+
+## Vagrant
+
+vagrant init techchad2022/ubuntu2204
+vagrant up
+useradd -p <password> <username>
+vagrant destroy
+
+
+echo vagrant ALL=NOPASSWD:ALL > /etc/sudoers.d/vagrant
+echo colleymj ALL=NOPASSWD:ALL > /etc/sudoers.d/colleymj
+
+To allow IP to be assigned via DHCP simply use:
+config.vm.network "public_network"
+This way you don't need to deal with mac address, it will be generated on its own. If you need custom mac address attached to the network device then:
+config.vm.network "public_network", :mac=> "080027xxxxxx"
+
+
+
+## Volume management
+
+dmsetup ls
+sudo lvdisplay
+lsblk --output NAME,KNAME,TYPE,SIZE,MOUNTPOINT
+sudo dmsetup info ubuntu--vg-ubuntu--lv
+lvdisplay
+pvdisplay
+
+
+## Mount apple volume
+
+./apfs-fuse /dev/sdb2 /mt/sdb1
+
+## Postgres
+
+kubectl rollout status deployment/postgres
+/mnt/vagrant-kubernetes 192.168.50.0/24(rw,sync,no_subtree_check,insecure,no_root_squash)
+
+export QAPPS_PASSWORD="<password>"
+envsubst < podzone-db.yaml | kubectl apply -f -
+
+
+## Manual site updates
+
+#!/bin/bash
+mkdocs build
+apachepod=`kubectl get pods -n default -o json |jq -r .items[].metadata.name | grep apache`
+kubectl exec -n default $apachepod -- rm -R /var/www/html/podzone
+kubectl -n default cp ~/workspace/podzone/site/ $apachepod:/tmp/podzone/
+kubectl exec -n default $apachepod -- chown -R nobody:nogroup  /tmp/podzone/
+kubectl exec -n default $apachepod -- mv /tmp/podzone  /var/www/html
+
+
 kubectl exec apache-bf4996969-qnmqf -- rm -R /var/www/html/telling
 kubectl cp ~/workspace/telling/site/ apache-bf4996969-qnmqf:/tmp/telling/
 kubectl exec apache-bf4996969-qnmqf -- chown -R nobody:nogroup  /tmp/telling/
@@ -112,9 +138,34 @@ kubectl exec apache-bf4996969-qnmqf -- mv /tmp/telling  /var/www/html
 
 kubectl cp ~/workspace/QApps/sites/index.html apache-bf4996969-qnmqf:/var/www.html/
 
+
+
+## Command line completion
+
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+
+## Jenkinsx
+
+Github token for jenkinsx: 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
+
+kubectl create secret docker-registry regcred --docker-server=<docker-server> --docker-username=<username> --docker-password=<password> --docker-email=<email>
+
+## Zope
+
+Zope volume mounts:
+./var/filestorage
+./var/blobstorage
+./products
+
+
 kubectl cp ~/.factorio/saves/k8s-test.zip factorio/factorio-0:/factorio/saves/
 
 kubectl cp ~/.factorio/saves/k8s-test.zip factorio/factorio-0:/factorio/saves/
+
+
+## Opensearch
 
 Opensearch dashboard:
 
@@ -129,12 +180,7 @@ token=$(kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
 kubectl logs --selector app=csi-nfs-controller -n kube-system -c nfs
 kubectl logs --selector app=csi-nfs-node -n kube-system -c nfs
 
-sudo apt install linux-modules-extra-raspi
 
-To allow IP to be assigned via DHCP simply use:
-config.vm.network "public_network"
-This way you don't need to deal with mac address, it will be generated on its own. If you need custom mac address attached to the network device then:
-config.vm.network "public_network", :mac=> "080027xxxxxx"
 
 Observability has been enabled (user/pass: admin/prom-operator)
 
