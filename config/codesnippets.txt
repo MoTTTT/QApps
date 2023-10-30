@@ -1,5 +1,6 @@
 ### Command line snippets
 
+- Aliases: `alias ka="kubectl apply -f "`; `alias kd="kubectl delete -f "`
 
 curl -H "Host: api.mysite.net" http://<<LOAD BALANCER IP HERE>>/hello
 curl -H "Host: api.myothersite.net" http://<<LOAD BALANCER IP HERE>>/service2/hello

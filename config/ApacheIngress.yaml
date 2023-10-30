@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /current/site
+  name: podzone-non-secure-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+#  - host: musings.thruhere.net
+  - http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: apache-service
+            port:
+              number: 80
