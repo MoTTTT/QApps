@@ -1,3 +1,25 @@
+southcluster:
+  hosts:
+    habilis:
+      ansible_host: habilis
+    antecessor:
+      ansible_host: antecessor
+    naledi:
+      ansible_host: naledi
+  vars:
+    ansible_user: colleymj
+prodcluster:
+  hosts:
+    levant:
+      ansible_host: levant
+    sigiriya:
+      ansible_host: sigiriya
+    bukit:
+      ansible_host: bukit
+    james:
+      ansible_host: james
+  vars:
+    ansible_user: colleymj
 devcluster:
   hosts:
     denisova:

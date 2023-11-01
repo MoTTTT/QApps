@@ -10,107 +10,107 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - musings.thruhere.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: qsolution-cert
-#  namespace: default
-#spec:
-#  secretName: qsolution-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - qsolutions.endoftheinternet.org
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: control-cert
-#  namespace: default
-#spec:
-#  secretName: control-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - control.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: dashboard-cert
-#  namespace: kube-system
-#spec:
-#  secretName: dashboard-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - dashboard.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: opensearch-cert
-#  namespace: kube-system
-#spec:
-#  secretName: opensearch-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - opensearch.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: kibana-cert
-#  namespace: kube-system
-#spec:
-#  secretName: kibana-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - kibana.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: db-cert
-#  namespace: kube-system
-#spec:
-#  secretName: db-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - db.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: docs-cert
-#  namespace: kube-system
-#spec:
-#  secretName: docs-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - docs.southern.podzone.net
-#---
-#apiVersion: cert-manager.io/v1
-#kind: Certificate
-#metadata:
-#  name: ceph-cert
-#  namespace: default
-#spec:
-#  secretName: ceph-cert
-#  issuerRef:
-#    name: lets-encrypt
-#    kind: ClusterIssuer
-#  dnsNames:
-#  - ceph.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: qsolution-cert
+  namespace: default
+spec:
+  secretName: qsolution-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - qsolutions.endoftheinternet.org
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: control-cert
+  namespace: default
+spec:
+  secretName: control-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - control.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dashboard-cert
+  namespace: kube-system
+spec:
+  secretName: dashboard-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - dashboard.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-cert
+  namespace: kube-system
+spec:
+  secretName: opensearch-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - opensearch.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kibana-cert
+  namespace: kube-system
+spec:
+  secretName: kibana-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - kibana.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: db-cert
+  namespace: kube-system
+spec:
+  secretName: db-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - db.southern.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: docs-cert
+  namespace: kube-system
+spec:
+  secretName: docs-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - docs.podzone.net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ceph-cert
+  namespace: default
+spec:
+  secretName: ceph-cert
+  issuerRef:
+    name: lets-encrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - ceph.southern.podzone.net

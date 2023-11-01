@@ -6,6 +6,7 @@ curl -H "Host: api.mysite.net" http://<<LOAD BALANCER IP HERE>>/hello
 curl -H "Host: api.myothersite.net" http://<<LOAD BALANCER IP HERE>>/service2/hello
 curl -H "Host: api.myothersite.net" http://<<LOAD BALANCER IP HERE>>/service3/hello
 
+sudo usermod -aG sudo c
 
 kubectl api-resources
 
@@ -164,6 +165,24 @@ Zope volume mounts:
 kubectl cp ~/.factorio/saves/k8s-test.zip factorio/factorio-0:/factorio/saves/
 
 kubectl cp ~/.factorio/saves/k8s-test.zip factorio/factorio-0:/factorio/saves/
+
+### Upgrade: NOTE: did not result in rook-ceph add-on being available
+
+- sudo microk8s disable dashboard
+- microk8s disable metrics-server
+- microk8s kubectl drain sigiriya --ignore-daemonsets
+- sudo snap refresh microk8s --channel=1.28/stable
+- microk8s kubectl uncordon sigiriya
+
+### Opensearch
+
+- Edit `https://github.com/opensearch-project/helm-charts/blob/main/charts/opensearch/values.yaml` for opensearch-bukit.yaml, opensearch-james.yaml, opensearch-sigiriya.yaml
+- `helm repo add opensearch https://opensearch-project.github.io/helm-charts/`
+- `helm install opensearch-master opensearch/opensearch -f opensearch-bukit.yaml`
+- `helm install opensearch-client opensearch/opensearch -f opensearch-james.yaml`
+- `helm install opensearch-data opensearch/opensearch -f opensearch-sigiriya.yaml`
+- `helm install dashboards opensearch/opensearch-dashboards`
+
 
 
 ## Opensearch
