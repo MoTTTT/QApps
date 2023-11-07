@@ -1,0 +1,176 @@
+---
+# Source: qapps/templates/apacheserviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: orange-base-qapps
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  automountServiceAccountToken: true
+---
+# Source: qapps/templates/apachevolumeclaim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apache-volume
+spec:
+  storageClassName: ceph-rbd
+  accessModes:
+   - ReadWriteOncePod
+  resources:
+   requests:
+    storage: 10Gi
+---
+# Source: qapps/templates/apacheservice.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: orange-base-qapps
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+---
+# Source: qapps/templates/apache.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orange-base-qapps
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: qapps
+      app.kubernetes.io/instance: orange-base
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: qapps-0.1.0
+        app.kubernetes.io/name: qapps
+        app.kubernetes.io/instance: orange-base
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      securityContext:
+        fsGroup: 101
+      serviceAccountName: orange-base-qapps
+      containers:
+        - name: git-sync
+          image: "registry.k8s.io/git-sync/git-sync:v4.1.0"
+          args:
+            - --repo=https://github.com/MoTTTT/musings.git
+            - --depth=1
+            - --period=240s
+            - --max-failures=10
+            - --link=current
+            - --root=/git-apache
+            - --verbose=9
+          volumeMounts:
+            - mountPath: /git-apache
+              name: content-from-git
+        - name: httpd
+          image: "httpd:alpine"
+          ports:
+          - containerPort: 80
+          volumeMounts:
+            - mountPath: /git-apache
+              name: content-from-git
+      volumes:
+        - name: content-from-git
+          persistentVolumeClaim:
+            claimName: apache-volume
+---
+# Source: qapps/templates/apachesecureingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orange-base-qapps
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /current/site
+  cert-manager.io/cluster-issuer: orange-base-qapps
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "musings.thruhere.net"
+      secretName: musings-cert
+  rules:
+    - host: "musings.thruhere.net"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: orange-base-qapps
+                port:
+                  number: 80
+---
+# Source: qapps/templates/certificates.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: musings-cert
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  secretName: musings-cert
+  issuerRef:
+    name: orange-base-qapps-issuer
+    kind: ClusterIssuer
+  dnsNames:
+  - musings.thruhere.net
+---
+# Source: qapps/templates/clusterissuer.yaml
+apiVersion: cert-manager.io/v1 
+kind: ClusterIssuer
+metadata:
+  name: orange-base-qapps-issuer
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  acme:
+    email: martinjcolley@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx

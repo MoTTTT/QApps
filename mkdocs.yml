@@ -1,8 +1,0 @@
-site_name: Podzone
-
-site_description: Podzone Private Consumer cloud
-site_author: Martin Colley
-
-plugins:
-    - search
-    - mermaid2

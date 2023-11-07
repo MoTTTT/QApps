@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.certificates.musings.name }}
+  labels:
+    {{- include "qapps.labels" . | nindent 4 }}
+spec:
+  secretName: {{ .Values.certificates.musings.name }}
+  issuerRef:
+    name: {{ include "qapps.fullname" . }}-issuer
+    kind: ClusterIssuer
+  dnsNames:
+  - {{ .Values.certificates.musings.dnsName }}

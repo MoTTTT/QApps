@@ -1,5 +1,14 @@
 ### Command line snippets
 
+ helm  install orange-base --debug  --namespace musings ./qapps
+
+kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
+
+/telescope/requests HTTP/1.1" 404 196                                                                                                                                                 │
+
+  <pod>   <containers>   <logs>                                                                                                                                                                                                           
+                                                                                                                                                                                                                                          
+
 - Aliases: `alias ka="kubectl apply -f "`; `alias kd="kubectl delete -f "`
 
 curl -H "Host: api.mysite.net" http://<<LOAD BALANCER IP HERE>>/hello

@@ -1,0 +1,20 @@
+# Source: qapps/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "orange-base-qapps-test-connection"
+  labels:
+    helm.sh/chart: qapps-0.1.0
+    app.kubernetes.io/name: qapps
+    app.kubernetes.io/instance: orange-base
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['https://musings.thruhere.net/current/site/index.html']
+  restartPolicy: Never

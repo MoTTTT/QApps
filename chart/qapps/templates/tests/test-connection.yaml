@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "qapps.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ .Values.test.url}}']
   restartPolicy: Never
