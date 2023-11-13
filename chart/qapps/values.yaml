@@ -74,7 +74,7 @@ ingress:
       hosts:
         - musings.thruhere.net
 test:
-  url: "https://musings.thruhere.net/current/site/index.html"
+  url: "https://musings.thruhere.net/index.html"
 resources: {}
 autoscaling:
   enabled: false
