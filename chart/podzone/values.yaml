@@ -1,0 +1,31 @@
+# Override defaults from qapps for podzone site.
+certificates:
+  musings:
+    name: podzone-cert
+    dnsName: docs.podzone.net
+gitsyncimage:
+  args:
+    - --repo=https://github.com/MoTTTT/podzone.git
+    - --depth=1
+    - --period=240s
+    - --max-failures=10
+    - --link=current
+    - --root=/git-apache
+    - --verbose=9
+ingress:
+  hosts:
+  - host: docs.podzone.net
+    paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: apache-service
+            port:
+              number: 80
+  tls:
+    - secretName: podzone-cert
+      hosts:
+        - docs.podzone.net
+test:
+  url: "https://docs.podzone.net/index.html"

@@ -1,5 +1,9 @@
 ### Command line snippets
 
+helm upgrade --install <service> -f values.yaml <service>-9.0.xx.tgz --values <new file name>.yaml
+
+helm  install apple-base --debug  --namespace podzone qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/' -f values.yaml --values values.yaml
+
 helm  install orange-base --debug  --namespace musings qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/'
 
  helm  install orange-base --debug  --namespace musings ./qapps
