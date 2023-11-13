@@ -11,6 +11,9 @@ volumes:
     - name: content-from-git
       persistentVolumeClaim:
         claimName: apache-volume
+    - name: config-volume
+      configMap:
+        name: httpd-conf
 gitsyncimage:
   repository: registry.k8s.io/git-sync/git-sync
   pullPolicy: IfNotPresent
@@ -34,6 +37,10 @@ apacheimage:
     - name: content-from-git
       mountPath: /usr/local/apache2/htdocs/
       readOnly: true
+    - name: config-volume
+      mountPath: /usr/local/apache2/conf/httpd.conf
+      subPath: httpd.conf
+
 serviceAccount:
   create: false
   automount: true
@@ -51,8 +58,7 @@ service:
 ingress:
   enabled: true
   className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/app-root: /current/site
+
   hosts:
   - host: musings.thruhere.net
     paths:

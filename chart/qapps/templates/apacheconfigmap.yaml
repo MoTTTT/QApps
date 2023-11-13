@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpd-conf
+  namespace: {{ .Release.Namespace | quote }}
+  labels: 
+    {{- include "qapps.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "files/httpd.conf").AsConfig | indent 2 }}
