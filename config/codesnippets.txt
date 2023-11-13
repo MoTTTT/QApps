@@ -1,5 +1,7 @@
 ### Command line snippets
 
+helm  install orange-base --debug  --namespace musings qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/'
+
  helm  install orange-base --debug  --namespace musings ./qapps
 
 kubectl get pods --all-namespaces -o jsonpath="{..image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c
