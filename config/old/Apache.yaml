@@ -19,7 +19,7 @@ spec:
           persistentVolumeClaim:
             claimName: apache-volume
       containers:
-        - name: git-sync
+      - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.1.0
           args:
             - --repo=https://github.com/MoTTTT/musings.git
@@ -29,16 +29,15 @@ spec:
             - --link=current
             - --root=/git-apache
             - --verbose=9
-          volumeMounts:
+        volumeMounts:
             - name: content-from-git
               mountPath: /git-apache
-        - name: server
+      - name: server
           image: httpd:alpine
           ports:
           - containerPort: 80
-          volumeMounts:
+        volumeMounts:
             - name: content-from-git
-#              subPath: current/site
               mountPath: /usr/local/apache2/htdocs/
               readOnly: true
 

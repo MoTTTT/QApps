@@ -1,5 +1,16 @@
 ### Command line snippets
 
+/usr/local/Plone/Python-2.7/bin/python /usr/local/Plone/zinstance/parts/instance/bin/interpreter /usr/local/Plone/buildout-cache/eggs/zdaemon-2.0.7-py2.7.egg/zdaemon/zdrun.py -S /usr/local/Plone/buildout-cache/eggs/Zope2-2.13.24-py2.7.egg/Zope2/Startup/zopeschema.xml -b 10 -d -s /usr/local/Plone/zinstance/var/instance/zopectlsock -x 0,2 -z /usr/local/Plone/zinstance/parts/instance /usr/local/Plone/Python-2.7/bin/python /usr/local/Plone/zinstance/parts/instance/bin/interpreter /usr/local/Plone/buildout-cache/eggs/Zope2-2.13.24-py2.7.egg/Zope2/Startup/run.py -C /usr/local/Plone/zinstance/parts/instance/etc/zope.conf
+
+/usr/local/Plone/Python-2.7/bin/python 
+/usr/local/Plone/zinstance/parts/instance/bin/interpreter 
+/usr/local/Plone/buildout-cache/eggs/Zope2-2.13.24-py2.7.egg/Zope2/Startup/run.py -C /usr/local/Plone/zinstance/parts/instance/etc/zope.conf
+
+kubectl get -n default serviceaccount kubeapps-operator -o yaml
+
+docker pull robcast/legacy-zope
+docker pull robcast/legacy-zope:2.13
+
 helm upgrade --install <service> -f values.yaml <service>-9.0.xx.tgz --values <new file name>.yaml
 
 helm  install apple-base --debug  --namespace podzone qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/' -f values.yaml --values values.yaml

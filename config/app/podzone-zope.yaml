@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zope
+  labels:
+    app: zope
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zope
+  template:
+    metadata:
+      labels:
+        app: zope
+    spec:
+      containers:
+      - name: zope
+        image: robcast/legacy-zope:2.13
+        command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
+        ports:
+        - containerPort: 8080
