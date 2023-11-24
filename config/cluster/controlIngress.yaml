@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: control-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - control.southern.podzone.net
+    secretName: control-cert
+  rules:
+  - host: control.southern.podzone.net
+    http:
+      paths:
+      - backend:
+         service:
+           name: kubernetes
+           port:
+             number: 443
+        path: /
+        pathType: Prefix
+

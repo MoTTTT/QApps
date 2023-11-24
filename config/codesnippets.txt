@@ -1,5 +1,18 @@
 ### Command line snippets
 
+
+sudo ceph config set mgr mgr/prometheus/server_addr sigiriya
+sudo ceph config set mgr mgr/prometheus/port 9090
+
+
+kubectl config set-context --current --namespace=<namespace-name>
+kubectl config set-context --current --namespace=admin
+
+ansible southcluster -i inventory.yaml -m command -a "free -m"
+
+kubectl drain --ignore-daemonsets <node name>
+kubectl uncordon <node name>
+
 /usr/local/Plone/Python-2.7/bin/python /usr/local/Plone/zinstance/parts/instance/bin/interpreter /usr/local/Plone/buildout-cache/eggs/zdaemon-2.0.7-py2.7.egg/zdaemon/zdrun.py -S /usr/local/Plone/buildout-cache/eggs/Zope2-2.13.24-py2.7.egg/Zope2/Startup/zopeschema.xml -b 10 -d -s /usr/local/Plone/zinstance/var/instance/zopectlsock -x 0,2 -z /usr/local/Plone/zinstance/parts/instance /usr/local/Plone/Python-2.7/bin/python /usr/local/Plone/zinstance/parts/instance/bin/interpreter /usr/local/Plone/buildout-cache/eggs/Zope2-2.13.24-py2.7.egg/Zope2/Startup/run.py -C /usr/local/Plone/zinstance/parts/instance/etc/zope.conf
 
 /usr/local/Plone/Python-2.7/bin/python 
