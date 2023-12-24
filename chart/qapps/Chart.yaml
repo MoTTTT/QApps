@@ -1,7 +1,0 @@
-apiVersion: v2
-name: qapps 
-description: A Helm chart deployment of qapps
-type: application
-version: 0.1.1
-appVersion: "1.16.0"
-icon: https://musings.thruhere.net/images/QSolutionsApplications.svg

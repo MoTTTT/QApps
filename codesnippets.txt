@@ -1,5 +1,33 @@
 ### Command line snippets
 
+linuxserver/ddclient
+
+
+
+helm repo add truecharts https://charts.truecharts.org/
+
+helm pull [chart URL | repo/chartname] [...] [flags]
+
+helm pull truecharts/ddclient
+
+helm package static-site
+
+cloudsmith push helm q-solutions/static-site static-site-0.1.0.tgz
+
+
+helm  install musings-01 --debug  --namespace musings --create-namespace static-site --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
+
+helm install podzone-01 --debug --namespace podzone --create-namespace --values valuespodzone.yaml . 
+
+helm  install podzone-01 --debug  --namespace podzone static-site --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/' -f values.yaml --values valuespodzone.yaml
+
+helm install  q-solutions-static-site/static-site --values valuespodzone.yaml
+
+helm install my-awesome-helm-chart  --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
+
+helm install my-awesome-helm-chart 
+  --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
+
 
 sudo ceph config set mgr mgr/prometheus/server_addr sigiriya
 sudo ceph config set mgr mgr/prometheus/port 9090
@@ -26,7 +54,11 @@ docker pull robcast/legacy-zope:2.13
 
 helm upgrade --install <service> -f values.yaml <service>-9.0.xx.tgz --values <new file name>.yaml
 
-helm  install apple-base --debug  --namespace podzone qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/' -f values.yaml --values values.yaml
+podzone
+
+helm  install podzone-01 --debug  --namespace podzone static-site --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/' -f values.yaml --values valuespodzone.yaml
+
+
 
 helm  install orange-base --debug  --namespace musings qapps --repo 'https://dl.cloudsmith.io/public/q-solutions/qapps/helm/charts/'
 
