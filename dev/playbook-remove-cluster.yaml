@@ -1,5 +1,5 @@
 - name: Delete microk8s from dev cluster
-  hosts: devcluster
+  hosts: all
   tasks:
     - name: Remove microk8s
       become: true

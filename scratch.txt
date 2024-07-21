@@ -1,0 +1,188 @@
+general:
+
+  public_url: https://console.thruhere.net
+
+  api_key: libretime
+
+
+    \ secret_key: libretime
+
+  allowed_cors_origins: 
+
+  []
+
+  timezone: Europe/London
+
+
+    \ cache_ahead_hours: 1
+
+  auth: local
+
+storage:
+
+  path: /srv/libretime
+
+database:
+
+
+    \ host: postgres.radio.svc.cluster.local
+
+  port: 5432
+
+  name: libretime
+
+  user:
+    libretime
+
+  password: admin
+
+  
+
+rabbitmq:
+
+  host: rabbitmq
+
+  port: 5672
+
+
+    \ vhost: /libretime
+
+  user: libretime
+
+  password: libretimePassword
+
+  
+
+email:
+
+
+    \ from_address: motttt@muso.club
+
+  host: localhost
+
+  port: 25
+
+  encryption:
+
+
+    \ user: \"\"
+
+  password: \"\"
+
+  timeout:
+
+  cert_file:
+
+  key_file:
+
+playout:
+
+
+    \ liquidsoap_host: 127.0.0.1
+
+  liquidsoap_port: 1234
+
+  record_file_format: mp3
+
+
+    \ record_bitrate: 256
+
+  record_samplerate: 44100
+
+  record_channels: 2
+
+  record_sample_size:
+    16
+
+liquidsoap:
+
+  server_listen_address: 127.0.0.1
+
+  server_listen_port: 1234
+
+
+    \ harbor_listen_address: [\"0.0.0.0\"]
+
+  harbor_ssl_certificate:
+
+  harbor_ssl_private_key:
+
+
+    \ harbor_ssl_password:
+
+stream: 
+
+  inputs:
+
+    main:
+
+      public_url: https://show.thruhere.net
+
+
+    \     mount: main
+
+      port: 8001
+
+      secure: false
+
+    show:
+
+      public_url:
+    https://show.thruhere.net
+
+      mount: show
+
+      port: 8002
+
+      secure:
+    false
+
+  outputs:
+
+    .default_icecast_output: &default_icecast_output
+
+      host:
+    icecast.radio.svc.cluster.local
+
+      public_url: http://liquidsoap.radio.svc.cluster.local
+
+
+    \     port: 8000
+
+      source_password: libretime
+
+      admin_password: libretime
+
+
+    \     name: thruhere.net
+
+      description: thruhere.net
+
+      website: https://www.radio.thruhere.net
+
+
+    \     genre: thruhere.net
+
+
+
+    icecast:
+
+      - <<: *default_icecast_output
+
+
+    \       enabled: true
+
+        mount: main
+
+        audio:
+
+          format:
+    mp3
+
+          bitrate: 256
+
+          enable_metadata: false
+
+        mobile:
+    false
+

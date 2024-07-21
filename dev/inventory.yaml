@@ -1,44 +1,33 @@
-southcluster:
+devcluster: 
   hosts:
-    habilis:
-      ansible_host: habilis
-    antecessor:
-      ansible_host: antecessor
-    naledi:
-      ansible_host: naledi
-  vars:
-    ansible_user: colleymj
-prodcluster:
-  hosts:
-    levant:
-      ansible_host: levant
-    sigiriya:
-      ansible_host: sigiriya
-    bukit:
-      ansible_host: bukit
-    james:
-      ansible_host: james
-  vars:
-    ansible_user: colleymj
-devcluster:
-  hosts:
-    denisova:
-      ansible_host: denisova
-    rudolfensis:
-      ansible_host: rudolfensis
-    ergaster:
-      ansible_host: ergaster
+    neanderthal:
+      ansible_host: neanderthal
+    erectus:
+      ansible_host: erectus
     floresiensis:
       ansible_host: floresiensis
   vars:
     ansible_user: colleymj
-edgedevices:
+prodcluster: 
   hosts:
-    balin:
-      ansible_host: balin
-    thorin:
-      ansible_host: thorin
-    dwalin:
-      ansible_host: dwalin
+    naledi:
+      ansible_host: naledi
+    habilis:
+      ansible_host: habilis
+    antecessor:
+      ansible_host: antecessor
+
   vars:
     ansible_user: colleymj
+norhamcluster:
+  hosts:
+    norham01:
+      ansible_host: norham01
+    norham02:
+      ansible_host: norham02
+    norham03:
+      ansible_host: norham03
+    norham04:
+      ansible_host: norham04
+  vars:
+    ansible_user: charles

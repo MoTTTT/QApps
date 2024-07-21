@@ -1,0 +1,151 @@
+- name: Set up hosts and microk8s
+  hosts: norhamcluster
+  tasks:
+    - name: Install microk8s
+      become: true
+      snap:
+        name: microk8s
+        state: present
+        classic: yes
+        channel: 1.28/stable
+
+    - name: Pause to let microk8s stabilise
+      pause:
+        minutes: 5
+        prompt: "Pausing 5 minutes to let microk8s stabilise"
+
+- name: "Get key for norham01 from naledi"
+  hosts: naledi
+  become: true
+  tasks:
+    - name: "Create join key and read output"
+      command: microk8s add-node
+      register: add_output
+
+    - name: "Define the join_command variable"
+      set_fact:
+        join_command: "{{ (add_output.stdout_lines | select('match', '.*192.168.1.*'))[0] }}"
+
+    - name: "Debug: Printing the join command"
+      debug:
+        var: join_command
+
+    - name: "Add K8S join command to a dummy host"
+      add_host:
+        name: "K8S_JOIN_HOLDER"
+        command: "{{ join_command + ' ' }}"
+
+- name: "Add norham01 to cluster"
+  hosts: norham01
+  become: true
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['K8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['K8S_JOIN_HOLDER']['command'] }}"
+
+    - name: Pause to let habilis stabilise
+      pause:
+        minutes: 5
+        prompt: "Pausing 5 minutes to let microk8s stabilise"
+
+- name: "Get key for norham02 from naledi"
+  hosts: naledi
+  become: true
+  tasks:
+    - name: "Create join key and read output"
+      command: microk8s add-node
+      register: add_output
+
+    - name: "Define the 'join_command' variable"
+      set_fact:
+        join_command: "{{ (add_output.stdout_lines | select('match', '.*192.168.1.*'))[0] }}"
+
+    - name: "Debug: Printing the join command"
+      debug:
+        var: join_command
+
+    - name: "Add K8S join command to a dummy host"
+      add_host:
+        name: "K8S_JOIN_HOLDER"
+        command: "{{ join_command + ' ' }}"
+
+
+- name: "Add norham02 to cluster"
+  hosts: norham02
+  become: true
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['K8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['K8S_JOIN_HOLDER']['command'] }}"
+
+- name: "Get key for norham03 from naledi"
+  hosts: naledi
+  become: true
+  tasks:
+    - name: "Create join key and read output"
+      command: microk8s add-node
+      register: add_output
+
+    - name: "Define the 'join_command' variable"
+      set_fact:
+        join_command: "{{ (add_output.stdout_lines | select('match', '.*192.168.1.*'))[0] }}"
+
+    - name: "Debug: Printing the join command"
+      debug:
+        var: join_command
+
+    - name: "Add K8S join command to a dummy host"
+      add_host:
+        name: "K8S_JOIN_HOLDER"
+        command: "{{ join_command + ' ' }}"
+
+
+- name: "Add norham03 to cluster"
+  hosts: norham03
+  become: true
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['K8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['K8S_JOIN_HOLDER']['command'] }}"
+
+- name: "Get key for norham04 from naledi"
+  hosts: naledi
+  become: true
+  tasks:
+    - name: "Create join key and read output"
+      command: microk8s add-node
+      register: add_output
+
+    - name: "Define the 'join_command' variable"
+      set_fact:
+        join_command: "{{ (add_output.stdout_lines | select('match', '.*192.168.1.*'))[0] }}"
+
+    - name: "Debug: Printing the join command"
+      debug:
+        var: join_command
+
+    - name: "Add K8S join command to a dummy host"
+      add_host:
+        name: "K8S_JOIN_HOLDER"
+        command: "{{ join_command + ' ' }}"
+
+
+- name: "Add norham04 to cluster"
+  hosts: norham04
+  become: true
+  tasks:
+    - name: "Debug: Printing the join command"
+      debug:
+        var: hostvars['K8S_JOIN_HOLDER']['command']
+
+    - name: "Join the cluster from the generated join command"
+      command: "{{ hostvars['K8S_JOIN_HOLDER']['command'] }}"

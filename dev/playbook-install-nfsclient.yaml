@@ -1,0 +1,8 @@
+- name: Install nfsclient
+  hosts: all
+
+  tasks:
+    - name: Install nfsclient
+      become: true
+      ansible.builtin.apt:
+        name: nfs-common

@@ -2,33 +2,6 @@
 
 linuxserver/ddclient
 
-
-
-helm repo add truecharts https://charts.truecharts.org/
-
-helm pull [chart URL | repo/chartname] [...] [flags]
-
-helm pull truecharts/ddclient
-
-helm package static-site
-
-cloudsmith push helm q-solutions/static-site static-site-0.1.0.tgz
-
-
-helm  install musings-01 --debug  --namespace musings --create-namespace static-site --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
-
-helm install podzone-01 --debug --namespace podzone --create-namespace --values valuespodzone.yaml . 
-
-helm  install podzone-01 --debug  --namespace podzone static-site --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/' -f values.yaml --values valuespodzone.yaml
-
-helm install  q-solutions-static-site/static-site --values valuespodzone.yaml
-
-helm install my-awesome-helm-chart  --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
-
-helm install my-awesome-helm-chart 
-  --repo 'https://dl.cloudsmith.io/public/q-solutions/static-site/helm/charts/'
-
-
 sudo ceph config set mgr mgr/prometheus/server_addr sigiriya
 sudo ceph config set mgr mgr/prometheus/port 9090
 
@@ -130,8 +103,8 @@ mount.ceph name@07fe3187-00d9-42a3-814b-72a4d5e7d5be.fs_name=/ /mnt/mycephfs -o 
 
 sudo pro attach C13Nfcn8of2NLX4ZQbpN3zkEcT3WJZ
 
-## Ansible
-
+## Ansible 
+ 
 To accept new ssh keys:
 
 ANSIBLE_HOST_KEY_CHECKING=false ansible all -m ping -i inventory.yaml
