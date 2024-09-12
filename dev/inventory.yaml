@@ -1,25 +1,4 @@
-devcluster: 
-  hosts:
-    neanderthal:
-      ansible_host: neanderthal
-    erectus:
-      ansible_host: erectus
-    floresiensis:
-      ansible_host: floresiensis
-  vars:
-    ansible_user: colleymj
-prodcluster: 
-  hosts:
-    naledi:
-      ansible_host: naledi
-    habilis:
-      ansible_host: habilis
-    antecessor:
-      ansible_host: antecessor
-
-  vars:
-    ansible_user: colleymj
-norhamcluster:
+bladon01_cluster:
   hosts:
     norham01:
       ansible_host: norham01
@@ -31,3 +10,34 @@ norhamcluster:
       ansible_host: norham04
   vars:
     ansible_user: charles
+
+bladon02_cluster:
+  hosts:
+    neanderthal:
+      ansible_host: neanderthal
+    erectus:
+      ansible_host: erectus
+    floresiensis:
+      ansible_host: floresiensis
+    naledi:
+      ansible_host: naledi
+    habilis:
+      ansible_host: habilis
+    antecessor:
+      ansible_host: antecessor
+  vars:
+    ansible_user: colleymj
+
+bladon03_cluster:
+  hosts:
+    saturn:
+      ansible_host: saturn
+    venus:
+      ansible_host: venus
+    mercury:
+      ansible_host: mercury
+    pluto:
+      ansible_host: pluto
+  vars:
+    ansible_user: root
+
